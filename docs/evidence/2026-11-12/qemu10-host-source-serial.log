@@ -1,0 +1,131 @@
+UEFI firmware (version 2025.02-8+deb13u1 built at 18:06:17 on Nov  8 2025)
+[2J[01;01H[=3h[2J[01;01H[2J[01;01H[=3h[2J[01;01HBdsDxe: loading Boot0001 "UEFI Misc Device" from PciRoot(0x0)/Pci(0x1,0x0)
+BdsDxe: starting Boot0001 "UEFI Misc Device" from PciRoot(0x0)/Pci(0x1,0x0)
+== XNULOADER v3 ==
+
+   #   #   ###   #   #  #####   ###    ####
+   #   #  #   #  #  #     #    #   #  #
+   #####  #####  ###      #    #   #   ###
+   #   #  #   #  #  #     #    #   #      #
+   #   #  #   #  #   #  #####   ###   ####
+
+   hello hakios-kernel!
+   kernel.ver=unknown
+
+CurrentEL=1 MIDR=414fd0b1 MMFR0=101122 CNTFRQ=62500000 image=a1000000
+platform qemu-virt
+payload entry 'kernel' size 1007c98
+payload entry 'ramdisk' size 4110
+payload entry 'cmdline' size 34
+kernel va fffffff007004000..fffffff008408000 entry fffffff0074424a8
+largest free block f4000000 size ca000000
+phys window f4000000 size ca000000, claim status 0
+kernel loaded at pa f7004000..f8408000
+ramdisk at pa f8408000 size 8000
+return slot patched at f74437f0, checkpoint 0
+cmdline: 77 of 607 characters
+cores for the kernel, in the order it takes them: 0
+device tree f8410000 len 2ea8, boot_args f8420000, top f8424000
+cmdline: debug=0x8 serial=3 rd=md0 cpus=1 nexus_token=4a3d8aac4ea8f4b6f50c8944e3b94326
+jumping to f74424a8
+Darwin Kernel Version 22.5.0: Sun Oct 25 22:52:46 PDT 2026; shimoku:xnu-8796.121.2[xnu-8796.121.2-dirty]/BUILD/obj/DEVELOPMENT_ARM64_BCM2837
+pmap_startup() init/release time: 32938 microsec
+pmap_startup() delayed init/release of 0 pages
+vm_page_bootstrap: 201649 free pages, 5199 wired pages, (up to 0 of which are delayed free)
+VM boostrap: 102 maps, 204 entries and 512 holes available
+Maximum number of VM swap files: 5
+zones                   : 0xfffffff10a000000 - 0xfffffff70a000000 (24G)
+bufferhdr               : 0xfffffff70a000000 - 0xfffffff70a24c000 (2352K)
+compressor              : 0xfffffff70a24c000 - 0xfffffff7fc26c000 (3872M)
+bsd_pageable            : 0xfffffff7fc26c000 - 0xfffffff7fd4b4000 (18M)
+gIOKitPageableFixed2    : 0xfffffff7fd4b4000 - 0xfffffff8034b4000 (96M)
+gIOKitPageableFixed3    : 0xfffffff8034b4000 - 0xfffffff8094b4000 (96M)
+kmem_ptr_range          : 0xfffffff8094b4000 - 0xfffffff9019d4000 (3973M)
+ipc_kernel_map          : 0xfffffff9019d4000 - 0xfffffff9039d4000 (32M)
+zone_meta               : 0xfffffff9039d4000 - 0xfffffff905b3c000 (33M)
+mb                      : 0xfffffff905b3c000 - 0xfffffff909b3c000 (64M)
+gIOKitPageableFixed1    : 0xfffffff909b3c000 - 0xfffffff90fb3c000 (96M)
+kmem_ptr_range_meta     : 0xfffffff90fb3c000 - 0xfffffff90fbf8000 (752K)
+kmem_data_range         : 0xfffffff90fbf8000 - 0xfffffffb96028000 (10G)
+ipc_kernel_copy_map     : 0xfffffffb96028000 - 0xfffffffb96828000 (8M)
+kmem_sprayqtn_range     : 0xfffffffb96828000 - 0xfffffffbf95fc000 (1581M)
+io_submap               : 0xfffffffbf95fc000 - 0xfffffffbf9dfc000 (8M)
+gIOKitPageableFixed0    : 0xfffffffbf9dfc000 - 0xfffffffbffdfc000 (96M)
+kmem_large_ranges[1]    : 0 - 0 (0B)
+kmem_large_ranges[2]    : 0 - 0 (0B)
+kmem_large_ranges[3]    : 0 - 0 (0B)
+kmem_large_ranges[4]    : 0xfffffffba2de2800 - 0xfffffffbf95fc000 (1384M)
+kmem_large_ranges[5]    : 0xfffffff96087e000 - 0xfffffffb96028000 (8G)
+"vm_compressor_mode" is 2
+zone_init: pgzalloc  0xfffffff10a000000:0xfffffff10b8b4000 (24M) [790 slots]
+zone_init: map VM    0xfffffff10b8b4000:0xfffffff1f1b64000 (3682M)
+zone_init: map RO    0xfffffff1f1b64000:0xfffffff23e6f4000 (1227M)
+zone_init: map GEN0  0xfffffff23e6f4000:0xfffffff3249a4000 (3682M)
+zone_init: map GEN1  0xfffffff3249a4000:0xfffffff40ac54000 (3682M)
+zone_init: map GEN2  0xfffffff40ac54000:0xfffffff4f0f04000 (3682M)
+zone_init: map GEN3  0xfffffff4f0f04000:0xfffffff5d71b8000 (3682M)
+zone_init: map DATA  0xfffffff5d71b8000:0xfffffff70a000000 (4910M)
+zone_init: metadata  0xfffffff9039e4000:0xfffffff9051e4000 (24M)
+zone_init: metabits  0xfffffff9051e4000:0xfffffff905b2c000 (9M)
+zone_init: extra     0:0 (0B)
+VM bootstrap done: 90 maps, 163 entries and 500 holes left
+Long logs support configured: size: 16384
+Firehose configured: 16 chunks, 8 io pages
+OSLog stream configured: stream: 8192 bytes, cache: 2112 bytes
+OSLog stream verification: 0
+Log queues configured: slot count: 8, per-slot size: 32768, total size: 262144
+standard timeslicing quantum is 10000 us
+standard background quantum is 2500 us
+mig_table_max_displ = 54 mach_kobj_count = 371
+kdp_core zlib memory 0x8000
+Serial requested, consistent debug disabled or debug boot arg not present, configuring debugging over serial
+iBoot version: iBoot-8422.100.650
+iBoot Stage 2 version: 
+IONVRAM.cpp:initImageFormat:1364 - NVRAM size is 8192 bytes
+IONVRAM.cpp:getNVRAMProperties:1176 - _bankSize=0x2000, _bankCount=0x1, _currentBank=0
+IONVRAMCHRPHandler.cpp:unserializeImage:479 - NVRAM : commonPartitionOffset - 0x30, commonPartitionSize - 0x1fd0, systemPartitionOffset - 0xffffffff, systemPartitionSize - 0
+minicrypto: registered (md5, sha1, sha2, hmac, aes-ecb/cbc/ctr, hmac-drbg prng); no xts/gcm, no RSA
+calling mpo_policy_init for vnguard
+Security policy loaded: Guarded vnode policy (vnguard)
+calling mpo_policy_init for AMFI
+Security policy loaded: Apple Mobile File Integrity (stand-in) (AMFI)
+calling mpo_policy_init for Sandbox
+Security policy loaded: Seatbelt sandbox policy (stand-in) (Sandbox)
+No POST boot-arg set.
+GenericARMPE: platform "device-tree"
+GenericARMCPU: cpu 0 (phys id 0x0) registered
+Copyright (c) 1982, 1986, 1989, 1991, 1993
+	The Regents of the University of California. All rights reserved.
+
+MAC Framework successfully initialized
+using 4049 buffer headers and 4049 cluster IO buffer headers
+ktriage_register_subsystem_strings: set subsystem 8 strings
+mcache: 1 CPU(s), 64 bytes CPU cache line size
+mbinit: done [64 MB total pool size, (42/21) split]
+dlil_init: Waiting for all the create dlil kernel threads to get scheduled at least once.
+dlil_init: All the created dlil kernel threads have been scheduled at least once. Proceeding.
+ifnet_attach: All kernel threads created for interface lo0 have been scheduled at least once. Proceeding.
+skip attaching fsw to lo0 using legacy TX modelMiniIOMobileFramebuffer: no usable boot framebuffer (0x0, depth 0)
+!BSD
+Added memory device md0/rmd0 (01000000/0D000000) at FFFFFFF008408000 for 0000000000008000
+BSD root: md0, major 1, minor 0
+VM Swap Subsystem is ON
+No POST boot-arg set.
+load_init_program: attempting to load /usr/appleinternal/sbin/launchd.development
+load_init_program: attempting to load /sbin/launchd
+
+NEXUS PROBE 1
+NEXUS CHECK console PASS
+NEXUS CHECK pid1 PASS
+NEXUS CHECK uid0 PASS
+NEXUS CHECK sysctl PASS
+NEXUS KERNEL Darwin Kernel Version 22.5.0: Sun Oct 25 22:52:46 PDT 2026; shimoku:xnu-8796.121.2[xnu-8796.121.2-dirty]/BUILD/obj/DEVELOPMENT_ARM64_BCM2837
+NEXUS CHECK boot-token PASS
+NEXUS CHECK errno PASS
+NEXUS CHECK mmap-rw PASS
+NEXUS CHECK mprotect PASS
+NEXUS CHECK munmap PASS
+NEXUS CHECK timer PASS
+NEXUS RESULT PASS token=4a3d8aac4ea8f4b6f50c8944e3b94326
+NEXUS HEARTBEAT
+NEXUS HEARTBEAT

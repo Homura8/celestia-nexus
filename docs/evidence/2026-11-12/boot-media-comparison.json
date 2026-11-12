@@ -1,0 +1,38 @@
+[
+  {
+    "case": "qemu8-uefi24-vvfat",
+    "seconds": 15.228,
+    "loader": false,
+    "probe": false,
+    "heartbeats": 0,
+    "panic": false,
+    "shutdown": "killed"
+  },
+  {
+    "case": "qemu8-uefi24-fat",
+    "seconds": 15.185,
+    "loader": false,
+    "probe": false,
+    "heartbeats": 0,
+    "panic": false,
+    "shutdown": "killed"
+  },
+  {
+    "case": "qemu8-uefi25-fat",
+    "seconds": 15.345,
+    "loader": false,
+    "probe": false,
+    "heartbeats": 0,
+    "panic": false,
+    "shutdown": "killed"
+  },
+  {
+    "case": "qemu10-uefi24-fat",
+    "seconds": 3.029,
+    "loader": true,
+    "probe": true,
+    "heartbeats": 2,
+    "panic": false,
+    "shutdown": "qmp-quit"
+  }
+]

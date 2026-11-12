@@ -1,0 +1,109 @@
+{
+  "boots": [
+    {
+      "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064705-qemu-virt-xnu-smoke-aba9fc/result.json",
+      "status": "passed",
+      "loader": "source",
+      "seconds": 4.663,
+      "token": "cd1f0cc6c8344bccfd63f3c652deff3f",
+      "artifacts": {
+        "kernel": {
+          "bytes": 16809112,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064705-qemu-virt-xnu-smoke-aba9fc/kernel",
+          "sha256": "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9"
+        },
+        "loader.efi": {
+          "bytes": 66048,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064705-qemu-virt-xnu-smoke-aba9fc/loader.efi",
+          "sha256": "75fe9d47c56f88d0af91ebd780c08d85dcd785bd3cee7e6c2fc6956d6c1b1846"
+        },
+        "probe": {
+          "bytes": 16656,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064705-qemu-virt-xnu-smoke-aba9fc/probe",
+          "sha256": "c8af034d06388a3480b595014dec04faa7308eb3abaa12ac8bca7014cb0cf428"
+        }
+      }
+    },
+    {
+      "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064711-qemu-virt-xnu-smoke-1b0289/result.json",
+      "status": "passed",
+      "loader": "source",
+      "seconds": 3.354,
+      "token": "05cb13c45dd4e5878e67a44f3d293f03",
+      "artifacts": {
+        "kernel": {
+          "bytes": 16809112,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064711-qemu-virt-xnu-smoke-1b0289/kernel",
+          "sha256": "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9"
+        },
+        "loader.efi": {
+          "bytes": 66048,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064711-qemu-virt-xnu-smoke-1b0289/loader.efi",
+          "sha256": "75fe9d47c56f88d0af91ebd780c08d85dcd785bd3cee7e6c2fc6956d6c1b1846"
+        },
+        "probe": {
+          "bytes": 16656,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064711-qemu-virt-xnu-smoke-1b0289/probe",
+          "sha256": "c8af034d06388a3480b595014dec04faa7308eb3abaa12ac8bca7014cb0cf428"
+        }
+      }
+    },
+    {
+      "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064716-qemu-virt-xnu-smoke-ca37c9/result.json",
+      "status": "passed",
+      "loader": "prebuilt",
+      "seconds": 3.679,
+      "token": "b1868a5d6183e84513614b81c455a660",
+      "artifacts": {
+        "kernel": {
+          "bytes": 16809112,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064716-qemu-virt-xnu-smoke-ca37c9/kernel",
+          "sha256": "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9"
+        },
+        "loader.efi": {
+          "bytes": 66048,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064716-qemu-virt-xnu-smoke-ca37c9/loader.efi",
+          "sha256": "6a3c19abc1db01a367bf78863fea288f621683edf31059731a78a77040ffe034"
+        },
+        "probe": {
+          "bytes": 16656,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064716-qemu-virt-xnu-smoke-ca37c9/probe",
+          "sha256": "c8af034d06388a3480b595014dec04faa7308eb3abaa12ac8bca7014cb0cf428"
+        }
+      }
+    },
+    {
+      "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064721-qemu-virt-xnu-smoke-0f0f79/result.json",
+      "status": "passed",
+      "loader": "prebuilt",
+      "seconds": 2.72,
+      "token": "0b03f87f969b0446fdfd35e9bc0c5c7f",
+      "artifacts": {
+        "kernel": {
+          "bytes": 16809112,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064721-qemu-virt-xnu-smoke-0f0f79/kernel",
+          "sha256": "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9"
+        },
+        "loader.efi": {
+          "bytes": 66048,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064721-qemu-virt-xnu-smoke-0f0f79/loader.efi",
+          "sha256": "6a3c19abc1db01a367bf78863fea288f621683edf31059731a78a77040ffe034"
+        },
+        "probe": {
+          "bytes": 16656,
+          "path": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064721-qemu-virt-xnu-smoke-0f0f79/probe",
+          "sha256": "c8af034d06388a3480b595014dec04faa7308eb3abaa12ac8bca7014cb0cf428"
+        }
+      }
+    }
+  ],
+  "timeout": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064724-qemu-virt-xnu-run-b7b4b7/result.json",
+  "interrupted": ".nexus/experiments/20261112T064724-qemu-virt-xnu-run-fa5566/result.json",
+  "same_host_build_hashes_identical": true,
+  "schema": 1,
+  "date": "2026-11-12",
+  "scope": "four live open-XNU boots; no proprietary Apple assets",
+  "unit_tests": 41,
+  "source_preparation": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/prepared.json",
+  "source_file_count": 5188
+}

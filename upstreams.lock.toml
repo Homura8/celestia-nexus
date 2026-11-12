@@ -1,0 +1,73 @@
+# Reviewed snapshots, 2026-11-12. Only the selected target's source is fetched.
+# A pin is provenance, not proof that all of an upstream's claims are verified.
+schema = 1
+
+[[upstream]]
+id = "hakios"
+url = "https://github.com/oosexgang/hakios-xnu-kernel.git"
+commit = "63fc2b4633bac3af8e57dadab9f5a8d4cb940438"
+license = "APSL-2.0 and MIT; see upstream THIRD_PARTY_LICENSES.md for exceptions"
+role = "Implemented open QEMU boot recipe; external kernel and loader sources"
+
+[[upstream]]
+id = "apple-xnu"
+url = "https://github.com/apple-oss-distributions/xnu.git"
+commit = "c54f35ca767986246321eb901baf8f5ff7923f6a"
+license = "APSL-2.0 and per-file licences"
+role = "xnu-8796.121.2 base for verified kernel source preparation"
+
+[[upstream]]
+id = "apple-hfs"
+url = "https://github.com/apple-oss-distributions/hfs.git"
+commit = "31d5ec238dfab485e78a9a30b8b92d13e8914f03"
+license = "APSL-2.0 and per-file licences"
+role = "hfs-627.100.6 base for HakiOS kernel source preparation"
+
+[[upstream]]
+id = "ios-qemu"
+url = "https://github.com/lgrachov/ios-qemu.git"
+commit = "8d23f48c683250c728a5c820482b450646453c02"
+license = "MIT tools; APSL-2.0 XNU derivatives"
+role = "Researched iOS 16.7.16 GUI path; not yet integrated"
+
+[[upstream]]
+id = "unixnu"
+url = "https://github.com/UniXNU/UniXNU.git"
+commit = "c34f018aafd6befd5dc93c05a8dccd5bdce6724b"
+license = "BSD-2-Clause-Patent core; component-specific terms"
+role = "Researched UEFI, SoC/device feeds, 4K XNU and owner-root architecture"
+
+[[upstream]]
+id = "unixnu-qemu"
+url = "https://github.com/xVanTuring/UniXNU-qemu.git"
+commit = "97b75b1f63c6b7e895cd7646029db741d5fe5488"
+license = "BSD-2-Clause-Patent; component-specific terms"
+role = "Researched independent QEMU/iPadOS 17 device port; not yet integrated"
+
+[[upstream]]
+id = "darwin-vm"
+url = "https://github.com/jprx/darwin-vm.git"
+commit = "edfc19433da8d04d5927a7b1932acce4034f307c"
+license = "MIT harness; GPL QEMU fork; user-supplied Apple assets"
+role = "Researched stock-kernel Apple Silicon/SPTM emulation alternative"
+
+[[upstream]]
+id = "qemu-sptm"
+url = "https://github.com/jprx/qemu-sptm.git"
+commit = "bad6336fb24211f8c4e8e946c259bd5b12417340"
+license = "QEMU GPL and per-file terms; see upstream COPYING"
+role = "darwin-vm's exact QEMU submodule revision, source-inspected only"
+
+[[upstream]]
+id = "aleph-xnu-qemu"
+url = "https://github.com/alephsecurity/xnu-qemu-arm64.git"
+commit = "2694993f9281a8678d519704c3cd29d4c9d39415"
+license = "QEMU GPL and per-file terms"
+role = "Historical iOS 12.1 device emulation and KVM reference; source-inspected only"
+
+[[upstream]]
+id = "inferno"
+url = "https://github.com/ChefKissInc/Inferno.git"
+commit = "cc4302a99167abec69b714cfd00c38caece7e7de"
+license = "GPL-3.0 and AGPL-3.0; retained upstream per-file terms apply"
+role = "Apple hardware emulation alternative; source-inspected only"

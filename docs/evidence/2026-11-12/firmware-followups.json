@@ -1,0 +1,53 @@
+{
+  "scope": "diagnostic cold replays, not fresh-token acceptance records",
+  "cases": [
+    {
+      "case": 0,
+      "explicit_boot": false,
+      "loader": true,
+      "probe": true,
+      "seconds": 8.21,
+      "diagnostics": {}
+    },
+    {
+      "case": 1,
+      "explicit_boot": false,
+      "loader": true,
+      "probe": true,
+      "seconds": 8.09,
+      "diagnostics": {}
+    },
+    {
+      "case": 2,
+      "explicit_boot": false,
+      "loader": true,
+      "probe": true,
+      "seconds": 8.08,
+      "diagnostics": {}
+    },
+    {
+      "case": 3,
+      "explicit_boot": true,
+      "loader": true,
+      "probe": true,
+      "seconds": 8.09,
+      "diagnostics": {}
+    },
+    {
+      "case": 4,
+      "explicit_boot": true,
+      "loader": true,
+      "probe": true,
+      "seconds": 8.13,
+      "diagnostics": {}
+    },
+    {
+      "case": 5,
+      "explicit_boot": true,
+      "loader": true,
+      "probe": true,
+      "seconds": 8.13,
+      "diagnostics": {}
+    }
+  ]
+}

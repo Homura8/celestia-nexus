@@ -1,0 +1,53 @@
+[
+  {
+    "argv": [
+      "/workspace/scratch/54b808f52846/celestia-nexus/../tools-host/root/usr/lib/llvm-19/bin/clang",
+      "--target=arm64-apple-macos11",
+      "-Os",
+      "-ffreestanding",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fno-asynchronous-unwind-tables",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-c",
+      "/workspace/scratch/54b808f52846/celestia-nexus/guest/probe.c",
+      "-o",
+      "probe.o"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064716-qemu-virt-xnu-smoke-ca37c9",
+    "duration_seconds": 0.068,
+    "log": "step-01.log",
+    "returncode": 0,
+    "started_unix": 1794466036.6457536
+  },
+  {
+    "argv": [
+      "/workspace/scratch/54b808f52846/celestia-nexus/../tools-host/root/usr/lib/llvm-19/bin/ld64.lld",
+      "-arch",
+      "arm64",
+      "-platform_version",
+      "macos",
+      "11.0",
+      "11.0",
+      "-e",
+      "_start",
+      "-no_uuid",
+      "-no_adhoc_codesign",
+      "-no_fixup_chains",
+      "-headerpad",
+      "0x1000",
+      "-pagezero_size",
+      "0x100000000",
+      "-o",
+      "probe.linked",
+      "probe.o"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064716-qemu-virt-xnu-smoke-ca37c9",
+    "duration_seconds": 0.014,
+    "log": "step-02.log",
+    "returncode": 0,
+    "started_unix": 1794466036.7143428
+  }
+]

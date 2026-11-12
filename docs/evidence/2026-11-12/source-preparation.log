@@ -1,0 +1,11 @@
+argv: ["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/tools/hakios-config.py", "defconfig", "qemu", "-o", "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/qemu.config"]
+hakios-config: ../../experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/qemu.config made from defconfig, common_defconfig, open.config, virt.config, qemu_defconfig
+hakios-config: 12 characters of boot-arguments; kernel.ver=2.3.4-hakios-darwin22.5-g63fc2b46
+
+--- stderr ---
+
+argv: ["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/tools/hakios-config.py", "kernel", "--config", "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/qemu.config", "--tree", "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source"]
+hakios-config: kernel: 4 of 25 drivers built in, from ../../experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/qemu.config; left out: adsp speaker sound mic bt camera torch socinfo adreno haptic goodix buttons qmi modem battery cpufreq thermal pmic battguard ufs wifi
+hakios-config: kernel: config/MASTER.hakios, bsd/dev/hakios.drivers.h written
+
+--- stderr ---

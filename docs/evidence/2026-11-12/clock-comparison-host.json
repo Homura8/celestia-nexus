@@ -1,0 +1,8 @@
+{
+  "case": "qemu8-uefi24-hostclock",
+  "seconds": 9.618,
+  "probe": true,
+  "heartbeats": 2,
+  "panic": false,
+  "shutdown": "qmp-quit"
+}

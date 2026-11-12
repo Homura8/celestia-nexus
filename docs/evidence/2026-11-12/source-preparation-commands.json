@@ -1,0 +1,156 @@
+[
+  {
+    "argv": [
+      "git",
+      "clone",
+      "--no-hardlinks",
+      "--no-checkout",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/apple-xnu",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 0.776,
+    "log": "step-01.log",
+    "returncode": 0,
+    "started_unix": 1794466026.13375
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.hooksPath=/dev/null",
+      "-C",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source",
+      "checkout",
+      "--detach",
+      "c54f35ca767986246321eb901baf8f5ff7923f6a"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 1.41,
+    "log": "step-02.log",
+    "returncode": 0,
+    "started_unix": 1794466026.909528
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source",
+      "apply",
+      "--check",
+      "--whitespace=nowarn",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/xnu/hakios.patch"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 0.051,
+    "log": "step-03.log",
+    "returncode": 0,
+    "started_unix": 1794466028.320187
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source",
+      "apply",
+      "--whitespace=nowarn",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/xnu/hakios.patch"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 0.049,
+    "log": "step-04.log",
+    "returncode": 0,
+    "started_unix": 1794466028.3711638
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source",
+      "apply",
+      "--check",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/xnu/hfs/hfs.patch"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 0.005,
+    "log": "step-05.log",
+    "returncode": 0,
+    "started_unix": 1794466028.5217087
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source",
+      "apply",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/xnu/hfs/hfs.patch"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 0.003,
+    "log": "step-06.log",
+    "returncode": 0,
+    "started_unix": 1794466028.52685
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/tools/hakios-config.py",
+      "defconfig",
+      "qemu",
+      "-o",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/qemu.config"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios",
+    "duration_seconds": 0.33,
+    "log": "step-07.log",
+    "returncode": 0,
+    "started_unix": 1794466028.5625496
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios/tools/hakios-config.py",
+      "kernel",
+      "--config",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/qemu.config",
+      "--tree",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/sources/hakios",
+    "duration_seconds": 0.206,
+    "log": "step-08.log",
+    "returncode": 0,
+    "started_unix": 1794466028.8927524
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source",
+      "diff",
+      "--check"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 0.106,
+    "log": "step-09.log",
+    "returncode": 0,
+    "started_unix": 1794466029.099544
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T064706-qemu-virt-xnu-prepare-kernel-1a7323/kernel-source",
+      "ls-files",
+      "-z",
+      "--cached",
+      "--others",
+      "--exclude-standard"
+    ],
+    "cwd": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus",
+    "duration_seconds": 0.008,
+    "log": "step-10.log",
+    "returncode": 0,
+    "started_unix": 1794466029.205541
+  }
+]

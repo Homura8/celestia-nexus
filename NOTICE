@@ -1,0 +1,26 @@
+Celestia Nexus original code and documentation: MIT; see LICENSE.
+
+No third-party source tree, kernel, loader binary, OS image or SDK is vendored.
+The local .nexus directory is not part of this distribution.
+
+External material used by the implemented recipe:
+- HakiOS, oosexgang/hakios-xnu-kernel: XNU changes under APSL-2.0; original
+  loader/tools under MIT as stated upstream. Check the per-file notices,
+  LICENSE.APSL, NOTICE and THIRD_PARTY_LICENSES.md at the pinned revision.
+- Apple XNU xnu-8796.121.2 and HFS hfs-627.100.6: APSL-2.0 and per-file licences.
+  Public syscall/thread/boot structures inform the original interoperability
+  code here. Source preparation copies upstream code only into local work trees.
+- QEMU: GPL and per-file terms, installed separately, never relicensed by Nexus.
+- EDK II/AAVMF firmware and LLVM: separately installed under their own licences.
+
+HakiOS identifies unresolved third-party/firmware provenance in its source
+inventory. A pinned commit/hash establishes identity, not permission to
+redistribute every file or derived binary. Nexus does not republish those trees
+or binaries, assert their clearance, or mix their licences into this MIT project.
+
+Researched projects and exact revisions, including ios-qemu, UniXNU, darwin-vm,
+Aleph's xnu-qemu-arm64 and Inferno, are listed in upstreams.lock.toml and
+docs/research.md. Their authors retain all rights to their work.
+
+Apple, iOS, iPadOS, macOS and iPhone are names/trademarks of their respective
+owners. Celestia Nexus is an independent research project, not endorsed by Apple.

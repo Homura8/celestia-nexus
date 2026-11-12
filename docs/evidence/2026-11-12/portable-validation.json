@@ -1,0 +1,41 @@
+{
+  "boots": [
+    {
+      "label": "qemu8-host-source",
+      "experiment": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T071346-qemu-virt-xnu-smoke-3012a8",
+      "status": "passed",
+      "seconds": 9.455,
+      "expected_token": "2a9c2afcad81d3312fe9cc309b7b890e",
+      "clock": "host",
+      "loader": "source"
+    },
+    {
+      "label": "qemu8-host-prebuilt",
+      "experiment": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T071357-qemu-virt-xnu-smoke-c365f1",
+      "status": "passed",
+      "seconds": 9.573,
+      "expected_token": "d6f0c3732b0a8e5f4644a4d3ee92d556",
+      "clock": "host",
+      "loader": "prebuilt"
+    },
+    {
+      "label": "qemu10-host-source",
+      "experiment": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T071407-qemu-virt-xnu-smoke-a8f8ad",
+      "status": "passed",
+      "seconds": 9.533,
+      "expected_token": "4a3d8aac4ea8f4b6f50c8944e3b94326",
+      "clock": "host",
+      "loader": "source"
+    },
+    {
+      "label": "qemu10-instruction-source",
+      "experiment": "/workspace/scratch/54b808f52846/celestia-nexus/.nexus/experiments/20261112T071418-qemu-virt-xnu-smoke-4a017f",
+      "status": "passed",
+      "seconds": 2.748,
+      "expected_token": "026b5a9bae15feee5ff6f5d8f361af00",
+      "clock": "instruction",
+      "loader": "source"
+    }
+  ],
+  "unit_tests": 42
+}

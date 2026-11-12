@@ -1,0 +1,47 @@
+test_command_timeout_is_recorded (test_core.CoreTests.test_command_timeout_is_recorded) ... ok
+test_dirty_or_wrong_source_is_not_overwritten (test_core.CoreTests.test_dirty_or_wrong_source_is_not_overwritten) ... ok
+test_failed_command_preserves_returncode_and_log (test_core.CoreTests.test_failed_command_preserves_returncode_and_log) ... ok
+test_hash_mismatch_and_symlink_escape (test_core.CoreTests.test_hash_mismatch_and_symlink_escape) ... ok
+test_instruction_clock_rejects_known_hanging_qemu (test_core.CoreTests.test_instruction_clock_rejects_known_hanging_qemu) ... ok
+test_malformed_build_records_are_actionable (test_core.CoreTests.test_malformed_build_records_are_actionable) ... ok
+test_metadata_reader_has_no_qemu_or_arm_requirement (test_core.CoreTests.test_metadata_reader_has_no_qemu_or_arm_requirement) ... ok
+test_nonfinite_timeout_rejected (test_core.CoreTests.test_nonfinite_timeout_rejected) ... ok
+test_overlay_does_not_follow_symlink (test_core.CoreTests.test_overlay_does_not_follow_symlink) ... ok
+test_partial_fetch_does_not_poison_cache (test_core.CoreTests.test_partial_fetch_does_not_poison_cache) ... ok
+test_paths_cannot_escape (test_core.CoreTests.test_paths_cannot_escape) ... ok
+test_recipe_rejects_untested_cpu_acceleration_and_typos (test_core.CoreTests.test_recipe_rejects_untested_cpu_acceleration_and_typos) ... ok
+test_repository_configuration (test_core.CoreTests.test_repository_configuration) ... ok
+test_ansi_and_crlf (test_evidence.EvidenceTests.test_ansi_and_crlf) ... ok
+test_bootarg_echo_is_not_result (test_evidence.EvidenceTests.test_bootarg_echo_is_not_result) ... ok
+test_check_order_required (test_evidence.EvidenceTests.test_check_order_required) ... ok
+test_complete (test_evidence.EvidenceTests.test_complete) ... ok
+test_diagnostics_by_stage (test_evidence.EvidenceTests.test_diagnostics_by_stage) ... ok
+test_early_stages_are_not_a_boot (test_evidence.EvidenceTests.test_early_stages_are_not_a_boot) ... ok
+test_every_check_required (test_evidence.EvidenceTests.test_every_check_required) ... ok
+test_explicit_failure (test_evidence.EvidenceTests.test_explicit_failure) ... ok
+test_heartbeat_must_follow_result (test_evidence.EvidenceTests.test_heartbeat_must_follow_result) ... ok
+test_late_panic_invalidates_pass (test_evidence.EvidenceTests.test_late_panic_invalidates_pass) ... ok
+test_stale_token_and_no_token (test_evidence.EvidenceTests.test_stale_token_and_no_token) ... ok
+test_token_must_be_exact (test_evidence.EvidenceTests.test_token_must_be_exact) ... ok
+test_dynamic_executable_rejected_by_inspector (test_formats.MachoTests.test_dynamic_executable_rejected_by_inspector) ... ok
+test_malformed_headers (test_formats.MachoTests.test_malformed_headers) ... ok
+test_no_header_space (test_formats.MachoTests.test_no_header_space) ... ok
+test_nonzero_padding_rejected (test_formats.MachoTests.test_nonzero_padding_rejected) ... ok
+test_segment_outside_file (test_formats.MachoTests.test_segment_outside_file) ... ok
+test_signed_or_dependent_image_refused (test_formats.MachoTests.test_signed_or_dependent_image_refused) ... ok
+test_static_entry_pc_and_flags (test_formats.MachoTests.test_static_entry_pc_and_flags) ... ok
+test_all_padding_lengths (test_formats.PayloadTests.test_all_padding_lengths) ... ok
+test_duplicate_header_padding_and_trailing_data (test_formats.PayloadTests.test_duplicate_header_padding_and_trailing_data) ... ok
+test_every_truncation_rejected (test_formats.PayloadTests.test_every_truncation_rejected) ... ok
+test_exact_wire_layout_and_alignment (test_formats.PayloadTests.test_exact_wire_layout_and_alignment) ... ok
+test_invalid_names (test_formats.PayloadTests.test_invalid_names) ... ok
+test_wrong_length_with_valid_magic (test_formats.PayloadTests.test_wrong_length_with_valid_magic) ... ok
+test_events_wrong_ids_and_fragmented_response (test_qmp.QMPTests.test_events_wrong_ids_and_fragmented_response) ... ok
+test_invalid_greeting_and_eof (test_qmp.QMPTests.test_invalid_greeting_and_eof) ... ok
+test_reported_qmp_error (test_qmp.QMPTests.test_reported_qmp_error) ... ok
+test_response_timeout (test_qmp.QMPTests.test_response_timeout) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.357s
+
+OK
