@@ -110,10 +110,12 @@ error reporting, memory mapping/readback, mprotect, munmap and guest timer delay
 Item 1 of the PR #1 list (reproduce ios-qemu's iOS 16.7.16 userland) is done
 to the interaction milestone above. Next, in order:
 
-1. **Secure the ios-qemu kernel before 2027-01-23.** Either rebuild it with
-   upstream's workflow on a host with Xcode 15 (`iig` ABI) and compare the
-   result with the pinned SHA, or document an authorised mirror of the
-   artifact. A rebuild is also the first step towards source correspondence.
+1. **Secure the ios-qemu kernel before 2027-01-23.** The same XNU 8796
+   lineage now demonstrably builds on GitHub's current `macos-15` runner with
+   Xcode 16.0 and no KDK (g54-xnu K0, [research §8](research.md#8-mediatek-phones-direct-lk--xnu-ios-16-versus-unixnu-ipados-17)).
+   Try ios-qemu's own patch series the same way and compare its exec-data
+   hash with the pinned kernel (untested; ios-qemu's workflow targets Xcode 15).
+   A rebuild is also the first step towards source correspondence.
 2. **Report/minimise the HVF QMP freeze.** Reduce it to stock QEMU + a tiny
    guest (`x` of a VA while vCPUs spin) on M1 + macOS 27 and report to QEMU;
    compare QEMU 11.0.2 (upstream's version) to isolate a regression.
@@ -124,8 +126,14 @@ to the interaction milestone above. Next, in order:
 4. **Time-box a Linux/TCG attempt** of the same kernel and disk for cloud
    agents ([research §3](research.md#3-ios-qemu-direct-candidate-for-ios-16716)); the disk must be
    built on macOS today. Expect it to be slow; record where it stops.
-5. **Device feasibility record from existing ports** (unchanged from PR #1:
-   Moto G54 5G; search UniXNU/HakiOS registries first; no flashing).
+5. **First physical-device consumer: the independent
+   [`Homura8/g54-xnu`](https://github.com/Homura8/g54-xnu) port.** The registry
+   search found no MT6855/G54 port; the closest proven path is ruby-ios-bringup's
+   direct LK → XNU 8796 + iOS 16.7.16 on MT6877 ([research §8](research.md#8-mediatek-phones-direct-lk--xnu-ios-16-versus-unixnu-ipados-17)).
+   The G54 repository owns all device code; Nexus gains code only when a
+   second device would reuse it (candidates once real use appears: verifying
+   CI-built kernels by segment hash, letting an external repository pin its
+   own sources, a RAM-only device-run record). No flashing without approval.
 6. **Intermittent HakiOS UEFI stall** and broader host coverage (unchanged).
 7. **External device repositories pinning their own sources** once one exists.
 
