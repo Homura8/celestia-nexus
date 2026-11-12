@@ -82,7 +82,7 @@ def version(path: str) -> str:
 
 def clock_support(qemu_version: str, clock: str) -> tuple[bool, str]:
     if clock == "host":
-        return True, "ordinary host clock; validated on QEMU 8.2 and 10"
+        return True, "ordinary host clock; validated on QEMU 8.2, 10 and 11"
     match = re.search(r"version (\d+)\.(\d+)", qemu_version)
     supported = clock == "instruction" and match is not None and int(match[1]) >= 10
     return supported, ("instruction clock; validated on QEMU 10" if supported else

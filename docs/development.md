@@ -20,7 +20,8 @@ clang-18 lld-18`. CI exercises this version combination; do not assume it has
 passed until the relevant workflow result is green. On macOS, `brew install
 python qemu llvm lld` and put `$(brew --prefix llvm)/bin` first on `PATH`.
 Homebrew ships LLD (`ld64.lld`, `lld-link`) as its own formula, separate from
-`llvm`, and Apple's default linker is not `ld64.lld`. macOS boot execution remains unverified locally.
+`llvm`, and Apple's default linker is not `ld64.lld`. CI boots the baseline on
+macOS 26/Apple Silicon with exactly these Homebrew packages (TCG, not HVF).
 
 No root privileges are required by Nexus. System package installation is a
 separate host action; restricted environments can extract signed distribution
@@ -68,7 +69,7 @@ accelerators instead of quietly applying untested defaults. A changed target
 requires a new build. An existing build can run without compiler/Git tools.
 
 The default target uses single-thread TCG and the ordinary host clock, validated
-on QEMU 8.2 and 10. In an external target copy, `qemu.clock = "instruction"`
+on QEMU 8.2, 10 and 11. In an external target copy, `qemu.clock = "instruction"`
 enables faster instruction-count time (`-icount shift=3,align=off,sleep=off`).
 Doctor refuses that mode on QEMU below 10 or an unknown version: QEMU 8.2 was
 reproduced hanging before loader entry with both firmware versions. With that

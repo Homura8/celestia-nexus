@@ -19,7 +19,8 @@ below. Do not infer a later boot milestone from an earlier one.
 | Repeated source build | Kernel, probe and source-loader hashes identical on the same host/toolchain; no cross-host bit-for-bit claim |
 | Failure/interrupt handling | Real 0.1-second run times out with CLI exit 1; real SIGINT returns 130; both stop QEMU cleanly and retain records |
 | Kernel source preparation | Exact Apple XNU/HFS + both patch series + QEMU driver configuration; diff check passes; 5,188 files hashed, 4 of 25 selectable drivers enabled |
-| CI configuration | Read-only permissions, pinned actions, Linux/macOS Python matrix, asset-free real QEMU/source-preparation job; remote result must be checked separately |
+| CI configuration | Read-only permissions, pinned actions, Linux/macOS Python matrix, asset-free real QEMU boots on Ubuntu and macOS plus source preparation; [run on `5a2f4c0`](https://github.com/Homura8/celestia-nexus/actions/runs/43179600704) passed all six jobs |
+| macOS host | Real boot in CI on macOS 26.7.2/Apple Silicon with the README's Homebrew tools: QEMU 11.1.3, Homebrew EDK2 firmware, clang/LLD 23.1.4; all ten checks, two heartbeats, about 13 s. TCG only, not HVF |
 
 Reference environment: Debian 13 x86_64, Python 3.12.14, Clang/LLD 19.1.7,
 QEMU 10.0.13, AAVMF 2025.02. The local tools were extracted from signed Debian
@@ -53,8 +54,9 @@ error reporting, memory mapping/readback, mprotect, munmap and guest timer delay
 - **Kernel not rebuilt here:** source assembly passed, but the full kernel
   SDK/toolchain dependency path is unverified. The pinned kernel banner says
   it came from a dirty source tree; its hash does not prove exact source identity.
-- **Host coverage:** local real boots are Linux x86_64/LLVM 19/QEMU 8.2 and 10. macOS
-  execution paths and other versions require their own results. HVF/KVM is not
+- **Host coverage:** real boots on Linux x86_64 (LLVM 18/19, QEMU 8.2 and 10) and
+  in CI on macOS/Apple Silicon (LLVM 23, QEMU 11). Other hosts and versions,
+  including Linux/arm64, require their own results. HVF/KVM is not
   implemented by this recipe. Guest instruction-clock time is not host timing.
 - **Intermittent UEFI stall before the loader, cause unknown:** seen twice, on
   QEMU 10.0.13/AAVMF 2025.02 (prebuilt loader) and on QEMU 8.2.2/AAVMF 2024.02

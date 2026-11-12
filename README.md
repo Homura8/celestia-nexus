@@ -39,10 +39,11 @@ export PATH="$(brew --prefix llvm)/bin:$PATH"
 ./nexus smoke
 ```
 
-The Linux reference environment has been tested. macOS execution is **implemented
-but not locally boot-tested**; the first target deliberately uses portable TCG
-emulation. Native HVF/KVM acceleration requires a separately validated boot path.
-The default ordinary clock supports QEMU 8.2 and 10. An optional faster
+Both hosts are boot-tested: Linux x86_64 locally and in CI, and an Apple Silicon
+Mac (macOS 26, Homebrew QEMU 11.1.3 and LLVM/LLD 23.1.4) in [CI](https://github.com/Homura8/celestia-nexus/actions/runs/43179600704). The first
+target deliberately uses portable TCG emulation on both; native HVF/KVM
+acceleration requires a separately validated boot path.
+The default ordinary clock is validated on QEMU 8.2, 10 and 11. An optional faster
 instruction-count clock is gated to QEMU 10+; it measures guest time, not hardware
 performance. QEMU 8.2 hangs with that optional mode, so Nexus refuses it early.
 See [host setup](docs/development.md#host-setup) if doctor reports missing tools.

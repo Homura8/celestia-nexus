@@ -89,7 +89,7 @@ length limits. ESP access is read-only, pflash variables are copied per run,
 networking is absent, and a GDB stub is opt-in and bound to loopback.
 Timeouts, interrupts and failed QEMU launches preserve diagnostics.
 
-The default uses the ordinary clock, verified on QEMU 8.2 and 10. Optional
+The default uses the ordinary clock, verified on QEMU 8.2, 10 and 11. Optional
 instruction-count time (`shift=3`, `sleep=off`) speeds the regression cycle on
 QEMU 10+, but is refused on older/unknown versions. A controlled reproduction
 found that QEMU 8.2 hangs before loader entry in that mode with either tested
