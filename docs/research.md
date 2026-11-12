@@ -316,3 +316,65 @@ SoC up in these registries ([porting](porting.md#1-look-for-an-existing-port)). 
 future physical-device recipe should wrap an upstream workflow such as `xl` or
 UniXNU's `fastboot boot` stages, behind explicit owner authorisation, and record
 its logs with the same evidence rules. None of this was executed here.
+
+## 8. MediaTek phones: direct LK → XNU (iOS 16) versus UniXNU (iPadOS 17)
+
+Added 12 November 2026 for the first physical-device consumer, the independent
+[`Homura8/g54-xnu`](https://github.com/Homura8/g54-xnu) port (Moto G54 5G,
+reported MT6855). The question is general: which route reaches XNU, then a
+usable iOS, fastest on a MediaTek phone?
+
+**Direct LK route, proven on MT6877:**
+[`lky005/ruby-ios-bringup`](https://github.com/lky005/ruby-ios-bringup/tree/1aaa883755e546726b2f3a49a3ad099d77de4e62)
+runs XNU 8796 with the iPhone X iOS 16.7.16 userland on a Redmi Note 12 Pro 5G,
+booted by the stock LK from a 128 MiB Android header v2 image.
+
+- **Upstream-reported:** UFS HFS+ root, IOMFB on the LK framebuffer,
+  Goodix touch, keys, read-only battery, SpringBoard. It runs on the six
+  Cortex-A55 cores only. Wi-Fi, audio, GPU and sleep are absent.
+- **Lineage:** its kernel baseline is the sweet 0001–0079 series (the ios-qemu
+  lineage this repository already reproduced in QEMU). It is fetched from
+  `MakrSas/ios-topaz`, which declares no licence. ruby's own code is MIT; its
+  XNU patches are APSL.
+- **Pins:** ruby's CI gates the canonical patchset hash and the kernel's
+  executable-data hash (code and data segments, not build-path strings).
+- **Verified here:** the public-fallback assembly reproduces patchset
+  `a9cc0050…` (187 files), and CI artifact 42301546006 matches its pinned
+  exec-data hash `6b22fc25…`.
+- **Not reproduced here:** booting it on a phone.
+- **Boot-image limits ruby documents** (stock size, offsets, AVB footer)
+  belong to that phone's LK.
+
+**UniXNU route:** current UniXNU `main` (`2b545ea`) supports arm64 XNU only
+through its iPadOS 17.7.11 (iPad7,1) profile. A port first needs a working
+Mu-Silicium UEFI for the device, then DarwinBoot and prelinking against the
+original kernelcache. Of its 13 MediaTek records, the most advanced (MT6878)
+reports "UEFI works, UFS works, XNU rootfs loaded". None reports a home screen.
+The ruby record in UniXNU's catalogue explicitly does not use UniXNU.
+
+**Assessment:**
+
+| | Direct LK (ruby lineage, iOS 16.7.16) | UniXNU (iPadOS 17.7.11) |
+| --- | --- | --- |
+| First XNU execution | Replace LK's kernel; ruby's ladder: panel colour → stage-0 band → log | Needs a device UEFI port first |
+| Usable iOS on MediaTek | Demonstrated (SpringBoard, touch, UFS root) | Not demonstrated |
+| Inputs | iPhone X 16.7.16 IPSW | iPad7,1 17.7.11 IPSW |
+| Main risk | Each OEM's LK and boot-image format (header v2 vs v4, AVB) | UEFI bring-up per device; prelink/OS profile drift |
+| Generality | Board code inside XNU patches | Device/SoC repositories, a broad ecosystem |
+
+The direct route is faster on both counts for a MediaTek phone with an
+unlockable LK. UniXNU remains the fallback if a phone's bootloader refuses
+direct kernels, and the better shared ecosystem for Qualcomm.
+
+**Kernel build host:** `darwin-xnu-build` expects Xcode 16.0 (XNU 8796
+predates Xcode 16's later `iig` output) and downloads Apple's KDK from a
+third-party mirror when none is installed. XNU 8796 force-loads a KDK library
+only for `T6000`/`T8101`/`VMAPPLE` (`makedefs/MakeInc.def`); the sweet patches
+build the open-source arm64 assembly/pmap for `SWEET`. **Verified** in
+g54-xnu CI run [43207707172](https://github.com/Homura8/g54-xnu/actions/runs/43207707172):
+on `macos-15` (image 20261104, macOS 15.8.2) with Xcode 16.0 (16A242d),
+no KDK on the runner and `KDKROOT` set to an empty directory that stayed empty,
+the rebuilt kernel's code and data segments equal ruby's CI kernel (exec-data
+`6b22fc25…`). Only `__TEXT` strings, `__CTF` and `__LINKEDIT` differ. A cold
+build took 10 minutes. No Apple KDK or third-party mirror is needed for
+sweet-lineage kernels.
