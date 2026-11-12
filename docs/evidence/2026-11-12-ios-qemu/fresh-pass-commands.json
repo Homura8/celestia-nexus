@@ -1,0 +1,81 @@
+[
+  {
+    "argv": [
+      "cp",
+      "-c",
+      "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/disk/disk.img",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/disk.img"
+    ],
+    "cwd": "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b",
+    "duration_seconds": 0.008,
+    "log": "step-01.log",
+    "returncode": 0,
+    "started_unix": 1794479409.450985
+  },
+  {
+    "argv": [
+      "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "-I",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/upstream/tools/mkadt.py",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/q-ios.adt",
+      "--hvf",
+      "--qemu-ufs",
+      "--qemu-fullfb",
+      "--highmem",
+      "--cpus",
+      "4"
+    ],
+    "cwd": "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b",
+    "duration_seconds": 0.057,
+    "log": "step-02.log",
+    "returncode": 0,
+    "started_unix": 1794479409.459863
+  },
+  {
+    "argv": [
+      "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "-I",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/upstream/tools/mkpayload.py",
+      "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/kernel",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/q-ios.adt",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/payload.bin",
+      "--cmdline",
+      "debug=0xc serial=3 cpus=4 keepsyms=1 -enable_kprintf_spam -noprogress rd=ufsroot0 unentitled_ios_sim_launch=1 ignition_level=1 wdt_test=no_user_checkin ufsrw=1 rootrw=1 launchd_unsecure_cache=1 wdt=-1 sweetfb_noconsole=1 sweetfb_hz=30 sweetvinput=1 sweetvnet=1 sweettouch=0 ml-timeout-global-scale=20"
+    ],
+    "cwd": "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b",
+    "duration_seconds": 0.072,
+    "log": "step-03.log",
+    "returncode": 0,
+    "started_unix": 1794479409.51738
+  },
+  {
+    "argv": [
+      "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "-I",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/upstream/tools/qemu-touch.py",
+      "$TMPDIR/nexus-6dbsbhuj/r",
+      "unlock"
+    ],
+    "cwd": "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b",
+    "duration_seconds": 0.486,
+    "log": "step-04.log",
+    "returncode": 0,
+    "started_unix": 1794479515.689197
+  },
+  {
+    "argv": [
+      "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "-I",
+      "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/upstream/tools/qemu-touch.py",
+      "$TMPDIR/nexus-6dbsbhuj/r",
+      "tap",
+      "433",
+      "2267"
+    ],
+    "cwd": "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b",
+    "duration_seconds": 0.127,
+    "log": "step-05.log",
+    "returncode": 0,
+    "started_unix": 1794479523.99598
+  }
+]

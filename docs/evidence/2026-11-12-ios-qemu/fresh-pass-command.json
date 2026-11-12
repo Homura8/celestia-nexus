@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/opt/homebrew/opt/python@3.15/bin/python3.15",
+    "-I",
+    "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/upstream/tools/qemu-sweet.py",
+    "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/payload.bin",
+    "$TMPDIR/nexus-6dbsbhuj/r",
+    "--secs",
+    "0",
+    "--hvf",
+    "--ufs",
+    "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b/disk.img",
+    "--fullfb",
+    "--smp",
+    "4",
+    "--mux-port",
+    "0"
+  ],
+  "cwd": "~/celestia-nexus/.nexus/experiments/20261112T102959-ios-qemu-iphonex-run-38b21b"
+}

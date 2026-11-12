@@ -23,7 +23,8 @@ Homebrew ships LLD (`ld64.lld`, `lld-link`) as its own formula, separate from
 `llvm`, and Apple's default linker is not `ld64.lld`. CI boots the baseline on
 macOS 26/Apple Silicon with exactly these Homebrew packages (TCG, not HVF).
 
-No root privileges are required by Nexus. System package installation is a
+No root privileges are required by Nexus for the HakiOS recipe; the ios-qemu
+disk builder asks for `sudo` once ([guide](ios-qemu.md)). System package installation is a
 separate host action; restricted environments can extract signed distribution
 packages into a local prefix and provide tool paths. The reference session used
 this approach, without changing system packages. Firmware and its variables
@@ -103,12 +104,30 @@ mirrors are recorded in each experiment's `operation.json`. Keep a mirror
 
 ### What Nexus executes from upstream
 
-Nexus never runs upstream setup, download or build scripts. It does run two
-small Python helpers from the **pinned** HakiOS commit: `xnuloader/mkidentity.py
+For the HakiOS recipe, Nexus never runs upstream setup, download or build
+scripts. It does run two small Python helpers from the **pinned** HakiOS commit: `xnuloader/mkidentity.py
 --placeholder` (writes the loader's placeholder identity header during `build`)
 and `tools/hakios-config.py` (generates the QEMU configuration during
 `prepare-kernel`). Both are recorded in `commands.json`. Review them again when
 changing the HakiOS pin.
+
+The ios-qemu recipe deliberately keeps its upstream's boundary instead
+([guide](ios-qemu.md)). From the pinned commit it copies and runs, unmodified:
+`tools/mkadt.py`, `adt.py`, `mkpayload.py`, `qemu-sweet.py` (+ its boot stub
+source), `qemu-touch.py`, and, under `sudo` once, `mkiosroot-mac.sh` with
+`sweet-root-tweaks.py` and `mkufsdisk.py`. All were reviewed at the pin; each
+copy is hashed in `build.json`/`disk.json`; every invocation is in
+`commands.json`. Review them again when changing the ios-qemu pin.
+
+### Stopping a run
+
+Ctrl-C, SIGTERM and SIGHUP all stop a run the same way: the guest is stopped
+in bounded steps, the experiment records are written, and Nexus exits 130.
+A second Ctrl-C during that cleanup is recorded but cannot abort it. The
+ios-qemu recipe records each shutdown step with its duration
+(`result.json` → `shutdown_steps`) and refuses to start a second guest while
+one is still running. Its worst case, a wedged QEMU main loop, is detected
+after 30 s without QMP answers and stopped by killing the exact QEMU pid.
 
 | Evidence file | Contents |
 | --- | --- |
@@ -120,6 +139,8 @@ changing the HakiOS pin.
 | `diagnostics.json` | QMP status, vCPU metadata and register dump |
 | `result.json` | Observed stages/checks, liveness, duration, scope and final outcome |
 | `prepared.json`, `tree-manifest.json` | Applied source inputs and hashes of the prepared source files |
+| `disk.json` (ios-qemu) | IPSW identity/hash, extracted members, device tree, upstream disk tools, disk hash |
+| `kernel.log`, `*.png`, `qemu.pid` (ios-qemu) | Live kernel log, screens, exact QEMU pid; see [ios-qemu.md](ios-qemu.md) |
 
 Build success is `built-not-boot-tested`; source assembly is
 `prepared-not-compiled`. Only the live run can report `passed`. Re-running a

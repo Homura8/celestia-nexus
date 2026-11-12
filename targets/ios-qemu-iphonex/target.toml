@@ -1,0 +1,43 @@
+schema = 1
+id = "ios-qemu-iphonex"
+description = "ios-qemu: stock iPhone X iOS 16.7.16 userland on patched open XNU (HVF, user-supplied IPSW)"
+architecture = "aarch64"
+recipe = "ios-qemu"
+source = "ios-qemu"
+
+# The pinned checkout must contain exactly the patch series the kernel was
+# built from: Git object IDs of xnu/patches and the kernel workflow.
+[source_check]
+patches_tree = "44ade5b6962a817e85798ac792d0b328e0d14ca2"
+workflow_blob = "b5addb4f9086f0d38ec739bd0aa7df3233326c36"
+
+# Upstream's own GitHub Actions build (blacktop/darwin-xnu-build, Xcode 15 iig),
+# the kernel ios-qemu's maintainer reports booting (NOTES.md: "0108 = CI 40196425620").
+# run_commit's xnu/patches and workflow equal the pinned commit's (checked above).
+# GitHub deletes the artifact after `expires`; then pass --kernel (docs/ios-qemu.md).
+[kernel]
+repository = "lgrachov/ios-qemu"
+run_id = 40196425620
+run_commit = "8f9a6d97b0146b5d8da16d257593145dbf6ad0d5"
+artifact = "xnu-kernel"
+artifact_sha256 = "1ffbbd5f535925a9c64ec35f6d994fd7cb5882dd141da335ff8c12afca51af16"
+member = "kernel.development.sweet"
+sha256 = "70d1ed6a8a3672ab04dbb8e369306866a34504ac2e5c23b9011c7aa9a3cd94a0"
+expires = "2027-01-23"
+
+# Bring your own IPSW. Apple serves the same bytes to everyone, so the hash is
+# a pin, not a secret. Nothing from it is committed or uploaded.
+[ipsw]
+file = "iPhone10,3,iPhone10,6_16.7.16_20H392_Restore.ipsw"
+sha256 = "ece1194f7e233e9109c5790a8d23a4564a10a254e15ec5b09978a343265568fb"
+product_version = "16.7.16"
+build = "20H392"
+product_type = "iPhone10,3"
+board = "d22ap"
+device_tree_sha256 = "9e670987c80493bd69aba7be62e3179c04663324d9249b0973675baac175dbf1"
+disk_size = "16g"
+
+# Upstream's --ios configuration (harness.sh); HVF on Apple Silicon only.
+[qemu]
+accel = "hvf"
+cpus = 4

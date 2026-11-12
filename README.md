@@ -2,14 +2,22 @@
 
 A small, agent-independent framework for reproducible Apple OS porting experiments.
 
-**Working today:** boot an open-source XNU kernel under QEMU/AArch64, build its UEFI
-loader and a freestanding Darwin test program from source, and verify ten syscall
-checks plus continued userspace execution. No IPSW, Apple SDK, Apple firmware or
-physical device is needed for this path.
+**Working today**, as two independent recipes:
 
-The kernel itself is a **hash-pinned HakiOS prebuilt**, not a kernel rebuilt by
-Nexus. Nexus also prepares and validates a real patched XNU/HFS source tree.
-Stock iOS/iPadOS/macOS userland, a GUI, and physical-device ports are future work.
+- `qemu-virt-xnu` (any Linux/macOS host, no Apple material): boot an open-source
+  XNU kernel under QEMU/AArch64, build its UEFI loader and a freestanding Darwin
+  test program from source, and verify ten syscall checks plus continued
+  userspace execution.
+- `ios-qemu-iphonex` (Apple Silicon Mac + **your own** iPhone X iOS 16.7.16
+  IPSW): reproduce [ios-qemu](https://github.com/lgrachov/ios-qemu): the stock
+  iOS userland boots on patched open-source XNU under HVF to SpringBoard, the
+  lock and home screens, and Safari started by injected touch input.
+  [Guide](docs/ios-qemu.md).
+
+Both kernels are **hash-pinned upstream builds**, not kernels rebuilt by Nexus.
+Nexus also prepares and validates a real patched XNU/HFS source tree. iOS here
+is a research environment (no GPU, Secure Enclave or code-signing security), not
+a usable device. Physical-device ports are future work.
 [Measured results and limitations](docs/status.md) · [Research](docs/research.md)
 
 ## 1. First run
@@ -100,10 +108,11 @@ identifies what to establish before implementation.
 
 | Path | Responsibility |
 | --- | --- |
-| `nexus`, `nexuslib/core.py`, `nexuslib/cli.py` | Commands, pinned sources, experiment records |
+| `nexus`, `nexuslib/core.py`, `nexuslib/cli.py` | Commands (declared per recipe), pinned sources, experiment records |
 | `targets/` | Declarative, versioned target inputs; external target files also supported |
-| `nexuslib/hakios.py` | First concrete build/source-preparation recipe |
-| `nexuslib/qemu.py`, `nexuslib/formats.py` | First boot contract, QMP, binary formats and evidence checks |
+| `nexuslib/hakios.py` | Recipe `hakios-open`: build, source preparation, XNUP boot contract and probe checks |
+| `nexuslib/iosqemu.py`, `nexuslib/ipsw.py` | Recipe `ios-qemu`: CI kernel, IPSW → disk, live log, screen/touch milestones |
+| `nexuslib/qemu.py`, `nexuslib/formats.py` | Shared QMP and process lifecycle; binary formats |
 | `guest/probe.c` | Original, SDK-free Darwin syscall regression program |
 | `upstreams.lock.toml` | Exact upstream revisions and provenance |
 | `docs/status.md` | Verified capabilities, blockers and prioritised next work |
@@ -116,7 +125,8 @@ explain why these boundaries are intentionally small.
 
 Nexus's original code is MIT licensed. External components retain their own
 licences; see [NOTICE](NOTICE) and the upstream lock. No proprietary Apple images,
-firmware, keys or credentials are distributed here. An upstream's inclusion of
+firmware, keys or credentials are distributed here; the ios-qemu recipe uses
+an IPSW you supply, only inside your local `.nexus/` directory. An upstream's inclusion of
 a file is not a redistribution clearance; HakiOS itself identifies unresolved
 third-party provenance. Source preparation remains local and does not clear
 that tree or its outputs for redistribution.

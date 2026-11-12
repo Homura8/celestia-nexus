@@ -1,7 +1,7 @@
 """Prevent early boot output, stale logs and late panics from becoming passes."""
 import unittest
 
-from nexuslib.qemu import CHECKS, analyze
+from nexuslib.hakios import CHECKS, analyze
 
 TOKEN = "0123456789abcdef" * 2
 

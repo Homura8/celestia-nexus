@@ -1,0 +1,106 @@
+[    0.006407]: Darwin Kernel Version 22.6.0: Mon Aug 14 05:06:07 UTC 2023; runner:xnu-8796.141.3
+[    0.026577]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.026607]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.032491]: SWEET HID: buttons registered (test every 0 s)
+[    0.032543]: SWEET HID: touch registered
+[    0.032585]: SWEET HID: keyboard registered
+[    0.034159]: SWEET FB: AppleCLCD 1125x2436 stride 4500 at 0x9c000000, default surface 1, presented as 1125x2436
+[    0.034986]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.035033]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.036640]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.036675]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.038208]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.038263]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.049065]: SWEET UFS: command 0x00 failed: ocs 0x0 upiu 0x21 response 0x1 status 0x2
+[    0.049541]: SWEET UFS: "userdata" on LUN 0: first block 0x100, 16392 MiB, read-write, DMA at 0x1048d4000
+[    0.050276]: BSD root: ufsroot0, major 1, minor 0
+[    0.050865]: SWEET VINPUT: slot 30 input device -> 0
+[    0.051225]: SWEET VINPUT: slot 31 input device -> 0
+[    0.052671]: SWEET VNET: slot 29 -> 0, en0 52:54:00:12:34:56
+[    0.131772]: exec launchd
+[    0.994804]: exec SpringBoard
+[    1.066884]: exec backboardd
+[    3.904630]: CRASH driverkitd[66] sig 9 code 0x0 sub 0x0 slide 0x387c0000 mh 0x102958000
+[    4.229277]: SWEET HID: SweetHIDKeyboard open by IOHIDEventServiceUserClient -> 1
+[    4.258223]: SWEET HID: SweetHIDTouch open by IOHIDEventServiceUserClient -> 1
+[    4.259438]: SWEET HID: SweetHIDButtons open by IOHIDEventServiceUserClient -> 1
+[    4.280413]: SWEET FB: MobileGestaltHelper sel 8 in 0/0 out 2/0 -> 0x0
+[    4.280457]: SWEET FB: MobileGestaltHelper sel 28 in 0/0 out 1/0 -> 0x0
+[    4.292864]: SWEET FB: backboardd sel 57 in 0/0 out 1/0 -> 0x0
+[    4.296081]: SWEET FB: backboardd sel 15 in 2/0 out 1/0 -> 0x0
+[    4.296771]: SWEET FB: backboardd sel 22 in 1/0 out 0/0 -> 0x0
+[    4.296820]: SWEET FB: backboardd sel 29 in 0/0 out 0/8 -> 0x0
+[    4.297439]: SWEET FB: backboardd sel 33 in 1/0 out 0/0 -> 0x0
+[    4.314798]: SWEET FB: backboardd sel 79 in 2/0 out 0/1580 -> 0x0
+[    4.317560]: SWEET FB: backboardd sel 74 in 1/0 out 1/64 -> 0x0
+[    5.549564]: SWEET VNET: tx 342 bytes type 0x0800
+[    5.550256]: SWEET VNET: tx 86 bytes type 0x86dd
+[    5.550340]: SWEET VNET: tx 110 bytes type 0x86dd
+[    5.551912]: SWEET VNET: rx 590 bytes type 0x0800
+[    5.562266]: SWEET VNET: tx 62 bytes type 0x86dd
+[    5.563235]: SWEET VNET: rx 134 bytes type 0x86dd
+[    5.563382]: SWEET VNET: tx 86 bytes type 0x86dd
+[    5.563421]: SWEET VNET: tx 90 bytes type 0x86dd
+[    5.563483]: SWEET VNET: tx 86 bytes type 0x86dd
+[    5.605217]: SWEET VNET: tx 78 bytes type 0x86dd
+[    5.607065]: SWEET VNET: rx 86 bytes type 0x86dd
+[    5.609402]: SWEET VNET: rx 86 bytes type 0x86dd
+[    5.611769]: SWEET VNET: rx 146 bytes type 0x86dd
+[    5.698668]: SWEET VNET: rx 142 bytes type 0x86dd
+[    5.698710]: SWEET VNET: rx 146 bytes type 0x86dd
+[    5.807262]: SWEET VNET: rx 145 bytes type 0x86dd
+[   34.837534]: SWEET FB: display on
+[   34.837564]: SWEET FB: backboardd sel 12 in 1/0 out 0/0 -> 0x0
+[   34.837769]: SWEET FB: backboardd sel 79 in 2/0 out 0/40 -> 0x0
+[   34.837989]: SWEET FB: backboardd sel 6 in 3/0 out 0/0 -> 0x0
+[   34.838028]: SWEET FB: backboardd sel 27 in 0/0 out 0/3084 -> 0x0
+[   34.838121]: SWEET FB: backboardd sel 17 in 0/3084 out 0/0 -> 0x0
+[   34.838162]: SWEET FB: backboardd sel 84 in 0/4 out 0/0 -> 0x0
+[   34.838199]: SWEET FB: backboardd sel 50 in 2/0 out 0/0 -> 0x0
+[   39.876875]: SWEET FB: thermalmonitord sel 78 in 2/1788 out 0/0 -> 0x0
+[   39.887095]: SWEET FB: backboardd sel 68 in 1/8 out 0/0 -> 0x0
+[   39.896416]: SWEET FB: backboardd sel 4 in 0/0 out 1/0 -> 0x0
+[   39.896463]: SWEET FB: backboardd sel 68 in 1/8 out 0/0 -> 0x0
+[   39.896513]: SWEET FB: backboardd sel 5 in 0/1132 out 0/0 -> 0x0
+[   39.896554]: SWEET FB: backboardd sel 3 in 2/0 out 1/0 -> 0x0
+[   39.900065]: SWEET FB: backboardd sel 55 in 1/72 out 0/0 -> 0x0
+[   39.924324]: SWEET FB: swap 2 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   39.958491]: SWEET FB: swap 5 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   39.993147]: SWEET FB: swap 7 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.029571]: SWEET FB: swap 9 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.064424]: SWEET FB: swap 11 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.099183]: SWEET FB: swap 13 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.135056]: SWEET FB: swap 16 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.171741]: SWEET FB: swap 18 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.209222]: SWEET FB: swap 20 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.246844]: SWEET FB: swap 22 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.283304]: SWEET FB: swap 24 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.318704]: SWEET FB: swap 27 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.354998]: SWEET FB: swap 29 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.391227]: SWEET FB: swap 31 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.427002]: SWEET FB: swap 33 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.461597]: SWEET FB: swap 35 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   56.534857]: SWEET FB: 1000 swaps
+[   73.217479]: SWEET FB: 2000 swaps
+[   81.219086]: CRASH driverkitd[265] sig 9 code 0x0 sub 0x0 slide 0x387c0000 mh 0x102f2c000
+[   86.152390]: CRASH lsd[100] sig 9 code 0x0 sub 0x0 slide 0x387c0000 mh 0x1026f8000
+[   89.900509]: SWEET FB: 3000 swaps
+[   91.261884]: CRASH driverkitd[307] sig 9 code 0x0 sub 0x0 slide 0x387c0000 mh 0x100084000
+[   96.101248]: SWEET FB: display off
+[   96.556388]: CRASH GradientPosterEx[320] sig 5 code 0x600000001 sub 0x1dbe70900 slide 0x387c0000 mh 0x102e88000
+[   96.568178]: CRASH ExtragalacticPos[322] sig 5 code 0x600000001 sub 0x1dbe70900 slide 0x387c0000 mh 0x10063c000
+[   96.605035]: CRASH EmojiPosterExten[324] sig 5 code 0x600000001 sub 0x1dbe70900 slide 0x387c0000 mh 0x10213c000
+[   96.648631]: CRASH WeatherPoster[323] sig 5 code 0x600000001 sub 0x1dbe70900 slide 0x387c0000 mh 0x1026d4000
+[   96.691986]: CRASH PridePosterExten[325] sig 5 code 0x600000001 sub 0x1dbe70900 slide 0x387c0000 mh 0x10497c000
+[   96.712789]: CRASH CollectionsPoste[321] sig 5 code 0x600000001 sub 0x1dbe70900 slide 0x387c0000 mh 0x104058000
+[   96.718610]: CRASH UnityPosterExten[326] sig 5 code 0x600000001 sub 0x1dbe70900 slide 0x387c0000 mh 0x102f14000
+[   96.982770]: SWEET FB: display on
+[   96.982786]: SWEET FB: backboardd sel 79 in 2/0 out 0/40 -> 0x0
+[  101.281303]: CRASH driverkitd[337] sig 9 code 0x0 sub 0x0 slide 0x387c0000 mh 0x1044e0000
+[  105.639202]: SWEET HID: touch 0 down at 562,2426 edge
+[  106.068939]: SWEET HID: touch 0 up at 562,852 edge
+so_gencnt: 2070 t_state: ESTABLISHED process: tipsd:346 SYN in/out: 1/1 bytes in/out: 0/0 pkts in/out: 0/0 rtt: 0.0 ms rttvar: 250.0 ms base_rtt: 1 ms error: 0 so_error: 0 svc/tc: 0CRASH driverkitd[349] sig 9 code 0x0 sub 0x0 slide 0x387c0000 mh 0x104048000
+so_gencnt: 2124 t_state: ESTABLISHED process: tipsd:346 SYN in/out: 1/1 bytes in/out: 0/0 pkts in/out: 0/0 rtt: 0.0 ms rttvar: 250.0 ms base_rtt: 1 ms error: 0 so_error: 0 svc/tc: 0SWEET HID: touch 0 down at 433,2267
+so_gencnt: 2137 t_state: SYN_SENT process: tipsd:346 SYN in/out: 0/1 bytes in/out: 0/0 pkts in/out: 0/0 rtt: 0.0 ms rttvar: 250.0 ms base_rtt: 1 ms error: 0 so_error: 0 svc/tc: 0SWEET HID: touch 0 up at 433,2267
+[  114.026268]: exec MobileSafari
+[  121.317879]: CRASH driverkitd[383] sig 9 code 0x0 sub 0x0 slide 0x387c0000 mh 0x102c58000

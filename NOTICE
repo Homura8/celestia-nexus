@@ -3,13 +3,20 @@ Celestia Nexus original code and documentation: MIT; see LICENSE.
 No third-party source tree, kernel, loader binary, OS image or SDK is vendored.
 The local .nexus directory is not part of this distribution.
 
-External material used by the implemented recipe:
+External material used by the implemented recipes:
 - HakiOS, oosexgang/hakios-xnu-kernel: XNU changes under APSL-2.0; original
   loader/tools under MIT as stated upstream. Check the per-file notices,
   LICENSE.APSL, NOTICE and THIRD_PARTY_LICENSES.md at the pinned revision.
 - Apple XNU xnu-8796.121.2 and HFS hfs-627.100.6: APSL-2.0 and per-file licences.
   Public syscall/thread/boot structures inform the original interoperability
   code here. Source preparation copies upstream code only into local work trees.
+- ios-qemu, lgrachov/ios-qemu (ios-qemu-iphonex recipe): tools under MIT,
+  XNU patches under APSL-2.0, as stated upstream. Its unmodified tools are
+  copied from the pinned checkout into local experiment directories and run
+  there; its CI-built kernel is downloaded into the local cache. Neither is
+  republished by Nexus.
+- Apple iOS (iPhone X 16.7.16 IPSW): supplied by the user under Apple's
+  licence, processed only locally, never distributed with or by Nexus.
 - QEMU: GPL and per-file terms, installed separately, never relicensed by Nexus.
 - EDK II/AAVMF firmware and LLVM: separately installed under their own licences.
 
@@ -18,7 +25,7 @@ inventory. A pinned commit/hash establishes identity, not permission to
 redistribute every file or derived binary. Nexus does not republish those trees
 or binaries, assert their clearance, or mix their licences into this MIT project.
 
-Researched projects and exact revisions, including ios-qemu, UniXNU, darwin-vm,
+Researched projects and exact revisions, including UniXNU, darwin-vm,
 Aleph's xnu-qemu-arm64 and Inferno, are listed in upstreams.lock.toml and
 docs/research.md. Their authors retain all rights to their work.
 

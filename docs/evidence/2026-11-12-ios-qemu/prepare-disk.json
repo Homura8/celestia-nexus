@@ -1,0 +1,90 @@
+{
+  "device_tree": {
+    "adt": {
+      "bytes": 186084,
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/d22ap.adt",
+      "sha256": "9e670987c80493bd69aba7be62e3179c04663324d9249b0973675baac175dbf1"
+    },
+    "im4p": {
+      "bytes": 33719,
+      "member": "Firmware/all_flash/DeviceTree.d22ap.im4p",
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/d22ap.im4p",
+      "sha256": "480e8b0888949b4128b7aa2cd254497581c69e1bafa596a760b2fa955a8a6368"
+    }
+  },
+  "disk": {
+    "bytes": 17189326848,
+    "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/disk/disk.img",
+    "sha256": "f40b806175d9a974c1b290d366cb074cf479b9bb7014efb0d25909076068ef58"
+  },
+  "disk_tools": {
+    "mkiosroot-mac.sh": {
+      "bytes": 4964,
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/upstream/tools/mkiosroot-mac.sh",
+      "sha256": "811eb561c6d1c17c1cec70db57463f49c45156bfb655855f8258184952fdb9d3"
+    },
+    "mkufsdisk.py": {
+      "bytes": 5220,
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/upstream/tools/mkufsdisk.py",
+      "sha256": "9db6e29d4cc4dd81805d14b1c8fc13d1dd34360383896fc336aacda6deb832a3"
+    },
+    "sweet-root-tweaks.py": {
+      "bytes": 7676,
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/upstream/tools/sweet-root-tweaks.py",
+      "sha256": "6a409e5edca629a4bf9a46285ed29878d1308872705c63c43b452a38f6c15ed0"
+    }
+  },
+  "implementation": {
+    "files": {
+      "guest/probe.c": "e4403478bfca3e676a090401800e07d2baafe96951ce5ab005fc0744fbf835a0",
+      "nexus": "63c2aabd58f6d66a4d63414b512339b11bf93b99eab673570353a8c7e1f688be",
+      "nexuslib/__init__.py": "22faafb669bf3d3620550c5f7ef674a6940244d51b3533464bc8856447f87aae",
+      "nexuslib/cli.py": "8377dfd357f2f6bf5650dc2ddb05832ad0fb37afaa3c940d5de734a20dfb2686",
+      "nexuslib/core.py": "518856df3cca11eb59eff7d6b07b95a2771285a41c1ca27501316cf0bdca5763",
+      "nexuslib/formats.py": "c5bfa97242c6bfa6407762f5f3282a389fa5bd9bc1438f9ec5528ffa348c6480",
+      "nexuslib/hakios.py": "dcad670a2444a009b352dd43aedf87ccba2ad4b0ea3188bcda89a7efa3b4f75f",
+      "nexuslib/host.py": "f8206751e6a35e78df7e94ef3193a75e6a68153a397fc76e7b985ccff3242b13",
+      "nexuslib/iosqemu.py": "d4c7392b6d025054254b8bda045c612ab39692a8272a239eee2a53aca0e61094",
+      "nexuslib/ipsw.py": "565e989f0eeb2b8592923661293d5884b75fafed505849238a2fe552c6ab14fc",
+      "nexuslib/qemu.py": "f547e1af5bfcdcbbc2a47606f7c56ceecb34374b70db606d1dae5857483a0668",
+      "upstreams.lock.toml": "4000d46eacedcb6a66b1d4ff47622ea66d74d8177462803c1f59f5f65ead3b0a"
+    },
+    "sha256": "b48845213ff9f7c18ec460b75b0d12dc029221780d93149a8f5abde371a82e51"
+  },
+  "inputs_kept": false,
+  "ipsw": {
+    "build": "20H392",
+    "bytes": 6171035648,
+    "path": "~/Downloads/iPhone10,3,iPhone10,6_16.7.16_20H392_Restore.ipsw",
+    "product_types": [
+      "iPhone10,6",
+      "iPhone10,3"
+    ],
+    "product_version": "16.7.16",
+    "sha256": "ece1194f7e233e9109c5790a8d23a4564a10a254e15ec5b09978a343265568fb"
+  },
+  "members": {
+    "Cryptex1,AppOS": {
+      "bytes": 10485760,
+      "member": "087-86715-047.dmg",
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/inputs/087-86715-047.dmg",
+      "sha256": "391f2df322c3172b021b2874f6da5c3e78b70b3df8f502e1a4af2b1d715c4608"
+    },
+    "Cryptex1,SystemOS": {
+      "bytes": 2743074816,
+      "member": "087-86593-047.dmg",
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/inputs/087-86593-047.dmg",
+      "sha256": "9cd738f3b0169055549df84ad6d8d13e50a2da39af618ce0522ca4e06df86849"
+    },
+    "OS": {
+      "bytes": 4730814044,
+      "member": "087-86698-044.dmg",
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/inputs/087-86698-044.dmg",
+      "sha256": "80f426d5b8fca8552f95be427434f1911dbb4c2c6d28aad94f2426ddd0c92483"
+    }
+  },
+  "note": "Contains Apple software from your IPSW: keep it local; never commit or upload it.",
+  "schema": 1,
+  "status": "disk-prepared-not-boot-tested",
+  "target": "ios-qemu-iphonex"
+}

@@ -12,7 +12,7 @@ results are in [`status.md`](status.md) and its linked raw evidence.
 | Approach | Strongest relevant upstream report | Assets/host coupling | Nexus decision |
 | --- | --- | --- | --- |
 | HakiOS source XNU + own UEFI/platform drivers | iOS 16.5 userland on generic QEMU and Qualcomm phones; open syscall-userspace path | Open boot needs only QEMU/LLVM/UEFI; kernel rebuild still needs SDK/toolchain material | Reproduce open path first; locally verified |
-| ios-qemu source XNU + generic QEMU devices | iPhone X iOS 16.7.16 GUI, input, sound and networking on Apple Silicon | HVF-centric full-userland harness, writable HFS+/UFS disk, Apple OS/SDK inputs | Highest-priority stock-iOS reproduction candidate; source-inspected only |
+| ios-qemu source XNU + generic QEMU devices | iPhone X iOS 16.7.16 GUI, input, sound and networking on Apple Silicon | HVF-centric full-userland harness, writable HFS+/UFS disk, Apple OS/SDK inputs | **Second recipe; reproduced** to SpringBoard, home screen and a touch-launched Safari on an M1 Pro (see §3) |
 | UniXNU UEFI environment + reusable platform/OS components | Broad non-Apple ARM64 porting infrastructure; independent QEMU port reports iPadOS 17 GUI/Metal remoting | OS profiles, prelinking and original Apple kext/userland assets; device port ownership separate | Reuse its implementation boundary in a later recipe; do not recreate its driver/feed system |
 | darwin-vm + qemu-sptm | Recent iOS/macOS CLI root shell with SPTM/TXM/Apple CPU support | Custom QEMU, original kernel/firmware/ramdisk; macOS preparation | Strong alternative for stock-kernel research, not proof of native-device support |
 | Aleph xnu-qemu-arm64 | iOS 12.1 shell, debugging, storage/UART networking and KVM | Old device-emulation/QEMU branch, kernel patches and Apple assets | Historical provenance/debug reference, not the new baseline |
@@ -115,25 +115,50 @@ appropriate authorised build host, or validate an actual toolchain adaptation.
 Nexus's own SDK-free Python CI uses the supported `macos-26` image.
 
 **Upstream-reported:** lock/home screens, stock apps, Safari networking and
-sound on an Apple Silicon Mac. **Not reproduced here:** any stock iOS userland,
-full kernel rebuild, networking, sound or GUI. We inspected the boot/build
-implementation and did not infer support for Linux TCG full userland from its
-HVF result. MIT tools and APSL XNU modifications retain distinct obligations.
+sound on an Apple Silicon Mac (M5, macOS 26, QEMU 11.0.2).
 
-Next reproduction, on a suitable Mac with authorised inputs: build/download an
-exact attributable kernel, prepare a disposable copy of the user's OS disk,
-then run the pinned harness's documented `--kernel … --ios …` path. A Nexus
-recipe should preserve logs and distinguish launchd/SpringBoard/usable-app
-evidence. It must not modify an original supplied disk silently.
+**Reproduced by Nexus (12 November 2026, M1 Pro 16 GiB, macOS 27.2.1, QEMU
+11.1.3, HVF)** with the `ios-qemu-iphonex` recipe: the pinned CI kernel, a disk
+built by upstream's `mkiosroot-mac.sh` from the user's own IPSW, and upstream's
+launcher. Kernel → UFS root → launchd within a second of QEMU start; SpringBoard
+and backboardd at about 3 s; first-boot data migration, then the lock screen;
+an injected swipe reaches the home screen and an injected tap starts Safari.
+Evidence: [`evidence/2026-11-12-ios-qemu`](evidence/2026-11-12-ios-qemu/README.md).
+Not reproduced: kernel rebuild, sound (left off), web browsing, App Store,
+Metal remoting, multi-hour stability.
+
+Findings from that reproduction (details in [ios-qemu.md](ios-qemu.md)):
+
+- **QMP virtual-memory reads wedge QEMU on this host.** Upstream's
+  `--live-log` follows the kernel log with `x`/`memsave` of kernel virtual
+  addresses. On the M1 Pro/macOS 27.2.1/QEMU 11.1.3 host, the first such read
+  early in boot waited forever for a vCPU to leave `hv_vcpu_run`; QEMU's main
+  loop (UFS, network, QMP) froze while four vCPUs kept running. Reproduced on
+  demand with 0.2 s polling; a single late read succeeded. Root cause (QEMU 11.1
+  HVF kick, macOS 27 Hypervisor.framework, M1 vs M5) not established; worth an
+  upstream QEMU report with a minimal reproducer. Nexus avoids it by reading
+  physical memory only (symbol table + kernel page-table walk).
+- The kernel prints no boot-args, so a boot token cannot be checked in the
+  log; freshness instead comes from reading the live guest's RAM.
+- Message-buffer lines carry `[seconds]: ` prefixes; launchd starts
+  SpringBoard before backboardd.
+- Upstream README's Safari dock coordinate (561, 2259) falls between the
+  Safari and Messages icons of the default 4-icon dock; (433, 2267) hits Safari.
+- macOS 27's `hdiutil attach` prints deprecation warnings (to be replaced by
+  `diskutil image attach`) but still works for the disk builder.
+- The guest's default QEMU user networking contacts Apple and other servers
+  as soon as daemons start; the upstream launcher has no switch to disable it.
+
+Nexus therefore uses the existing CI artifact, which GitHub deletes on
+2027-01-23 (see the macOS 14 runner caveat above).
 
 Linux/cloud note (source-inspected, **not reproduced**): `--ios` forces HVF
 ([`harness.sh`](https://github.com/lgrachov/ios-qemu/blob/8d23f48c683250c728a5c820482b450646453c02/harness.sh#L52)), but the same kernel also boots under TCG,
 and the maintainer's notes compare TCG and HVF kernel timings
 ([`NOTES.md`](https://github.com/lgrachov/ios-qemu/blob/8d23f48c683250c728a5c820482b450646453c02/NOTES.md#L214)). A Linux root-disk builder using `apfs-fuse`
-also exists ([`tools/mkiosroot.sh`](https://github.com/lgrachov/ios-qemu/blob/8d23f48c683250c728a5c820482b450646453c02/tools/mkiosroot.sh)). So whether iOS
-16.7.16 userland reaches SpringBoard on Linux TCG (or Linux/arm64 KVM) is an
-open, cheap-to-try question for cloud agents: expect it to be much slower, and
-the kernel still has to be built on macOS (Xcode `iig` requirement above).
+also exists ([`tools/mkiosroot.sh`](https://github.com/lgrachov/ios-qemu/blob/8d23f48c683250c728a5c820482b450646453c02/tools/mkiosroot.sh)). Whether iOS 16.7.16
+reaches SpringBoard on Linux TCG (or Linux/arm64 KVM) is still open; the
+recipe deliberately refuses non-HVF settings until someone validates them.
 
 ## 4. UniXNU and independent QEMU ports
 
@@ -217,6 +242,8 @@ copied, built or run here.
 | Pinned source-built loader + original probe | Ten checks and continued userspace execution; clean QMP shutdown | First executable regression baseline established |
 | Real XNU/HFS patch assembly | Both patch checks/applications and QEMU driver generation succeeded | Prepared source tree is usable for the next kernel-build session |
 | Full kernel rebuild / original userland | Authorised SDK and OS materials were not supplied | Record as unverified; keep the open baseline and explicit asset-dependent next steps |
+| ios-qemu stock userland (user-supplied IPSW, HVF) | Lock screen, home screen and touch-launched Safari reproduced | Second recipe `ios-qemu`; see §3 |
+| QMP virtual reads during an HVF boot | QEMU main loop wedged until killed (M1 Pro, macOS 27.2.1, QEMU 11.1.3) | Physical-only guest reads; bounded shutdown that never needs a vCPU round-trip |
 
 One later host-clock/prebuilt-loader cold boot stalled in UEFI before any loader
 banner; QMP still reported a running CPU. Six follow-ups (three original boot

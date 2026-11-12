@@ -1,0 +1,90 @@
+[    0.005485]: Darwin Kernel Version 22.6.0: Mon Aug 14 05:06:07 UTC 2023; runner:xnu-8796.141.3
+[    0.025835]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.025889]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.031399]: SWEET HID: buttons registered (test every 0 s)
+[    0.031447]: SWEET HID: touch registered
+[    0.031488]: SWEET HID: keyboard registered
+[    0.033115]: SWEET FB: AppleCLCD 1125x2436 stride 4500 at 0x9c000000, default surface 1, presented as 1125x2436
+[    0.033704]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.033737]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.035340]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.035371]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.036987]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.037017]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.047968]: SWEET UFS: command 0x00 failed: ocs 0x0 upiu 0x21 response 0x1 status 0x2
+[    0.048614]: SWEET UFS: "userdata" on LUN 0: first block 0x100, 16392 MiB, read-write, DMA at 0x1048d4000
+[    0.049099]: BSD root: ufsroot0, major 1, minor 0
+[    0.050013]: SWEET VNET: slot 29 -> 0, en0 52:54:00:12:34:56
+[    0.050095]: SWEET VINPUT: slot 30 input device -> 0
+[    0.050318]: SWEET VINPUT: slot 31 input device -> 0
+[    0.241845]: exec launchd
+[    1.016096]: exec SpringBoard
+[    1.160373]: exec backboardd
+[    1.540046]: CRASH driverkitd[65] sig 9 code 0x0 sub 0x0 slide 0xe094000 mh 0x1024b4000
+[    2.080524]: SWEET HID: SweetHIDKeyboard open by IOHIDEventServiceUserClient -> 1
+[    2.128664]: SWEET HID: SweetHIDTouch open by IOHIDEventServiceUserClient -> 1
+[    2.130051]: SWEET HID: SweetHIDButtons open by IOHIDEventServiceUserClient -> 1
+[    2.185606]: SWEET FB: backboardd sel 57 in 0/0 out 1/0 -> 0x0
+[    2.189112]: SWEET FB: backboardd sel 15 in 2/0 out 1/0 -> 0x0
+[    2.189561]: SWEET FB: backboardd sel 22 in 1/0 out 0/0 -> 0x0
+[    2.189599]: SWEET FB: backboardd sel 8 in 0/0 out 2/0 -> 0x0
+[    2.189637]: SWEET FB: backboardd sel 28 in 0/0 out 1/0 -> 0x0
+[    2.189675]: SWEET FB: backboardd sel 29 in 0/0 out 0/8 -> 0x0
+[    2.190126]: SWEET FB: backboardd sel 33 in 1/0 out 0/0 -> 0x0
+[    2.245041]: SWEET FB: backboardd sel 79 in 2/0 out 0/1580 -> 0x0
+[    2.248072]: SWEET FB: backboardd sel 74 in 1/0 out 1/64 -> 0x0
+[    3.058946]: SWEET VNET: tx 342 bytes type 0x0800
+[    3.059199]: SWEET VNET: tx 90 bytes type 0x86dd
+[    3.059243]: SWEET VNET: tx 86 bytes type 0x86dd
+[    3.060858]: SWEET VNET: rx 590 bytes type 0x0800
+[    3.061543]: SWEET VNET: tx 62 bytes type 0x86dd
+[    3.063249]: SWEET VNET: rx 134 bytes type 0x86dd
+[    3.063461]: SWEET VNET: tx 86 bytes type 0x86dd
+[    3.063505]: SWEET VNET: tx 110 bytes type 0x86dd
+[    3.063607]: SWEET VNET: tx 86 bytes type 0x86dd
+[    3.063645]: SWEET VNET: tx 110 bytes type 0x86dd
+[    4.026416]: SWEET VNET: rx 134 bytes type 0x86dd
+[    4.402790]: SWEET VNET: rx 86 bytes type 0x86dd
+[    4.405166]: SWEET VNET: rx 141 bytes type 0x86dd
+[    4.414390]: SWEET VNET: rx 64 bytes type 0x0806
+[    4.482687]: SWEET VNET: rx 141 bytes type 0x86dd
+[    4.482728]: SWEET VNET: rx 141 bytes type 0x86dd
+[   38.028893]: SWEET FB: thermalmonitord sel 78 in 2/1788 out 0/0 -> 0x0
+[   38.039814]: SWEET FB: display on
+[   38.039861]: SWEET FB: backboardd sel 12 in 1/0 out 0/0 -> 0x0
+[   38.040142]: SWEET FB: backboardd sel 79 in 2/0 out 0/40 -> 0x0
+[   38.040244]: SWEET FB: backboardd sel 6 in 3/0 out 0/0 -> 0x0
+[   38.040316]: SWEET FB: backboardd sel 27 in 0/0 out 0/3084 -> 0x0
+[   38.040435]: SWEET FB: backboardd sel 17 in 0/3084 out 0/0 -> 0x0
+[   38.040492]: SWEET FB: backboardd sel 84 in 0/4 out 0/0 -> 0x0
+[   38.040547]: SWEET FB: backboardd sel 50 in 2/0 out 0/0 -> 0x0
+[   38.054702]: SWEET FB: backboardd sel 68 in 1/8 out 0/0 -> 0x0
+[   38.065618]: SWEET FB: backboardd sel 4 in 0/0 out 1/0 -> 0x0
+[   38.065667]: SWEET FB: backboardd sel 68 in 1/8 out 0/0 -> 0x0
+[   38.065713]: SWEET FB: backboardd sel 5 in 0/1132 out 0/0 -> 0x0
+[   38.065755]: SWEET FB: backboardd sel 3 in 2/0 out 1/0 -> 0x0
+[   38.066731]: SWEET FB: backboardd sel 55 in 1/72 out 0/0 -> 0x0
+[   38.094929]: SWEET FB: swap 2 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   38.129956]: SWEET FB: swap 3 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   38.301212]: SWEET FB: display off
+[   39.863945]: SWEET FB: display on
+[   39.863955]: SWEET FB: backboardd sel 79 in 2/0 out 0/40 -> 0x0
+[   40.115879]: SWEET FB: swap 6 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.515420]: SWEET FB: swap 8 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.550278]: SWEET FB: swap 10 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.585712]: SWEET FB: swap 12 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.621865]: SWEET FB: swap 14 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.658116]: SWEET FB: swap 17 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.694096]: SWEET FB: swap 19 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.728273]: SWEET FB: swap 21 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.763739]: SWEET FB: swap 23 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.799371]: SWEET FB: swap 25 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.903877]: SWEET FB: swap 30 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.939381]: SWEET FB: swap 31 layer 0 surface 2 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   40.975068]: SWEET FB: swap 32 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   41.010087]: SWEET FB: swap 34 layer 0 surface 3 1125x2436 fmt 0x42475241 bpr 4608 a 0,0 1125x2436 b 0,0 1125x2436
+[   64.457967]: SWEET HID: touch 0 down at 562,2426 edge
+[   64.897967]: SWEET HID: touch 0 up at 562,852 edge
+[   72.952187]: SWEET HID: touch 0 down at 433,2267
+[   73.037922]: SWEET HID: touch 0 up at 433,2267
+[   73.047715]: exec MobileSafari

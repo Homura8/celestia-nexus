@@ -1,0 +1,228 @@
+{
+ "note": "Real QEMU/HVF lifecycle checks, M1 Pro macOS 27.2.1, QEMU 11.1.3, after the bounded-cleanup fix. Driver: short ios-qemu runs with a timeout or a signal sent ~30 s after QEMU started; 'wedged-timeout' reproduces run 1 with QMP virtual-memory reads every 0.2 s from early boot.",
+ "cases": [
+  {
+   "case": "timeout",
+   "exit": 1,
+   "signals": [],
+   "seconds_after_first_signal": null,
+   "total_seconds": 67.0,
+   "status": "timed-out",
+   "shutdown": "qmp-quit",
+   "shutdown_steps": [
+    {
+     "outcome": "exited",
+     "seconds": 0.11,
+     "step": "qmp-quit"
+    },
+    {
+     "outcome": "exited 0",
+     "seconds": 0.0,
+     "step": "launcher-exit"
+    }
+   ],
+   "milestones": [
+    "kernel",
+    "root",
+    "launchd",
+    "backboardd",
+    "springboard"
+   ],
+   "qemu_left": [],
+   "disk_after_hashed": true,
+   "run": "20261112T100934-ios-qemu-iphonex-run-3b103a",
+   "tail": [
+    "Hashing the run's disk clone for --disk reuse (about 10 s; Ctrl-C skips)...",
+    "timed-out: ~/celestia-nexus/.nexus/experiments/20261112T100934-ios-qemu-iphonex-run-3b103a",
+    "SpringBoard and backboardd started once without crashing; the GUI checks need a live run."
+   ]
+  },
+  {
+   "case": "sigint",
+   "exit": 130,
+   "signals": [
+    [
+     41.2,
+     "SIGINT"
+    ]
+   ],
+   "seconds_after_first_signal": 0.2,
+   "total_seconds": 41.4,
+   "status": "interrupted",
+   "shutdown": "qmp-quit",
+   "shutdown_steps": [
+    {
+     "outcome": "exited",
+     "seconds": 0.21,
+     "step": "qmp-quit"
+    },
+    {
+     "outcome": "exited 0",
+     "seconds": 0.0,
+     "step": "launcher-exit"
+    }
+   ],
+   "milestones": [
+    "kernel",
+    "root",
+    "launchd",
+    "backboardd",
+    "springboard"
+   ],
+   "qemu_left": [],
+   "disk_after_hashed": false,
+   "run": "20261112T101041-ios-qemu-iphonex-run-4985f4",
+   "tail": [
+    "Verifying the source disk image...",
+    "Stopping QEMU (bounded, at most about 40 s)...",
+    "nexus: interrupted; experiment logs preserved."
+   ]
+  },
+  {
+   "case": "sigterm",
+   "exit": 130,
+   "signals": [
+    [
+     40.8,
+     "SIGTERM"
+    ]
+   ],
+   "seconds_after_first_signal": 0.2,
+   "total_seconds": 41.0,
+   "status": "interrupted",
+   "shutdown": "qmp-quit",
+   "shutdown_steps": [
+    {
+     "outcome": "exited",
+     "seconds": 0.21,
+     "step": "qmp-quit"
+    },
+    {
+     "outcome": "exited 0",
+     "seconds": 0.0,
+     "step": "launcher-exit"
+    }
+   ],
+   "milestones": [
+    "kernel",
+    "root",
+    "launchd",
+    "backboardd",
+    "springboard"
+   ],
+   "qemu_left": [],
+   "disk_after_hashed": false,
+   "run": "20261112T101122-ios-qemu-iphonex-run-a2491c",
+   "tail": [
+    "Verifying the source disk image...",
+    "Stopping QEMU (bounded, at most about 40 s)...",
+    "nexus: interrupted; experiment logs preserved."
+   ]
+  },
+  {
+   "case": "double-sigint",
+   "exit": 130,
+   "signals": [
+    [
+     40.9,
+     "SIGINT"
+    ]
+   ],
+   "seconds_after_first_signal": 0.0,
+   "total_seconds": 41.1,
+   "status": "interrupted",
+   "shutdown": "qmp-quit",
+   "shutdown_steps": [
+    {
+     "outcome": "exited",
+     "seconds": 0.11,
+     "step": "qmp-quit"
+    },
+    {
+     "outcome": "exited 0",
+     "seconds": 0.0,
+     "step": "launcher-exit"
+    }
+   ],
+   "milestones": [
+    "kernel",
+    "root",
+    "launchd",
+    "backboardd",
+    "springboard"
+   ],
+   "qemu_left": [],
+   "disk_after_hashed": false,
+   "run": "20261112T101203-ios-qemu-iphonex-run-4944a6",
+   "tail": [
+    "Verifying the source disk image...",
+    "Stopping QEMU (bounded, at most about 40 s)...",
+    "nexus: interrupted; experiment logs preserved."
+   ]
+  },
+  {
+   "case": "wedged-timeout (from result.json)",
+   "run": "20261112T101558-ios-qemu-iphonex-run-f903ab",
+   "status": "timed-out",
+   "diagnosis": "SpringBoard and backboardd started once without crashing; the GUI checks need a live run.",
+   "shutdown": "qmp-quit+qemu-signal+launcher-exit",
+   "shutdown_steps": [
+    {
+     "outcome": "error: [Errno 61] Connection refused",
+     "seconds": 0.0,
+     "step": "qmp-quit"
+    },
+    {
+     "outcome": "gone",
+     "seconds": 3.3,
+     "step": "qemu-signal"
+    },
+    {
+     "outcome": "exited 1",
+     "seconds": 0.0,
+     "step": "launcher-exit"
+    }
+   ],
+   "monitor_errors": [
+    "4.6s: QMP response deadline exceeded",
+    "15.1s: QMP response deadline exceeded",
+    "25.6s: [Errno 61] Connection refused",
+    "...",
+    "74.0s: [Errno 61] Connection refused",
+    "final screen: [Errno 61] Connection refused"
+   ]
+  },
+  {
+   "case": "wedged-timeout (from result.json)",
+   "run": "20261112T101815-ios-qemu-iphonex-run-27b716",
+   "status": "failed",
+   "diagnosis": "QEMU stopped answering QMP for 30 s (main loop wedged); see result.json monitor_errors and docs/ios-qemu.md.",
+   "shutdown": "qmp-quit+qemu-signal+launcher-exit",
+   "shutdown_steps": [
+    {
+     "outcome": "error: [Errno 61] Connection refused",
+     "seconds": 0.0,
+     "step": "qmp-quit"
+    },
+    {
+     "outcome": "gone",
+     "seconds": 3.11,
+     "step": "qemu-signal"
+    },
+    {
+     "outcome": "exited 1",
+     "seconds": 0.0,
+     "step": "launcher-exit"
+    }
+   ],
+   "monitor_errors": [
+    "4.6s: QMP response deadline exceeded",
+    "15.1s: QMP response deadline exceeded",
+    "25.6s: [Errno 61] Connection refused",
+    "...",
+    "35.7s: [Errno 61] Connection refused",
+    "final screen: [Errno 61] Connection refused"
+   ]
+  }
+ ]
+}

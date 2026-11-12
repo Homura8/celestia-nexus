@@ -1,0 +1,243 @@
+[    0.001147]:  vm_cache_geometry_colors: 64
+[    0.001155]: do_cacheid() - 327680 bytes Unknown cache (I:196608 D:131072 (separate)), 12-way assoc, 128 bytes/line
+[    0.004746]: kprintf initialized
+[    0.004803]: Serial mode specified: 00000003
+[    0.004988]: initialize_screen: b=9C000000, w=00000465, h=00000984, r=00001194, d=00000000
+[    0.005026]: pe_arm_init_interrupts: args: 0xfffffe0007b92730
+[    0.005058]: pe_arm_map_interrupt_controller: soc_phys:  0x1000000
+[    0.005116]: pe_arm_map_interrupt_controller: failed to find the interrupt-controller.
+[    0.005148]: pe_arm_init_debug: failed to find cpu-debug-interface
+[    0.005180]: SWEET GIC: virtual timer INTID 27
+[    0.005373]: Darwin Kernel Version 22.6.0: Mon Aug 14 05:06:07 UTC 2023; runner:xnu-8796.141.3
+[    0.009020]: pmap_startup() init/release time: 3125 microsec
+[    0.009053]: pmap_startup() delayed init/release of 0 pages
+[    0.009115]: vm_page_bootstrap: 255371 free pages, 3381 wired pages, (up to 0 of which are delayed free)
+[    0.013471]: VM boostrap: 97 maps, 204 entries and 512 holes available
+[    0.013517]: Maximum number of VM swap files: 100
+[    0.013657]: ipc_kernel_map          : 0xfffffe10007bc000 - 0xfffffe10047bc000 (64M)
+[    0.013713]: gIOKitPageableFixed3    : 0xfffffe10047bc000 - 0xfffffe100a7bc000 (96M)
+[    0.013768]: mb                      : 0xfffffe100a7bc000 - 0xfffffe100e7bc000 (64M)
+[    0.013823]: gIOKitPageableFixed1    : 0xfffffe100e7bc000 - 0xfffffe10147bc000 (96M)
+[    0.013878]: gIOKitPageableFixed0    : 0xfffffe10147bc000 - 0xfffffe101a7bc000 (96M)
+[    0.013933]: zone_meta               : 0xfffffe101a7bc000 - 0xfffffe102339c000 (139M)
+[    0.013988]: kmem_sprayqtn_range     : 0xfffffe102339c000 - 0xfffffe10a0698000 (2002M)
+[    0.014043]: bufferhdr               : 0xfffffe10a0698000 - 0xfffffe10a0958000 (2816K)
+[    0.014097]: bsd_pageable            : 0xfffffe10a0958000 - 0xfffffe10a4c60000 (67M)
+[    0.014128]: kmem_ptr_range_meta     : 0xfffffe10a4c60000 - 0xfffffe10a53e4000 (7M)
+[    0.014159]: ipc_kernel_copy_map     : 0xfffffe10a53e4000 - 0xfffffe10a5be4000 (8M)
+[    0.014215]: zones                   : 0xfffffe10a5be4000 - 0xfffffe30a5be4000 (128G)
+[    0.014270]: gIOKitPageableFixed2    : 0xfffffe30a5be4000 - 0xfffffe30abbe4000 (96M)
+[    0.014325]: compressor              : 0xfffffe30abbe4000 - 0xfffffe4077240000 (63G)
+[    0.014382]: kmem_ptr_range          : 0xfffffe4077240000 - 0xfffffe5478240000 (80G)
+[    0.014415]: io_submap               : 0xfffffe5478240000 - 0xfffffe5478a40000 (8M)
+[    0.014470]: kmem_data_range         : 0xfffffe5478a40000 - 0xfffffe8fffdfc000 (238G)
+[    0.014534]: kmem_large_ranges[1]    : 0 - 0 (0B)
+[    0.014562]: kmem_large_ranges[2]    : 0 - 0 (0B)
+[    0.014590]: kmem_large_ranges[3]    : 0 - 0 (0B)
+[    0.014645]: kmem_large_ranges[4]    : 0xfffffe1032dfb800 - 0xfffffe10a0698000 (1752M)
+[    0.014700]: kmem_large_ranges[5]    : 0xfffffe5be98b7800 - 0xfffffe8fffdfc000 (208G)
+[    0.014730]: "vm_compressor_mode" is 4
+[    0.014791]: zone_init: pgzalloc  0xfffffe10a5be4000:0xfffffe10a7b30000 (31M) [1001 slots]
+[    0.014826]: zone_init: map VM    0xfffffe10a7b30000:0xfffffe1574348000 (19G)
+[    0.014859]: zone_init: map RO    0xfffffe1574348000:0xfffffe170db50000 (6G)
+[    0.014891]: zone_init: map GEN0  0xfffffe170db50000:0xfffffe1bda368000 (19G)
+[    0.014922]: zone_init: map GEN1  0xfffffe1bda368000:0xfffffe20a6b84000 (19G)
+[    0.014954]: zone_init: map GEN2  0xfffffe20a6b84000:0xfffffe25733a0000 (19G)
+[    0.014986]: zone_init: map GEN3  0xfffffe25733a0000:0xfffffe2a3fbbc000 (19G)
+[    0.015018]: zone_init: map DATA  0xfffffe2a3fbbc000:0xfffffe30a5be4000 (25G)
+[    0.015049]: zone_init: metadata  0xfffffe101a7cc000:0xfffffe10227cc000 (128M)
+[    0.015079]: zone_init: metabits  0xfffffe10227cc000:0xfffffe102338c000 (11M)
+[    0.015106]: zone_init: extra     0:0 (0B)
+[    0.015272]: VM bootstrap done: 85 maps, 165 entries and 501 holes left
+[    0.020924]: IOKit IOMD setownership ENABLED
+[    0.020953]: ATM subsystem is initialized
+[    0.021608]: Firehose configured: 16 chunks, 8 io pages
+[    0.021639]: OSLog stream configured: stream: 8192 bytes, cache: 2112 bytes
+[    0.021666]: OSLog stream verification: 0
+[    0.021920]: Log queues configured: slot count: 32, per-slot size: 32768, total size: 1048576
+[    0.021955]: Long logs support configured: size: 16384
+[    0.021988]: Telemetry: Sampling all tasks once per 1 second
+[    0.022029]: Scheduler: Default of clutch
+[    0.022058]: Setting scheduler priority decay band limit 18
+[    0.022087]: standard timeslicing quantum is 10000 us
+[    0.022115]: standard background quantum is 2500 us
+[    0.022248]: mig_table_max_displ = 54 mach_kobj_count = 374
+[    0.022420]: BANK subsystem is initialized
+[    0.022450]: IPC_PTHREAD_PRIORITY subsystem is initialized
+[    0.024044]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.024078]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.024112]: kdp_core zlib memory 0x8000
+[    0.024156]: Registered coredump handler for kernel
+[    0.024220]: Serial requested, consistent debug disabled or debug boot arg not present, configuring debugging over serial
+[    0.024246]: Initializing serial KDP
+[    0.024490]: iBoot version: sweet-shim
+[    0.026260]: "name" not a kext
+[    0.026294]: "AAPL,phandle" not a kext
+[    0.026350]: ulock_initialize>thread_max=10240, ull_hash_buckets=4096
+[    0.026462]: SWEET PRNG: HMAC-SHA256 registered
+[    0.026496]: SWEET pthread: libpthread-514.100.2 registered
+[    0.026985]: SWEET AMFI: built-in interface registered (XML entitlements)
+[    0.027180]: calling mpo_policy_init for vnguard
+[    0.027214]: Security policy loaded: Guarded vnode policy (vnguard)
+[    0.027252]: SWEET: trust caches unavailable (Image4/AMFI not installed)
+[    0.027296]: keepsyms boot arg specified; keeping linkedit segment for symbols.
+[    0.027355]: No POST boot-arg set.
+[    0.027790]: SWEET: starting device-tree platform expert
+[    0.027840]: SWEET RTC: PL031 at 0x9010000: ok, 1794476237 s
+[    0.028268]: PMRD: PMTraceWorker 0xe537b827f15b7bff
+[    0.028437]: PMRD: changePowerStateWithTagToPriv(ON_STATE, 10001)
+[    0.028858]: SWEET: platform expert registered
+[    0.028961]: SWEET AKS: AppleKeyStore registered (no passcode, unlocked)
+[    0.029004]: SWEET WDT: IOWatchdog registered (accepts check-ins, never fires)
+[    0.029045]: SWEET NETSTACK: IONetworkStack registered (no interfaces to name)
+[    0.029086]: SWEET SURF: IOCoreSurfaceRoot registered
+[    0.029132]: SWEET HID: buttons registered (test every 0 s)
+[    0.029283]: SWEET HID: touch registered
+[    0.029325]: SWEET HID: keyboard registered
+[    0.029396]: notify clients '3758244096'
+[    0.029397]: SWEET BATTERY: static fallback, 100% 4200mV external=1 charging=0
+[    0.029520]: PMRD: power event 7 args 0xe537b8318a35503f 0x0
+[    0.029522]: PMRD: power event 7 args 0xe537b8318a35675f 0x0
+[    0.029594]: [0]ml_processor_register>pset_find(cluster_id=0) returned pset 0
+[    0.029657]: [0]ml_processor_register>cpu_id 0xfffffe20a6c064e0 cluster_id 0 cpu_number 0 is type 0
+[    0.029719]: [0]ml_processor_register>pset_find(cluster_id=0) returned pset 0
+[    0.029783]: [0]ml_processor_register>cpu_id 0xfffffe20a6c06b00 cluster_id 0 cpu_number 1 is type 0
+[    0.029837]: [0]ml_processor_register>pset_find(cluster_id=0) returned pset 0
+[    0.029897]: [0]ml_processor_register>cpu_id 0xfffffe20a6c06f60 cluster_id 0 cpu_number 2 is type 0
+[    0.029951]: [0]ml_processor_register>pset_find(cluster_id=0) returned pset 0
+[    0.030014]: [0]ml_processor_register>cpu_id 0xfffffe20a6c05d00 cluster_id 0 cpu_number 3 is type 0
+[    0.030765]: SWEET FB: AppleCLCD 1125x2436 stride 4500 at 0x9c000000, default surface 1, presented as 1125x2436
+[    0.030928]: PMRD: PowerChangeOverride (OFF_STATE->ON_STATE, f, 0x2) tag 0x20064
+[    0.030935]: PMRD: sysPowerDownHandler message kIOMessageSystemCapabilityChange
+[    0.030936]: PMRD: sysPowerDownHandler cap f -> f (flags 1)
+[    0.030960]: SWEET CPU: PSCI conduit hvc
+[    0.030988]: SWEET CPU: requested=4 selected=4 (limit=8)
+[    0.031046]: cpu_start() cpu: 0
+[    0.031188]: SWEET CPU: cpu=0 entered initCPU mpidr=0x0 EL1 IRQs=1
+[    0.031190]: SWEET CPU: cpu=0 mpidr=0x0 came alive; SGI1 OK
+[    0.031254]: cpu_start() cpu: 1
+[    0.031299]: SWEET CPU: cpu=1 CPU_ON target=0x1 entry_pa=0x101492000 context=1
+[    0.031376]: SWEET CPU: cpu=1 PSCI CPU_ON rc=0
+[    0.031427]: PMRD: sysPowerDownHandler message kIOMessageSystemCapabilityChange
+[    0.031428]: PMRD: sysPowerDownHandler cap f -> f (flags 2)
+[    0.031429]: PMRD: tellChangeUp OFF_STATE->ON_STATE
+[    0.031431]: PMRD: PowerChangeDone: OFF_STATE->ON_STATE
+[    0.031432]: PMRD: Force re-evaluating aggressiveness
+[    0.031432]: PMRD: changePowerStateWithTagToPriv(ON_STATE, 30002)
+[    0.031435]: PMRD: PowerChangeOverride (ON_STATE->ON_STATE, f, 0x2) tag 0x10001
+[    0.031439]: PMRD: PowerChangeDone: ON_STATE->ON_STATE
+[    0.031440]: PMRD: PowerChangeOverride (ON_STATE->ON_STATE, f, 0x302) tag 0x40064
+[    0.031444]: PMRD: PowerChangeDone: ON_STATE->ON_STATE
+[    0.031446]: PMRD: PowerChangeOverride (ON_STATE->ON_STATE, f, 0x302) tag 0x50064
+[    0.031448]: PMRD: PowerChangeDone: ON_STATE->ON_STATE
+[    0.031449]: PMRD: adjustPowerState ON_STATE, asap 0, idleSleepEnabled 0
+[    0.031450]: PMRD: changePowerStateWithTagToPriv(ON_STATE, 60008)
+[    0.031452]: PMRD: PowerChangeOverride (ON_STATE->ON_STATE, f, 0x2) tag 0x30002
+[    0.031453]: PMRD: PowerChangeDone: ON_STATE->ON_STATE
+[    0.031454]: PMRD: PowerChangeOverride (ON_STATE->ON_STATE, f, 0x2) tag 0x60008
+[    0.031455]: PMRD: PowerChangeDone: ON_STATE->ON_STATE
+[    0.031509]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.031539]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.031568]: arm_cpu_init(): cpu 1 online
+[    0.031609]: SWEET CPU: cpu=1 entered initCPU mpidr=0x1 EL1 IRQs=0
+[    0.032762]: SWEET CPU: cpu=1 mpidr=0x1 came alive; SGI1 OK
+[    0.032910]: cpu_start() cpu: 2
+[    0.032915]: SWEET CPU: cpu=2 CPU_ON target=0x2 entry_pa=0x101492000 context=2
+[    0.032978]: SWEET CPU: cpu=2 PSCI CPU_ON rc=0
+[    0.033094]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.033126]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.033158]: arm_cpu_init(): cpu 2 online
+[    0.033192]: SWEET CPU: cpu=2 entered initCPU mpidr=0x2 EL1 IRQs=0
+[    0.034369]: SWEET CPU: cpu=2 mpidr=0x2 came alive; SGI1 OK
+[    0.034453]: cpu_start() cpu: 3
+[    0.034457]: SWEET CPU: cpu=3 CPU_ON target=0x3 entry_pa=0x101492000 context=3
+[    0.034505]: SWEET CPU: cpu=3 PSCI CPU_ON rc=0
+[    0.034609]: panic_trace: PE_arm_debug_enable_trace enter
+[    0.034642]: panic_trace: PE_arm_debug_enable_trace exit
+[    0.034673]: arm_cpu_init(): cpu 3 online
+[    0.034710]: SWEET CPU: cpu=3 entered initCPU mpidr=0x3 EL1 IRQs=0
+[    0.035928]: SWEET CPU: cpu=3 mpidr=0x3 came alive; SGI1 OK
+[    0.036003]: SWEET CPU: 4/4 CPUs initialized, SGI1 verified
+[    0.036027]: Copyright (c) 1982, 1986, 1989, 1991, 1993
+The Regents of the University of California. All rights reserved.
+[    0.036034]: MAC Framework successfully initialized
+[    0.036773]: using 5127 buffer headers and 4611 cluster IO buffer headers
+[    0.036824]: clock_initialize_calendar system does not have monotonic clock
+[    0.037224]: ktriage_register_subsystem_strings: set subsystem 8 strings
+[    0.037314]: calling mpo_policy_init for AMFI
+[    0.037349]: Security policy loaded: SWEET built-in Mobile File Integrity (AMFI)
+[    0.037378]: SWEET AMFI: platform binary policy registered (0)
+[    0.037406]: calling mpo_policy_init for Sandbox
+[    0.037441]: Security policy loaded: SWEET permissive sandbox stand-in (Sandbox)
+[    0.037472]: SWEET Sandbox: permissive policy registered (0)
+[    0.037688]: SWEET HFS: hfs-627.100.6 registered
+[    0.037951]: mcache: 4 CPU(s), 128 bytes CPU cache line size
+[    0.038225]: mbinit: done [64 MB total pool size, (42/21) split]
+[    0.038459]: SK: netagent is enabled by default for this platform
+[    0.038634]: DLIL: running SUM16 self-tests ... PASSED
+[    0.038928]: dlil_init: Waiting for all the create dlil kernel threads to get scheduled at least once.
+[    0.039047]: dlil_init: All the created dlil kernel threads have been scheduled at least once. Proceeding.
+[    0.039541]: SK[0]: skmem_region_init              seg_size 16384, md_seg_size 16384, drv_buf_seg_size 65536 [eff 65536], usr_buf_seg_size 16384
+[    0.040487]: Skywalk: running self-tests
+[    0.040494]: Skywalk: sk_copy64_8 ... PASSED
+[    0.040523]: Skywalk: sk_copy32_8 ... PASSED
+[    0.040552]: Skywalk: sk_copy64_16 ... PASSED
+[    0.040582]: Skywalk: sk_copy32_16 ... PASSED
+[    0.040611]: Skywalk: sk_copy64_20 ... PASSED
+[    0.040639]: Skywalk: sk_copy64_24 ... PASSED
+[    0.040668]: Skywalk: sk_copy64_32 ... PASSED
+[    0.040698]: Skywalk: sk_copy32_32 ... PASSED
+[    0.040726]: Skywalk: sk_copy64_40 ... PASSED
+[    0.040756]: Skywalk: sk_copy64_64x ... PASSED
+[    0.040785]: Skywalk: sk_copy64_32x ... PASSED
+[    0.040815]: Skywalk: sk_copy64_8x ... PASSED
+[    0.040847]: Skywalk: sk_copy64_4x ... PASSED
+[    0.040876]: Skywalk: sk_zero_16 ... PASSED
+[    0.040905]: Skywalk: sk_zero_32 ... PASSED
+[    0.040933]: Skywalk: sk_zero_48 ... PASSED
+[    0.040963]: Skywalk: sk_zero_128 ... PASSED
+[    0.041015]: Skywalk: memcmp mask ... PASSED
+[    0.041806]: bsd_autoconf: calling kminit
+[    0.043576]: ifnet_attach: All kernel threads created for interface lo0 have been scheduled at least once. Proceeding.
+[    0.043664]: ifnet_attach: Waiting for all kernel threads created for interface gif0 to get scheduled at least once.
+[    0.043725]: ifnet_attach: All kernel threads created for interface gif0 have been scheduled at least once. Proceeding.
+[    0.043918]: skip attaching fsw to lo0 using legacy TX modelReinit'd ND information for interface lo0
+[    0.044299]: ifnet_attach: Waiting for all kernel threads created for interface stf0 to get scheduled at least once.
+[    0.044360]: ifnet_attach: All kernel threads created for interface stf0 have been scheduled at least once. Proceeding.
+[    0.044735]: SWEET UFS: command 0x00 failed: ocs 0x0 upiu 0x21 response 0x1 status 0x2
+[    0.045208]: SWEET UFS: "userdata" on LUN 0: first block 0x100, 16392 MiB, read-write, DMA at 0x1048d4000
+[    0.045278]: SWEET KEYS: unsupported arbiter version=0 apids=0
+[    0.045281]: SWEET TOUCH: disabled (sweettouch=0)
+[    0.045292]: SWEET USB: GDSC usb30_prim 0x00000000 (off)
+[    0.045293]: SWEET USB: clk master       CBCR 0x00000000 (on)
+[    0.045294]: SWEET USB: clk sleep        CBCR 0x00000000 (on)
+[    0.045295]: SWEET USB: clk utmi         CBCR 0x00000000 (on)
+[    0.045298]: SWEET USB: clk cfg-noc-axi  CBCR 0x00000000 (on)
+[    0.045301]: SWEET USB: clk aggre-axi    CBCR 0x00000000 (on)
+[    0.045304]: SWEET USB: clk ahb2phy      CBCR 0x00000000 (on)
+[    0.045307]: SWEET USB: clk clkref       CBCR 0x00000000 (on)
+[    0.045307]: SWEET USB: controller unpowered or unclocked; DWC3 not read
+[    0.045343]: BSD root: ufsroot0, major 1, minor 0
+[    0.045672]: SWEET VINPUT: slot 30 input device -> 0
+[    0.045773]: SWEET LOG: console log to the last 4100 KiB of the partition (block 0x4004ff)
+[    0.046103]: tcp listen: [0.0.0.0:62079<->0.0.0.0:0] interface:  (skipped: 0)
+so_gencnt: 0 t_state: LISTEN process: kernel_task:0 so_qlimit: 0 error: 0 so_error: 0 svc/tc: 0SWEET MUX: listening on TCP 62079
+[    0.046257]: ifnet_attach: All kernel threads created for interface en0 have been scheduled at least once. Proceeding.
+[    0.046289]: SWEET VNET: slot 29 -> 0, en0 52:54:00:12:34:56
+[    0.046336]: SWEET NETSTACK: published IONetworkInterface en0
+[    0.046390]: SWEET VINPUT: slot 31 input device -> 0
+[    0.053718]: hfs: iOSRoot: hfs_recording_init: creating the hotfile btree
+[    0.054559]: hfs: created HFBT on iOSRoot
+[    0.132626]: hfs: hfc_btree_open: BTOpenPath error -32730; filesize 16384
+[    0.132664]: hfs: mounted iOSRoot on device b(1, 0)
+[    0.132758]: SWEET: root volume is not authenticated (error 25); continuing unsealed
+[    0.133243]: Serial keyboard started
+[    0.133280]: No POST boot-arg set.
+[    0.133283]: vm_free_delayed_pages: initialized 0 free pages
+[    0.133350]: load_init_program: attempting to load /usr/appleinternal/sbin/launchd.development
+[    0.133414]: VM Swap Subsystem is ON
+[    0.133666]: load_init_program: attempting to load /sbin/launchd
+[    0.136467]: exec launchd
+[    0.141661]: shared_region: 0xe537b83b233a2a8f [1(launchd)] check_np(0x16f6ffbc0) vm_shared_region_start_address() failed
+[    0.142669]: SWEET Sandbox: launchd op 2
+[    0.145935]: shared_region: 0xe537b83b233a2a8f [1(launchd)] check_np(0x16f6ff150) vm_shared_region_start_address() failed

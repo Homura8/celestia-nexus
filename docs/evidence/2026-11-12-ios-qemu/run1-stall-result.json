@@ -1,0 +1,182 @@
+{
+  "build_record": {
+    "artifacts": {
+      "kernel": {
+        "bytes": 17284784,
+        "path": "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/kernel",
+        "sha256": "70d1ed6a8a3672ab04dbb8e369306866a34504ac2e5c23b9011c7aa9a3cd94a0"
+      }
+    },
+    "implementation": {
+      "files": {
+        "guest/probe.c": "e4403478bfca3e676a090401800e07d2baafe96951ce5ab005fc0744fbf835a0",
+        "nexus": "63c2aabd58f6d66a4d63414b512339b11bf93b99eab673570353a8c7e1f688be",
+        "nexuslib/__init__.py": "22faafb669bf3d3620550c5f7ef674a6940244d51b3533464bc8856447f87aae",
+        "nexuslib/cli.py": "8377dfd357f2f6bf5650dc2ddb05832ad0fb37afaa3c940d5de734a20dfb2686",
+        "nexuslib/core.py": "518856df3cca11eb59eff7d6b07b95a2771285a41c1ca27501316cf0bdca5763",
+        "nexuslib/formats.py": "c5bfa97242c6bfa6407762f5f3282a389fa5bd9bc1438f9ec5528ffa348c6480",
+        "nexuslib/hakios.py": "dcad670a2444a009b352dd43aedf87ccba2ad4b0ea3188bcda89a7efa3b4f75f",
+        "nexuslib/host.py": "f8206751e6a35e78df7e94ef3193a75e6a68153a397fc76e7b985ccff3242b13",
+        "nexuslib/iosqemu.py": "dd00a4b9d2bc4a0fee93e265e94b713f919517e9ce2c82888887341ffc41fb60",
+        "nexuslib/ipsw.py": "565e989f0eeb2b8592923661293d5884b75fafed505849238a2fe552c6ab14fc",
+        "nexuslib/qemu.py": "f547e1af5bfcdcbbc2a47606f7c56ceecb34374b70db606d1dae5857483a0668",
+        "upstreams.lock.toml": "4000d46eacedcb6a66b1d4ff47622ea66d74d8177462803c1f59f5f65ead3b0a"
+      },
+      "sha256": "5dddcd2849f8375842855f076ab77e63db0dc12bc3e1a83cbaa0ac875276699e"
+    },
+    "inputs": {
+      "target_configuration": {
+        "architecture": "aarch64",
+        "description": "ios-qemu: stock iPhone X iOS 16.7.16 userland on patched open XNU (HVF, user-supplied IPSW)",
+        "id": "ios-qemu-iphonex",
+        "ipsw": {
+          "board": "d22ap",
+          "build": "20H392",
+          "device_tree_sha256": "9e670987c80493bd69aba7be62e3179c04663324d9249b0973675baac175dbf1",
+          "disk_size": "16g",
+          "file": "iPhone10,3,iPhone10,6_16.7.16_20H392_Restore.ipsw",
+          "product_type": "iPhone10,3",
+          "product_version": "16.7.16",
+          "sha256": "ece1194f7e233e9109c5790a8d23a4564a10a254e15ec5b09978a343265568fb"
+        },
+        "kernel": {
+          "artifact": "xnu-kernel",
+          "artifact_sha256": "1ffbbd5f535925a9c64ec35f6d994fd7cb5882dd141da335ff8c12afca51af16",
+          "expires": "2027-01-23",
+          "member": "kernel.development.sweet",
+          "repository": "lgrachov/ios-qemu",
+          "run_commit": "8f9a6d97b0146b5d8da16d257593145dbf6ad0d5",
+          "run_id": 40196425620,
+          "sha256": "70d1ed6a8a3672ab04dbb8e369306866a34504ac2e5c23b9011c7aa9a3cd94a0"
+        },
+        "qemu": {
+          "accel": "hvf",
+          "cpus": 4
+        },
+        "recipe": "ios-qemu",
+        "schema": 1,
+        "source": "ios-qemu",
+        "source_check": {
+          "patches_tree": "44ade5b6962a817e85798ac792d0b328e0d14ca2",
+          "workflow_blob": "b5addb4f9086f0d38ec739bd0aa7df3233326c36"
+        }
+      }
+    },
+    "kernel_origin": "upstream-ci-artifact",
+    "kernel_pin_matches": true,
+    "kernel_provenance": {
+      "repository": "lgrachov/ios-qemu",
+      "run_commit": "8f9a6d97b0146b5d8da16d257593145dbf6ad0d5",
+      "run_id": 40196425620
+    },
+    "kernel_source_correspondence": "GitHub-reported CI build of the pinned patch series; not rebuilt here",
+    "schema": 1,
+    "source": {
+      "commit": "8d23f48c683250c728a5c820482b450646453c02",
+      "id": "ios-qemu",
+      "license": "MIT tools; APSL-2.0 XNU derivatives",
+      "role": "Researched iOS 16.7.16 GUI path; not yet integrated",
+      "url": "https://github.com/lgrachov/ios-qemu.git"
+    },
+    "status": "built-not-boot-tested",
+    "target": "ios-qemu-iphonex",
+    "tools": {
+      "adt.py": {
+        "bytes": 4185,
+        "path": "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/upstream/tools/adt.py",
+        "sha256": "ebb7a858835fc7acf5da1e543a05b9561e70c6fd4f9328f4d52c009465573bdd"
+      },
+      "mkadt.py": {
+        "bytes": 15561,
+        "path": "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/upstream/tools/mkadt.py",
+        "sha256": "70b7c73c55ecd3db0c31e2dbec8272eff37060bf9420eebc5f629216e89a4e49"
+      },
+      "mkpayload.py": {
+        "bytes": 9146,
+        "path": "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/upstream/tools/mkpayload.py",
+        "sha256": "b85e1b50cfa73102b0d2c04e133f8f63b5a7f1e85b9b0cf4fbfbb24d47782936"
+      },
+      "qemu-ramfb-stub.S": {
+        "bytes": 4252,
+        "path": "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/upstream/tools/qemu-ramfb-stub.S",
+        "sha256": "b4036f2daa2cddd6e60eccdb4acd4442cf1501855f8ae7c8dade845184415d37"
+      },
+      "qemu-sweet.py": {
+        "bytes": 25887,
+        "path": "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/upstream/tools/qemu-sweet.py",
+        "sha256": "fb89ca474b2917941aefc80bf92a5c3b6e2937f29e7870795d12833197b25323"
+      },
+      "qemu-touch.py": {
+        "bytes": 4814,
+        "path": "~/celestia-nexus/.nexus/experiments/20261112T092210-ios-qemu-iphonex-build-fef162/upstream/tools/qemu-touch.py",
+        "sha256": "21b7795bdfaa31fff2936b840579c2b535e18dcd6fb32e07cac06d06ecc93a34"
+      }
+    }
+  },
+  "device_tree": {
+    "bytes": 186084,
+    "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/d22ap.adt",
+    "sha256": "9e670987c80493bd69aba7be62e3179c04663324d9249b0973675baac175dbf1"
+  },
+  "disk_after": {
+    "bytes": 17189326848,
+    "path": "~/celestia-nexus/.nexus/experiments/20261112T093706-ios-qemu-iphonex-run-b0a709/disk.img",
+    "sha256": "1bfde5432e9ef34d273aacb37573d75783e7b60ea504380de7014a947917491c"
+  },
+  "disk_source": {
+    "device_tree": {
+      "bytes": 186084,
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/d22ap.adt",
+      "sha256": "9e670987c80493bd69aba7be62e3179c04663324d9249b0973675baac175dbf1"
+    },
+    "disk": {
+      "bytes": 17189326848,
+      "path": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/disk/disk.img",
+      "sha256": "f40b806175d9a974c1b290d366cb074cf479b9bb7014efb0d25909076068ef58"
+    },
+    "origin": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/disk.json"
+  },
+  "duration_seconds": 970.548,
+  "evidence": {
+    "crash_counts": {},
+    "diagnosis": "No kernel banner: check launcher.log, qemu.log and that HVF is usable.",
+    "exec_counts": {},
+    "gui_crashes": {},
+    "gui_restarts": {},
+    "log_complete": false,
+    "milestones": [],
+    "panic": null
+  },
+  "expected_token": "66010b84d632e5472fa7ef37982ce703",
+  "implementation": {
+    "files": {
+      "guest/probe.c": "e4403478bfca3e676a090401800e07d2baafe96951ce5ab005fc0744fbf835a0",
+      "nexus": "63c2aabd58f6d66a4d63414b512339b11bf93b99eab673570353a8c7e1f688be",
+      "nexuslib/__init__.py": "22faafb669bf3d3620550c5f7ef674a6940244d51b3533464bc8856447f87aae",
+      "nexuslib/cli.py": "8377dfd357f2f6bf5650dc2ddb05832ad0fb37afaa3c940d5de734a20dfb2686",
+      "nexuslib/core.py": "518856df3cca11eb59eff7d6b07b95a2771285a41c1ca27501316cf0bdca5763",
+      "nexuslib/formats.py": "ba7a084c7d9aa33b9cda6d7ccb8ac9291efa4cf6b35c9633c12c9d49dfd16e9c",
+      "nexuslib/hakios.py": "dcad670a2444a009b352dd43aedf87ccba2ad4b0ea3188bcda89a7efa3b4f75f",
+      "nexuslib/host.py": "f8206751e6a35e78df7e94ef3193a75e6a68153a397fc76e7b985ccff3242b13",
+      "nexuslib/iosqemu.py": "05a998a2eba38c18885d343be365f95c8883cff912eebc93be364bc71092c148",
+      "nexuslib/ipsw.py": "565e989f0eeb2b8592923661293d5884b75fafed505849238a2fe552c6ab14fc",
+      "nexuslib/qemu.py": "f547e1af5bfcdcbbc2a47606f7c56ceecb34374b70db606d1dae5857483a0668",
+      "upstreams.lock.toml": "4000d46eacedcb6a66b1d4ff47622ea66d74d8177462803c1f59f5f65ead3b0a"
+    },
+    "sha256": "db7347028c39163cc64c2c7dbb784f802b34e69a29b54aa624245d24c5c3c6f4"
+  },
+  "interaction": {},
+  "kernel_log": {
+    "bytes": 0,
+    "path": "~/celestia-nexus/.nexus/experiments/20261112T093706-ios-qemu-iphonex-run-b0a709/kernel.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "milestone_seconds": {},
+  "milestones": [],
+  "schema": 1,
+  "scope": "ios-userland-gui-interaction",
+  "screens": {},
+  "shutdown": "launcher-killed+qemu-killed",
+  "status": "timed-out",
+  "target": "ios-qemu-iphonex"
+}
