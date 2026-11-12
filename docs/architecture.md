@@ -26,11 +26,33 @@ and QMP/lifecycle handling; `formats.py` implements the binary interfaces actual
 used. These are **not** claims of a universal boot protocol. When a second real
 boot path needs the runner, split out the shared process/QMP mechanics then.
 
+Known first-recipe assumptions outside `hakios.py`, to move when the second
+recipe arrives (instead of adding `if recipe == ...` branches):
+
+- `cli.py`: the `--loader`, `--kernel`, `--firmware`, `--vars` options and the
+  `prepare-kernel` command; `read_build` expects exactly the artifacts `kernel`,
+  `probe` and `loader.efi`. Let each recipe declare its options and validate its
+  own build record.
+- `qemu.py`: `run` hard-codes the XNUP payload at `0xF0000000`, the `cpus=1`
+  boot argument, the HakiOS loader banner in `STAGES` and the probe's `CHECKS`.
+  Keep QMP, process lifetime and log-size limits shared; pass the payload,
+  stages and acceptance checks in from the recipe.
+- Upstream pins come only from Nexus's own `upstreams.lock.toml`. An external
+  `--target` repository cannot yet pin additional sources of its own.
+
 The CLI registers reviewed modules explicitly. TOML cannot select a Python
 import, shell script, executable hook or destructive action. There is no plugin
 loader, class hierarchy, dependency resolver or separate agent runtime.
 
 ## 3. Reuse upstream implementations without absorbing their assumptions
+
+Nexus is the reproducible experiment and agent-handoff layer **above** porting
+projects, not another porting framework. HakiOS and UniXNU already maintain
+device/SoC layers, configuration systems, device registries and physical-phone
+workflows (see [research](research.md#7-existing-device-ports-and-phone-workflows)).
+A device port normally lives in, or next to, one of those upstreams; Nexus
+pins it, runs it with recorded inputs and strict acceptance checks, and keeps
+the handoff.
 
 Keep upstream trees out of Nexus Git history. Fetch exact commits locally,
 verify clean checkouts and artifact hashes, retain licences, and refer fixes
@@ -42,6 +64,10 @@ prelink/build machinery. Reimplementing these in Nexus before reproducing them
 would add maintenance with no evidence of benefit. A future UniXNU or ios-qemu
 recipe should retain its upstream's build boundary and translate inputs/results.
 The [research comparison](research.md) explains the alternatives.
+
+Upstreams can disappear: a pin records *what* to fetch, not a guarantee that it
+stays available. `NEXUS_MIRROR_<ID>` fetches the same locked commit from a
+mirror or local copy, and canonical lock URLs may use any public HTTPS Git host.
 
 Independently maintained ports can keep target TOML, patches and research in
 their own repository and use `--target /path/to/target.toml`. The existing recipe

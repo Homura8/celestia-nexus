@@ -1,23 +1,43 @@
 # Continuing a port or adding a target
 
-## Start from a specific request
+## 1. Look for an existing port
+
+Someone may already have started your device or its SoC. Check, in order:
+
+1. Nexus's own `./nexus list` and [status](status.md).
+2. UniXNU's device registry,
+   [`devices.toml`](https://github.com/UniXNU/UniXNU/blob/main/devices.toml): search
+   for the device's codename, marketing name and SoC (for example `SM8250`,
+   `MT6877`). Each record links the port's own repository, its SoC, its OS
+   profile and a short status.
+3. HakiOS's [`devices/manifest.conf`](https://github.com/oosexgang/hakios-xnu-kernel/blob/main/devices/manifest.conf)
+   and its README's repository table.
+
+A port of the **same SoC** is often the most valuable find, even for a different
+phone: interrupt controller, timers, clocks, storage and display controllers
+are SoC facts. Treat registry summaries as maintainer reports until you
+reproduce them, and record what you found (or that nothing exists) in the
+status/research record. See [research §7](research.md#7-existing-device-ports-and-phone-workflows)
+for what these projects already provide, including physical-phone workflows.
+
+## 2. Pin down the request
 
 For “Port iOS 16.7.16 to my [device]”, establish the exact device variant, SoC,
-OS build/product identity, host, available assets and bootloader state. Search
-the existing target list and research record before asking the owner for facts
-the repository or read-only tooling can already provide. A marketing name alone
+OS build/product identity, host, available assets and bootloader state. Use the
+existing ports found above and the research record before asking the owner for
+facts the repository or read-only tooling can already provide. A marketing name alone
 does not establish CPU features, page-size compatibility or a usable boot path.
 
 For an unknown device, first create a concise research/status record with source
 links and next experiment. This is progress, not a supported-target claim.
 Do not fabricate addresses, firmware requirements, an unlock procedure or drivers.
 
-## Establish a practical path
+## 3. Establish a practical path
 
 Compare the strongest available approaches:
 
 - An existing source-XNU port on generic hardware (HakiOS, ios-qemu).
-- UniXNU's UEFI/platform/OS build and driver components.
+- UniXNU's UEFI/platform/OS build and driver components, and its device ports.
 - A stock-kernel Apple-device emulator (darwin-vm, Inferno).
 
 Choose based on the requested OS, hardware and reproducible evidence. A device
@@ -31,7 +51,7 @@ proprietary inputs. Bring up the smallest observable end-to-end experiment;
 expand only after it passes. Keep native/emulated and reported/reproduced
 capabilities separate.
 
-## Extend the implementation only where needed
+## 4. Extend the implementation only where needed
 
 Existing compatible QEMU experiments can keep their TOML in an independent repo:
 
@@ -51,7 +71,7 @@ solve the problem. Keep common fixes upstream or as small attributed patches
 with their base revision and licence. An external repo does not have to move
 its device tree, firmware extractor or entire kernel into Nexus.
 
-## Preserve the handoff
+## 5. Preserve the handoff
 
 In the same PR, record:
 
@@ -62,4 +82,7 @@ In the same PR, record:
 
 Never commit an IPSW, SDK, device firmware, encryption key or account material.
 Do not issue device boot/flash/partition commands without the required explicit
-authorisation. Nexus currently has no physical-device execution interface.
+authorisation. Nexus currently has no physical-device execution interface. Until
+it does, use the upstream's own RAM-only workflow (HakiOS `xl`, UniXNU's staged
+`fastboot boot`), confirm the owner has a way back to stock firmware, and keep
+the exact commands, versions and logs as evidence.

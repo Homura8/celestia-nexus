@@ -126,6 +126,15 @@ then run the pinned harness's documented `--kernel … --ios …` path. A Nexus
 recipe should preserve logs and distinguish launchd/SpringBoard/usable-app
 evidence. It must not modify an original supplied disk silently.
 
+Linux/cloud note (source-inspected, **not reproduced**): `--ios` forces HVF
+([`harness.sh`](https://github.com/lgrachov/ios-qemu/blob/8d23f48c683250c728a5c820482b450646453c02/harness.sh#L52)), but the same kernel also boots under TCG,
+and the maintainer's notes compare TCG and HVF kernel timings
+([`NOTES.md`](https://github.com/lgrachov/ios-qemu/blob/8d23f48c683250c728a5c820482b450646453c02/NOTES.md#L214)). A Linux root-disk builder using `apfs-fuse`
+also exists ([`tools/mkiosroot.sh`](https://github.com/lgrachov/ios-qemu/blob/8d23f48c683250c728a5c820482b450646453c02/tools/mkiosroot.sh)). So whether iOS
+16.7.16 userland reaches SpringBoard on Linux TCG (or Linux/arm64 KVM) is an
+open, cheap-to-try question for cloud agents: expect it to be much slower, and
+the kernel still has to be built on macOS (Xcode `iig` requirement above).
+
 ## 4. UniXNU and independent QEMU ports
 
 Reviewed common tree:
@@ -238,3 +247,45 @@ UEFI stall. See the portable-validation and CI evidence added alongside the fix.
 Future updates should change the lock, inspect changed implementation/licences,
 run the affected real experiments and update status with evidence. A newer
 README, screenshot, release label or success-shaped log is not enough.
+
+## 7. Existing device ports and phone workflows
+
+Added by the PR #1 review, 12 November 2026. Before starting any device port,
+check whether one already exists. Both projects below are full porting
+frameworks; Nexus should orchestrate and record them, not duplicate them.
+
+**UniXNU device registry** ([`devices.toml`](https://github.com/UniXNU/UniXNU/blob/2bbb39dcee0cada3b04e41f0256d678e80667c5b/devices.toml), inspected at
+`2bbb39d`, later the same day as the lock pin): 355 community device records.
+142 are marked `available`, 39 `invalid`, 17 `missing` and the rest carry no
+state. Most are Qualcomm Snapdragon (SM8550 alone has 83), with 13
+MediaTek records (MT67xx/MT68xx/MT69xx, MT8167) and a few Exynos, Tensor,
+Unisoc and RK3588 entries. Eleven records use an `ios-16.7.16-20H392` OS
+profile; their summaries show varied maturity (for example "Darwin 22 ABI and
+firmware pending"), and a record is a maintainer's report, not a reproduction.
+UniXNU's [bring-up guide](https://github.com/UniXNU/UniXNU/blob/2bbb39dcee0cada3b04e41f0256d678e80667c5b/docs/porting/bring-up.md) proceeds in staged,
+observable checkpoints from `fastboot boot` of the UEFI image to the OS.
+
+**HakiOS phone tooling** (same commit as the lock):
+
+- [`xl`](https://github.com/oosexgang/hakios-xnu-kernel/blob/63fc2b4633bac3af8e57dadab9f5a8d4cb940438/xl) drives a phone over the fastboot protocol: it enters a resident
+  loader, uploads and runs a kernel **from RAM** (nothing flashed by default),
+  fetches logs during and after the run, has a watchdog/stop path, locks the
+  phone against concurrent runs and returns it to Android.
+- [`tools/hakios-device.py`](https://github.com/oosexgang/hakios-xnu-kernel/blob/63fc2b4633bac3af8e57dadab9f5a8d4cb940438/tools/hakios-device.py) `new --fdt` scaffolds a
+  device repository from the phone's own device tree, and
+  [`docs/porting/index.md`](https://github.com/oosexgang/hakios-xnu-kernel/blob/63fc2b4633bac3af8e57dadab9f5a8d4cb940438/docs/porting/index.md) orders driver bring-up
+  with a "done when" check per step. That guide assumes an ARM64 Qualcomm SoC
+  with a UEFI port; the README lists a separate experimental MediaTek Helio G85
+  (MT6768) port with its own loader.
+- [`devices/manifest.conf`](https://github.com/oosexgang/hakios-xnu-kernel/blob/63fc2b4633bac3af8e57dadab9f5a8d4cb940438/devices/manifest.conf) lists HakiOS's device,
+  SoC and UEFI repositories at pinned revisions.
+
+ios-qemu itself grew out of `sweet` (Redmi Note 10 Pro) phone work; the same
+phone also has a separate UniXNU community record. UniXNU's registry is the
+broadest shared index of device ports found in this review.
+
+**Consequence for Nexus:** "Port iOS X to device Y" starts by looking Y and its
+SoC up in these registries ([porting](porting.md#1-look-for-an-existing-port)). A
+future physical-device recipe should wrap an upstream workflow such as `xl` or
+UniXNU's `fastboot boot` stages, behind explicit owner authorisation, and record
+its logs with the same evidence rules. None of this was executed here.

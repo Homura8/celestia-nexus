@@ -8,7 +8,9 @@ below. Do not infer a later boot milestone from an earlier one.
 
 | Component | Status and evidence |
 | --- | --- |
-| CLI, immutable source cache, strict recipe inputs, command/error records | Implemented; 42 unit tests pass on Linux/Python 3.12.14 |
+| CLI, immutable source cache, strict recipe inputs, command/error records | Implemented; 48 unit tests pass (42 at the initial implementation on Python 3.12.14; the review added mirror, URL, macOS-hint and firmware-stall tests) |
+| Independent review reproduction | Fresh Ubuntu 24.04 container, Ubuntu QEMU 8.2.2/AAVMF 2024.02: 39 real boots, 38 passed, 1 firmware stall ([evidence](evidence/2026-11-12-review/README.md)); then a fresh-workspace `smoke` with each loader and `prepare-kernel` from the canonical GitHub URLs, all passed |
+| Source mirrors (`NEXUS_MIRROR_<ID>`) | Implemented and unit-tested; used for the review's real HakiOS fetch, recorded in `operation.json` |
 | HakiOS prebuilt XNU in stock QEMU/AArch64 | Locally booted; exact kernel SHA pinned, source correspondence unverified |
 | Placeholder UEFI loader | Built from pinned source with LLVM 19; boot-tested; separately hashed upstream prebuilt also boot-tested |
 | Original SDK-free Darwin userspace probe | Source-built; all ten checks pass, fresh token returned, two heartbeats observed, no panic |
@@ -54,11 +56,17 @@ error reporting, memory mapping/readback, mprotect, munmap and guest timer delay
 - **Host coverage:** local real boots are Linux x86_64/LLVM 19/QEMU 8.2 and 10. macOS
   execution paths and other versions require their own results. HVF/KVM is not
   implemented by this recipe. Guest instruction-clock time is not host timing.
-- **One unexplained host-clock UEFI stall:** an optional prebuilt-loader trial
-  timed out before loader entry. QMP/registers were saved. Six diagnostic cold
-  replays succeeded; changing disk boot order did not establish a fix. Optional
-  icount has passing acceptance boots, but is not proof that the underlying
-  host-clock issue is repaired. No retry hides failures.
+- **Intermittent UEFI stall before the loader, cause unknown:** seen twice, on
+  QEMU 10.0.13/AAVMF 2025.02 (prebuilt loader) and on QEMU 8.2.2/AAVMF 2024.02
+  (source loader). Firmware prints its banner and clears the screen, then the
+  vCPU keeps running inside firmware without reaching the loader. Both
+  occurrences were inside a `smoke`; the review's happened on the first QEMU
+  launch in a freshly provisioned VM. 38 later review boots and six earlier
+  replays passed, so it is rare and not yet reproducible on demand. Runs now
+  diagnose it specifically and record `stage_seconds` (the loader normally
+  appears after about 7 s); rerun `./nexus run` with the same build. A CI job
+  can hit it too: re-run the job and keep the failed artifact. No automatic
+  retry hides failures.
 - **Licensing:** no upstream source/binary is redistributed. HakiOS records
   unresolved non-QEMU third-party provenance; source preparation does not clear
   those files or a resulting kernel for redistribution.
@@ -76,24 +84,33 @@ error reporting, memory mapping/readback, mprotect, munmap and guest timer delay
 
 ## 4. Prioritised next work
 
-1. **Reproduce ios-qemu's iOS 16.7.16 userland path on a suitable Mac.** It is
-   already more advanced than a kernel demo. Review/pin the kernel build and
-   user-supplied IPSW, use a disposable disk, preserve its upstream harness and
-   add independently checked launchd/SpringBoard/app milestones. Required human
-   inputs are an authorised OS source and execution on the appropriate host.
-2. **Rebuild and boot source XNU with an authorised SDK/toolchain.** Start from
-   the prepared tree, inventory all dependencies, capture compile/link failures,
-   and pass the resulting kernel to `build --kernel`. Establish actual source
-   correspondence before proposing a binary release.
-3. **Investigate the host-clock UEFI stall and expand host coverage.** Compare
-   exact QEMU/AAVMF versions and capture firmware state at the stuck PC; validate
-   current CI and an Apple Silicon host. Do not relax the acceptance checks.
-4. **Reproduce UniXNU's common UEFI/native-user QEMU path as a second recipe.**
-   This tests reuse across genuinely different boot contracts. Share only the
-   mechanics both implementations exercise; retain component/port ownership.
-5. **Begin a real device feasibility record**, potentially Moto G54 5G, after
-   confirming the exact variant, CPU/boot constraints and available upstream
-   support. No device unlock/flash instructions or support claims are prefilled.
+Reordered by the PR #1 review: reproduce an upstream that already runs real
+Apple userland before investing in Nexus-specific kernel work.
+
+1. **Reproduce ios-qemu's iOS 16.7.16 userland path as the second recipe.** It
+   is the closest existing path to the project's headline request. On an Apple
+   Silicon Mac with an authorised IPSW, run its pinned `--ios` harness on a
+   disposable disk and add independently checked launchd/SpringBoard/app
+   milestones. Separately, time-box a Linux TCG attempt for cloud agents (see
+   [research §3](research.md#3-ios-qemu-direct-candidate-for-ios-16716)); it is
+   unverified and will be slow. Implementing this recipe is when to move the
+   first-recipe assumptions listed in [architecture §2](architecture.md).
+2. **Device feasibility record from existing ports.** For the first physical
+   target (Moto G54 5G was suggested; it is MediaTek-based, confirm the exact
+   variant and SoC), search UniXNU's registry and HakiOS's manifest for the
+   device and SoC first ([porting §1](porting.md#1-look-for-an-existing-port)),
+   then record CPU/boot constraints and the closest reusable port. No unlock or
+   flash instructions and no support claims.
+3. **Investigate the intermittent UEFI stall and expand host coverage.** Try to
+   trigger it deliberately (first launch in a fresh VM, memory pressure),
+   capture firmware state at the stuck PC with a debug firmware build, and
+   compare QEMU/AAVMF versions. Do not relax the acceptance checks.
+4. **Rebuild source XNU with an authorised SDK/toolchain** only when a recipe
+   needs a custom kernel. ios-qemu (GitHub Actions + darwin-xnu-build) and
+   HakiOS already have kernel build paths; reuse one rather than inventing a
+   third. Establish source correspondence before proposing a binary release.
+5. **Let external device repositories pin their own sources** once the first
+   such repository exists (today only Nexus's `upstreams.lock.toml` is read).
 
 Owner review: the PR proposes MIT for original Nexus code. No extra credentials
 or physical-device action is required for the open baseline. Do not supply Apple

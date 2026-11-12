@@ -1,0 +1,531 @@
+{
+  "boots": 39,
+  "conditions": "1 smoke (first QEMU launch after installing QEMU), 5 sequential runs, 20 runs four at a time, 4 runs after dropping the page cache, 8 smokes, then single runs",
+  "firmware": {
+    "bytes": 67108864,
+    "path": "/usr/share/AAVMF/AAVMF_CODE.no-secboot.fd",
+    "sha256": "545e2eda871a00dba51c0df48a34829fe3b0de6ec10ea760c75f1fc1c6a29dc5"
+  },
+  "first_source_fetch": "NEXUS_MIRROR_HAKIOS pointed at a local clone of the locked commit; recorded in operation.json",
+  "kernel_sha256": "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9",
+  "not_passed": [
+    "20261112T074858-qemu-virt-xnu-smoke-753c1b"
+  ],
+  "passed": 38,
+  "qemu": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)",
+  "runs": [
+    {
+      "duration_seconds": 180.093,
+      "experiment": "20261112T074858-qemu-virt-xnu-smoke-753c1b",
+      "heartbeats": 0,
+      "reached": [],
+      "stage_seconds": null,
+      "status": "timed-out"
+    },
+    {
+      "duration_seconds": 11.108,
+      "experiment": "20261112T075231-qemu-virt-xnu-run-971157",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.272,
+      "experiment": "20261112T075243-qemu-virt-xnu-run-87b6d7",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.206,
+      "experiment": "20261112T075254-qemu-virt-xnu-run-a00c95",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 9.874,
+      "experiment": "20261112T075304-qemu-virt-xnu-run-ae0bce",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 9.994,
+      "experiment": "20261112T075315-qemu-virt-xnu-run-c30ca4",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.637,
+      "experiment": "20261112T075348-qemu-virt-xnu-run-445411",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.49,
+      "experiment": "20261112T075348-qemu-virt-xnu-run-4862dd",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.372,
+      "experiment": "20261112T075348-qemu-virt-xnu-run-779fd8",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.399,
+      "experiment": "20261112T075348-qemu-virt-xnu-run-e81425",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.305,
+      "experiment": "20261112T075400-qemu-virt-xnu-run-071f18",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.4,
+      "experiment": "20261112T075400-qemu-virt-xnu-run-2c76c6",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.616,
+      "experiment": "20261112T075400-qemu-virt-xnu-run-30a17e",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.198,
+      "experiment": "20261112T075400-qemu-virt-xnu-run-8b3e51",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.37,
+      "experiment": "20261112T075410-qemu-virt-xnu-run-52b747",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.6,
+      "experiment": "20261112T075411-qemu-virt-xnu-run-82f91a",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.385,
+      "experiment": "20261112T075411-qemu-virt-xnu-run-a9eeaf",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.84,
+      "experiment": "20261112T075411-qemu-virt-xnu-run-f1e5fa",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 11.752,
+      "experiment": "20261112T075422-qemu-virt-xnu-run-28ba9a",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 11.205,
+      "experiment": "20261112T075422-qemu-virt-xnu-run-b3bb61",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 11.785,
+      "experiment": "20261112T075422-qemu-virt-xnu-run-c7776b",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 11.929,
+      "experiment": "20261112T075422-qemu-virt-xnu-run-f9dee0",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.787,
+      "experiment": "20261112T075434-qemu-virt-xnu-run-2b0d2e",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.468,
+      "experiment": "20261112T075434-qemu-virt-xnu-run-42ee66",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.746,
+      "experiment": "20261112T075434-qemu-virt-xnu-run-50adaa",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.352,
+      "experiment": "20261112T075434-qemu-virt-xnu-run-ee7d80",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.442,
+      "experiment": "20261112T075455-qemu-virt-xnu-run-02f662",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.15,
+      "experiment": "20261112T075508-qemu-virt-xnu-run-e54346",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.427,
+      "experiment": "20261112T075519-qemu-virt-xnu-run-dd7abe",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.625,
+      "experiment": "20261112T075530-qemu-virt-xnu-run-bb01d1",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.829,
+      "experiment": "20261112T075602-qemu-virt-xnu-smoke-151f16",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.569,
+      "experiment": "20261112T075615-qemu-virt-xnu-smoke-b7c7c2",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.57,
+      "experiment": "20261112T075628-qemu-virt-xnu-smoke-06819b",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.385,
+      "experiment": "20261112T075640-qemu-virt-xnu-smoke-097d39",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.368,
+      "experiment": "20261112T075652-qemu-virt-xnu-smoke-e3832c",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 9.986,
+      "experiment": "20261112T075705-qemu-virt-xnu-smoke-d9059c",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 9.991,
+      "experiment": "20261112T075716-qemu-virt-xnu-smoke-f2198e",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 10.219,
+      "experiment": "20261112T075728-qemu-virt-xnu-smoke-586b80",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": null,
+      "status": "passed"
+    },
+    {
+      "duration_seconds": 11.058,
+      "experiment": "20261112T075823-qemu-virt-xnu-run-3968eb",
+      "heartbeats": 2,
+      "reached": [
+        "loader",
+        "kernel",
+        "root",
+        "userspace"
+      ],
+      "stage_seconds": {
+        "kernel": 7.0,
+        "loader": 6.8,
+        "root": 7.7,
+        "userspace": 7.9
+      },
+      "status": "passed"
+    }
+  ],
+  "scope": "PR #1 review: real QEMU boots of the default target (host clock, source loader), Ubuntu 24.04 container on a Firecracker VM, x86_64, 4 vCPUs",
+  "variables_template": {
+    "bytes": 67108864,
+    "path": "/usr/share/AAVMF/AAVMF_VARS.fd",
+    "sha256": "b3b855c5a80310168051164986855692d1bdb06e67619856177965cd87c6774f"
+  }
+}

@@ -15,13 +15,15 @@ provider, IDE, or orchestration tool is assumed.
 | Reproduce/debug QEMU | `docs/development.md`, `targets/qemu-virt-xnu/README.md` |
 | Change boundaries or add a recipe | `docs/architecture.md`, `nexuslib/hakios.py` |
 | New upstream/research | `docs/research.md`, `upstreams.lock.toml` |
-| New device or OS version | `docs/porting.md` |
+| New device or OS version | `docs/porting.md`: search existing upstream ports first |
 
 ## Working rules
 
 - Preserve unrelated work. Use a branch and a reviewable PR; never auto-merge.
 - Shared orchestration belongs in `core.py`; HakiOS/QEMU/OS assumptions belong
   in concrete recipes. Add a shared abstraction only after real targets need it.
+  `cli.py` and `qemu.py` still hold first-recipe assumptions; the second recipe
+  moves them (list in `docs/architecture.md` §2), rather than adding branches.
 - Python 3.11+ standard library, original C where necessary. No new dependency
   or provider-specific instruction tree without a demonstrated need.
 - Use `./nexus fetch`, not a moving upstream branch. Do not edit cached sources;
@@ -49,8 +51,9 @@ git diff --check
 ```
 
 Use each experiment's `failure.json`, `serial.log`, `qemu.log`, `commands.json`,
-`diagnostics.json`, `build.json` and `result.json` to diagnose it. Keep the
-smallest useful, asset-free evidence under `docs/evidence/`. Update
+`diagnostics.json`, `build.json` and `result.json` to diagnose it. Commit only
+small, asset-free evidence for milestones and notable failures under
+`docs/evidence/`; routine runs belong in CI artifacts. Update
 `docs/status.md` in the same PR: what changed, what actually passed, what failed,
 and the next concrete step. Update `docs/research.md` for expensive findings or
 rejected approaches. The repository is the handoff; chat history is optional.

@@ -18,8 +18,9 @@ sudo apt-get install python3 git qemu-system-arm qemu-efi-aarch64 clang-19 lld-1
 Ubuntu 24.04's package names are `python3 git qemu-system-arm qemu-efi-aarch64
 clang-18 lld-18`. CI exercises this version combination; do not assume it has
 passed until the relevant workflow result is green. On macOS, `brew install
-python qemu llvm` and put `$(brew --prefix llvm)/bin` first on `PATH`; Apple's
-default linker is not `ld64.lld`. macOS boot execution remains unverified locally.
+python qemu llvm lld` and put `$(brew --prefix llvm)/bin` first on `PATH`.
+Homebrew ships LLD (`ld64.lld`, `lld-link`) as its own formula, separate from
+`llvm`, and Apple's default linker is not `ld64.lld`. macOS boot execution remains unverified locally.
 
 No root privileges are required by Nexus. System package installation is a
 separate host action; restricted environments can extract signed distribution
@@ -80,6 +81,33 @@ directory. Source caches are pristine exact-commit checkouts under `.nexus/sourc
 A failed fetch remains in its experiment and is never published as a valid cache.
 Dirty/wrong cached sources are refused, not reset. Preserve edits and choose a
 fresh `--work` directory if necessary. No cleanup command removes your work.
+
+### Source mirrors
+
+`upstreams.lock.toml` names each upstream's canonical public HTTPS URL. If that
+repository is offline, moved or removed, point Nexus at any copy that still
+contains the locked commit:
+
+```sh
+NEXUS_MIRROR_HAKIOS=/absolute/path/to/hakios-mirror.git ./nexus smoke
+NEXUS_MIRROR_APPLE_XNU=https://example.org/mirrors/xnu.git ./nexus prepare-kernel
+```
+
+The variable is `NEXUS_MIRROR_` plus the upstream ID in capitals, with `-` as
+`_`. It accepts an HTTPS URL or an existing absolute local repository path.
+A mirror cannot change the experiment: the fetched checkout must still be the
+locked commit, and kernel/loader artifacts keep their SHA-256 pins. Active
+mirrors are recorded in each experiment's `operation.json`. Keep a mirror
+(`git clone --mirror URL`) of any upstream you depend on for long-term work.
+
+### What Nexus executes from upstream
+
+Nexus never runs upstream setup, download or build scripts. It does run two
+small Python helpers from the **pinned** HakiOS commit: `xnuloader/mkidentity.py
+--placeholder` (writes the loader's placeholder identity header during `build`)
+and `tools/hakios-config.py` (generates the QEMU configuration during
+`prepare-kernel`). Both are recorded in `commands.json`. Review them again when
+changing the HakiOS pin.
 
 | Evidence file | Contents |
 | --- | --- |
@@ -178,3 +206,8 @@ relevant failure case. When changing source pins/preparation, run
 `prepare-kernel`. Keep small logs/JSON under `docs/evidence/`, never the payload,
 firmware, kernel, source archive or user-supplied OS material. Review logs for
 secrets before committing them. Update `docs/status.md` with the actual result.
+
+Commit evidence for **milestones and notable failures**, not for every routine
+run: usually `result.json`, `serial.log` and the exact command line are enough.
+CI already uploads complete records as workflow artifacts. A new dated evidence
+directory should explain in its README what it proves and what it does not.

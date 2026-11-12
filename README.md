@@ -28,11 +28,12 @@ cd celestia-nexus
 ./nexus smoke
 ```
 
-On an Apple Silicon Mac, install Python 3.11+ plus `qemu` and `llvm` with
-Homebrew, then put Homebrew LLVM first on `PATH`:
+On an Apple Silicon Mac, install Python 3.11+, `qemu`, `llvm` and `lld` with
+Homebrew (Homebrew's `llvm` no longer includes the LLD linkers), then put Homebrew
+LLVM first on `PATH`:
 
 ```sh
-brew install python qemu llvm
+brew install python qemu llvm lld
 export PATH="$(brew --prefix llvm)/bin:$PATH"
 ./nexus doctor
 ./nexus smoke
@@ -56,6 +57,11 @@ Expected output:
 passed: .../.nexus/experiments/<unique-run>
 Open XNU userspace probe passed; this does not establish an iOS/userland/GUI boot.
 ```
+
+If a run instead reports that the firmware "never reached the loader", you have
+probably hit a rare, known UEFI stall ([status](docs/status.md#2-limits-and-unresolved-findings)).
+Run `./nexus run` to boot the same build again; the failed attempt's logs stay
+in `.nexus/experiments/` for investigation.
 
 ## 2. Iterate
 

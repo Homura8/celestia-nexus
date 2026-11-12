@@ -1,0 +1,267 @@
+{
+  "build_record": {
+    "artifacts": {
+      "kernel": {
+        "bytes": 16809112,
+        "path": "/tmp/claude-0/-home-user-celestia-nexus/93d3d8fb-9805-5523-821b-5282572ad7a0/scratchpad/work/experiments/20261112T074858-qemu-virt-xnu-smoke-753c1b/kernel",
+        "sha256": "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9"
+      },
+      "loader.efi": {
+        "bytes": 66048,
+        "path": "/tmp/claude-0/-home-user-celestia-nexus/93d3d8fb-9805-5523-821b-5282572ad7a0/scratchpad/work/experiments/20261112T074858-qemu-virt-xnu-smoke-753c1b/loader.efi",
+        "sha256": "5d711381f7a0ee186efa322d2b5fcfaff8bb2cdae755d5d3c1a6a38138d2a1d9"
+      },
+      "probe": {
+        "bytes": 16656,
+        "path": "/tmp/claude-0/-home-user-celestia-nexus/93d3d8fb-9805-5523-821b-5282572ad7a0/scratchpad/work/experiments/20261112T074858-qemu-virt-xnu-smoke-753c1b/probe",
+        "sha256": "a9182f07899cfe086d2badba09d47790ef7dc0b9ca8947a8b0cb84afc73978c6"
+      }
+    },
+    "implementation": {
+      "files": {
+        "guest/probe.c": "e4403478bfca3e676a090401800e07d2baafe96951ce5ab005fc0744fbf835a0",
+        "nexus": "63c2aabd58f6d66a4d63414b512339b11bf93b99eab673570353a8c7e1f688be",
+        "nexuslib/__init__.py": "22faafb669bf3d3620550c5f7ef674a6940244d51b3533464bc8856447f87aae",
+        "nexuslib/cli.py": "94ef3843385c17481c2597d72ab880a5a7fe25180df68d972fffc7c7fa49ffb9",
+        "nexuslib/core.py": "518856df3cca11eb59eff7d6b07b95a2771285a41c1ca27501316cf0bdca5763",
+        "nexuslib/formats.py": "c5bfa97242c6bfa6407762f5f3282a389fa5bd9bc1438f9ec5528ffa348c6480",
+        "nexuslib/hakios.py": "e05f215db078c84d375322ff686e0e357870e230e3520401592e8a85f92722d2",
+        "nexuslib/host.py": "17305dc9f03e8dc50f125ecc4ffbaa552ac4dda29dc19fc963d4714b63f2d15c",
+        "nexuslib/qemu.py": "cabe50ba8b53843c033695d8bdf8955cb73f0ca63b9c6500921e085ce812958a",
+        "upstreams.lock.toml": "4000d46eacedcb6a66b1d4ff47622ea66d74d8177462803c1f59f5f65ead3b0a"
+      },
+      "sha256": "7c4d1e5ebdcb83d8710c051fa56add7400138440ede4a381e7b596d314363da4"
+    },
+    "inputs": {
+      "probe_source": {
+        "bytes": 5558,
+        "path": "/home/user/celestia-nexus/guest/probe.c",
+        "sha256": "e4403478bfca3e676a090401800e07d2baafe96951ce5ab005fc0744fbf835a0"
+      },
+      "target_configuration": {
+        "architecture": "aarch64",
+        "description": "HakiOS open XNU + source-built UEFI loader + Nexus syscall probe",
+        "id": "qemu-virt-xnu",
+        "kernel": {
+          "path": "prebuilt/hakios-kernel",
+          "sha256": "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9"
+        },
+        "loader": {
+          "path": "prebuilt/loader.efi",
+          "sha256": "6a3c19abc1db01a367bf78863fea288f621683edf31059731a78a77040ffe034"
+        },
+        "qemu": {
+          "accel": "tcg",
+          "clock": "host",
+          "cpu": "cortex-a76",
+          "cpus": 1,
+          "machine": "virt,gic-version=3",
+          "memory_mib": 6144
+        },
+        "recipe": "hakios-open",
+        "schema": 1,
+        "source": "hakios"
+      }
+    },
+    "kernel_info": {
+      "cpu_subtype": 0,
+      "flags": 2195457,
+      "format": "Mach-O ARM64",
+      "segments": [
+        {
+          "filesize": 1736704,
+          "name": "__TEXT",
+          "vmaddr": "0xfffffff007004000",
+          "vmsize": 1736704
+        },
+        {
+          "filesize": 950272,
+          "name": "__DATA_CONST",
+          "vmaddr": "0xfffffff0071ac000",
+          "vmsize": 950272
+        },
+        {
+          "filesize": 8994816,
+          "name": "__TEXT_EXEC",
+          "vmaddr": "0xfffffff007294000",
+          "vmsize": 8994816
+        },
+        {
+          "filesize": 16384,
+          "name": "__KLD",
+          "vmaddr": "0xfffffff007b28000",
+          "vmsize": 16384
+        },
+        {
+          "filesize": 16384,
+          "name": "__LASTDATA_CONST",
+          "vmaddr": "0xfffffff007b2c000",
+          "vmsize": 16384
+        },
+        {
+          "filesize": 0,
+          "name": "__LAST",
+          "vmaddr": "0xfffffff007b30000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 16384,
+          "name": "__KLDDATA",
+          "vmaddr": "0xfffffff007b30000",
+          "vmsize": 16384
+        },
+        {
+          "filesize": 360448,
+          "name": "__DATA",
+          "vmaddr": "0xfffffff007b34000",
+          "vmsize": 4538368
+        },
+        {
+          "filesize": 311296,
+          "name": "__BOOTDATA",
+          "vmaddr": "0xfffffff007f88000",
+          "vmsize": 311296
+        },
+        {
+          "filesize": 0,
+          "name": "__PRELINK_TEXT",
+          "vmaddr": "0xfffffff004004000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 0,
+          "name": "__PRELINK_INFO",
+          "vmaddr": "0xfffffff007fd4000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 0,
+          "name": "__PLK_TEXT_EXEC",
+          "vmaddr": "0xfffffff007fd4000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 0,
+          "name": "__PRELINK_DATA",
+          "vmaddr": "0xfffffff007fd4000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 0,
+          "name": "__PLK_DATA_CONST",
+          "vmaddr": "0xfffffff007fd4000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 0,
+          "name": "__PLK_LLVM_COV",
+          "vmaddr": "0xfffffff007fd4000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 0,
+          "name": "__PLK_LINKEDIT",
+          "vmaddr": "0xfffffff007fd4000",
+          "vmsize": 0
+        },
+        {
+          "filesize": 589824,
+          "name": "__LINKINFO",
+          "vmaddr": "0xfffffff007fd4000",
+          "vmsize": 589824
+        },
+        {
+          "filesize": 3816600,
+          "name": "__LINKEDIT",
+          "vmaddr": "0xfffffff008064000",
+          "vmsize": 3817472
+        }
+      ]
+    },
+    "kernel_origin": "upstream-prebuilt",
+    "kernel_source_correspondence": "not independently verified",
+    "loader_mode": "source",
+    "probe_info": {
+      "cpu_subtype": 0,
+      "flags": 1,
+      "format": "Mach-O ARM64",
+      "segments": [
+        {
+          "filesize": 0,
+          "name": "__PAGEZERO",
+          "vmaddr": "0x0",
+          "vmsize": 4294967296
+        },
+        {
+          "filesize": 16384,
+          "name": "__TEXT",
+          "vmaddr": "0x100000000",
+          "vmsize": 16384
+        },
+        {
+          "filesize": 0,
+          "name": "__DATA",
+          "vmaddr": "0x100004000",
+          "vmsize": 16384
+        },
+        {
+          "filesize": 272,
+          "name": "__LINKEDIT",
+          "vmaddr": "0x100008000",
+          "vmsize": 272
+        }
+      ]
+    },
+    "schema": 1,
+    "source": {
+      "commit": "63fc2b4633bac3af8e57dadab9f5a8d4cb940438",
+      "id": "hakios",
+      "license": "APSL-2.0 and MIT; see upstream THIRD_PARTY_LICENSES.md for exceptions",
+      "role": "Implemented open QEMU boot recipe; external kernel and loader sources",
+      "url": "https://github.com/oosexgang/hakios-xnu-kernel.git"
+    },
+    "status": "built-not-boot-tested",
+    "target": "qemu-virt-xnu",
+    "tool_versions": {
+      "clang": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+      "ld64": "Ubuntu LLD 18.1.3",
+      "lld_link": "Ubuntu LLD 18.1.3"
+    }
+  },
+  "duration_seconds": 180.093,
+  "evidence": {
+    "checks": [],
+    "diagnosis": "No loader: check firmware pair, ESP, QEMU stderr and the boot device.",
+    "heartbeat_count": 0,
+    "passed": false,
+    "rejection": null,
+    "stages": []
+  },
+  "expected_token": "75acc11f71ae59cad9b26dcd1ce55af3",
+  "implementation": {
+    "files": {
+      "guest/probe.c": "e4403478bfca3e676a090401800e07d2baafe96951ce5ab005fc0744fbf835a0",
+      "nexus": "63c2aabd58f6d66a4d63414b512339b11bf93b99eab673570353a8c7e1f688be",
+      "nexuslib/__init__.py": "22faafb669bf3d3620550c5f7ef674a6940244d51b3533464bc8856447f87aae",
+      "nexuslib/cli.py": "94ef3843385c17481c2597d72ab880a5a7fe25180df68d972fffc7c7fa49ffb9",
+      "nexuslib/core.py": "518856df3cca11eb59eff7d6b07b95a2771285a41c1ca27501316cf0bdca5763",
+      "nexuslib/formats.py": "c5bfa97242c6bfa6407762f5f3282a389fa5bd9bc1438f9ec5528ffa348c6480",
+      "nexuslib/hakios.py": "e05f215db078c84d375322ff686e0e357870e230e3520401592e8a85f92722d2",
+      "nexuslib/host.py": "17305dc9f03e8dc50f125ecc4ffbaa552ac4dda29dc19fc963d4714b63f2d15c",
+      "nexuslib/qemu.py": "cabe50ba8b53843c033695d8bdf8955cb73f0ca63b9c6500921e085ce812958a",
+      "upstreams.lock.toml": "4000d46eacedcb6a66b1d4ff47622ea66d74d8177462803c1f59f5f65ead3b0a"
+    },
+    "sha256": "7c4d1e5ebdcb83d8710c051fa56add7400138440ede4a381e7b596d314363da4"
+  },
+  "qemu_returncode": 0,
+  "schema": 1,
+  "scope": "open-xnu-userspace-probe",
+  "serial": {
+    "bytes": 136,
+    "path": "/tmp/claude-0/-home-user-celestia-nexus/93d3d8fb-9805-5523-821b-5282572ad7a0/scratchpad/work/experiments/20261112T074858-qemu-virt-xnu-smoke-753c1b/serial.log",
+    "sha256": "8fc14aa3cb734767efddae368dd6c0ca28699b00627c620bd45a519af47afb1c"
+  },
+  "shutdown": "qmp-quit",
+  "status": "timed-out",
+  "target": "qemu-virt-xnu"
+}
