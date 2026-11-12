@@ -1,0 +1,92 @@
+# Architecture decisions
+
+## 1. Reproduce a complete small environment first
+
+The first milestone is a booted open XNU kernel running an original, freestanding
+Darwin PID 1, with ten syscall checks and continuing timer-driven heartbeats.
+This is narrower than upstream GUI demonstrations, but unlike those paths it
+can run on an x86 Linux host without an Apple SDK or IPSW. It gives contributors
+a fast executable regression boundary while userland integration is researched.
+It must not become a substitute for reproducing the more advanced paths.
+
+The kernel is an externally fetched, SHA-256-pinned HakiOS prebuilt. Its source
+correspondence is not independently established. The source-built loader and
+probe are separate outputs. `prepare-kernel` verifies source assembly without
+calling it a compiled or boot-tested kernel.
+
+## 2. Common orchestration, concrete recipes
+
+The only common target facts are identity, description, architecture, recipe and
+primary source. `core.py` handles lock files, safe paths, source checks and
+command/evidence records. It knows no QEMU memory map, phone vendor or OS ABI.
+
+The explicit `hakios-open` recipe validates its own configuration, prepares real
+sources and builds real outputs. `qemu.py` implements this first boot contract
+and QMP/lifecycle handling; `formats.py` implements the binary interfaces actually
+used. These are **not** claims of a universal boot protocol. When a second real
+boot path needs the runner, split out the shared process/QMP mechanics then.
+
+The CLI registers reviewed modules explicitly. TOML cannot select a Python
+import, shell script, executable hook or destructive action. There is no plugin
+loader, class hierarchy, dependency resolver or separate agent runtime.
+
+## 3. Reuse upstream implementations without absorbing their assumptions
+
+Keep upstream trees out of Nexus Git history. Fetch exact commits locally,
+verify clean checkouts and artifact hashes, retain licences, and refer fixes
+upstream where possible. HakiOS kernel/UEFI conventions remain in its recipe;
+they do not become requirements for all future targets.
+
+UniXNU already offers device/SoC repositories, UEFI drivers, OS profiles and
+prelink/build machinery. Reimplementing these in Nexus before reproducing them
+would add maintenance with no evidence of benefit. A future UniXNU or ios-qemu
+recipe should retain its upstream's build boundary and translate inputs/results.
+The [research comparison](research.md) explains the alternatives.
+
+Independently maintained ports can keep target TOML, patches and research in
+their own repository and use `--target /path/to/target.toml`. The existing recipe
+still validates only HakiOS/QEMU; external TOML is not automatic support for new
+hardware. SoC/OS/device sharing should follow demonstrated implementations,
+not a required directory hierarchy invented in advance.
+
+## 4. Evidence is part of the interface
+
+Every attempt gets a unique directory. No existing edited experiment is reset.
+Build records say `built-not-boot-tested`; prepared trees say
+`prepared-not-compiled`; run results record exact reached stages and failures.
+Each boot uses a fresh token through `boot_args` → `kern.bootargs` → PID 1 and
+requires all checks, two subsequent heartbeats and no panic. This prevents
+accidental stale-log/early-stage passes, not malicious guest forgery.
+
+QMP uses inherited pipes, avoiding sockets, exposed management ports and path
+length limits. ESP access is read-only, pflash variables are copied per run,
+networking is absent, and a GDB stub is opt-in and bound to loopback.
+Timeouts, interrupts and failed QEMU launches preserve diagnostics.
+
+The default single-CPU test uses fixed instruction-count time (`shift=3`,
+`sleep=off`) for a fast, repeatable guest timer schedule. Idle time advances to
+the next virtual timer; it is not a wall-clock or cycle-accurate performance
+test. A `host` clock variant remains available for comparison. One host-clock
+trial stalled in UEFI before loader entry and could not be reproduced in six
+follow-up cold starts; that cause remains open, not declared fixed by icount.
+
+## 5. An SDK-free test executable
+
+LLD 19's Mach-O `-static` is unimplemented. Nexus links an original program
+without libraries, validates that there are no dyld rebases/bindings or dependent
+libraries, and replaces `LC_MAIN`/the dyld command with `LC_UNIXTHREAD` in reserved
+header space. The ARM64 thread layout comes from Apple's published XNU headers.
+Only Nexus's own probe is transformed; no Apple binary is patched by this step.
+Malformed, signed, dependent and insufficiently padded inputs are rejected.
+
+The alternative was fetching a proprietary SDK or maintaining another linker.
+The small, format-checked conversion has already booted and is regression-tested.
+If a supported linker gains native static output, prefer deleting this step.
+
+## 6. Deliberate limits
+
+No automatic OS download/decryption, kernel-security bypass toolkit, firmware
+flashing, physical partition writing, driver model, universal hardware discovery
+or promise that arbitrary OS/device pairs are compatible. No accelerator switch
+that silently changes timer/CPU/boot assumptions. Those require a real target,
+explicit inputs and executable evidence before they belong in the framework.

@@ -1,0 +1,14 @@
+.nexus/
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+# User-supplied OS/firmware and generated guests never belong in Git.
+*.ipsw
+*.dmg
+*.apfs
+*.qcow2
+*.img
+*.fd
+*.efi
+*.o

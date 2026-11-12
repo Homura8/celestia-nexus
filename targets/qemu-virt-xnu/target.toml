@@ -1,0 +1,22 @@
+schema = 1
+id = "qemu-virt-xnu"
+description = "HakiOS open XNU + source-built UEFI loader + Nexus syscall probe"
+architecture = "aarch64"
+recipe = "hakios-open"
+source = "hakios"
+
+[kernel]
+path = "prebuilt/hakios-kernel"
+sha256 = "03e794e8e1d389a6abb9bcd2431eaccf9747271ff8c1234922225718c70441e9"
+
+[loader]
+path = "prebuilt/loader.efi"
+sha256 = "6a3c19abc1db01a367bf78863fea288f621683edf31059731a78a77040ffe034"
+
+[qemu]
+machine = "virt,gic-version=3"
+cpu = "cortex-a76"
+cpus = 1
+memory_mib = 6144
+accel = "tcg"
+clock = "instruction"

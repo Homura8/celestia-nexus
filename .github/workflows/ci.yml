@@ -1,0 +1,72 @@
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nexus-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14]
+        python: ['3.11', '3.14']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python3 -m unittest discover -s tests -v
+      - run: ./nexus list
+      - run: git diff --check
+
+  open-xnu:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Install distribution tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y qemu-system-arm qemu-efi-aarch64 clang-18 lld-18
+      - run: ./nexus doctor --json
+      - name: Build and boot real open XNU
+        run: ./nexus smoke --timeout 120
+      - name: Prepare real patched kernel sources
+        run: ./nexus prepare-kernel
+      - name: Preserve asset-free diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: open-xnu-evidence
+          retention-days: 14
+          include-hidden-files: true
+          if-no-files-found: warn
+          path: |
+            .nexus/experiments/*/operation.json
+            .nexus/experiments/*/failure.json
+            .nexus/experiments/*/commands.json
+            .nexus/experiments/*/build.json
+            .nexus/experiments/*/command.json
+            .nexus/experiments/*/inputs.json
+            .nexus/experiments/*/result.json
+            .nexus/experiments/*/prepared.json
+            .nexus/experiments/*/diagnostics.json
+            .nexus/experiments/*/serial.log
+            .nexus/experiments/*/qemu.log
+            .nexus/experiments/*/step-*.log
