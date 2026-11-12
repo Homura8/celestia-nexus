@@ -107,6 +107,13 @@ commit and its own patch series, targeting XNU 8796/SWEET. The Xcode choice is
 an IORPC ABI requirement, not arbitrary host preference. Root-image builders
 need the user's own iPhone X 16.7.16 filesystem and make writable HFS+ images.
 
+Integration caveat discovered during CI validation: GitHub
+[retired its macOS 14 runners on 2 November 2026](https://github.blog/changelog/2026-10-01-github-actions-macos-14-runner-image-retirement/).
+The pinned upstream's `macos-14` workflow cannot be reused unchanged on GitHub's
+current hosted runners. Preserve its Xcode/iig ABI requirement using an
+appropriate authorised build host, or validate an actual toolchain adaptation.
+Nexus's own SDK-free Python CI uses the supported `macos-26` image.
+
 **Upstream-reported:** lock/home screens, stock apps, Safari networking and
 sound on an Apple Silicon Mac. **Not reproduced here:** any stock iOS userland,
 full kernel rebuild, networking, sound or GUI. We inspected the boot/build
