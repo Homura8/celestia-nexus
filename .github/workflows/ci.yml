@@ -70,3 +70,47 @@ jobs:
             .nexus/experiments/*/serial.log
             .nexus/experiments/*/qemu.log
             .nexus/experiments/*/step-*.log
+
+  open-xnu-macos:
+    # Apple Silicon host, Homebrew tools exactly as README.md documents them.
+    # GitHub's macOS runners have no nested virtualisation, so this is TCG too.
+    runs-on: macos-26
+    timeout-minutes: 25
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOMEBREW_NO_INSTALL_CLEANUP: '1'
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Install documented Homebrew tools
+        run: |
+          brew install qemu llvm lld
+          echo "$(brew --prefix llvm)/bin" >> "$GITHUB_PATH"
+      - run: ./nexus doctor --json
+      - name: Build and boot real open XNU
+        run: ./nexus smoke --timeout 300
+      - name: Preserve asset-free diagnostics
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6, Node 24
+        with:
+          name: open-xnu-macos-evidence
+          retention-days: 14
+          include-hidden-files: true
+          if-no-files-found: warn
+          path: |
+            .nexus/experiments/*/operation.json
+            .nexus/experiments/*/failure.json
+            .nexus/experiments/*/commands.json
+            .nexus/experiments/*/build.json
+            .nexus/experiments/*/command.json
+            .nexus/experiments/*/inputs.json
+            .nexus/experiments/*/result.json
+            .nexus/experiments/*/prepared.json
+            .nexus/experiments/*/diagnostics.json
+            .nexus/experiments/*/serial.log
+            .nexus/experiments/*/qemu.log
+            .nexus/experiments/*/step-*.log

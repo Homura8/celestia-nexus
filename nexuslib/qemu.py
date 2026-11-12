@@ -26,6 +26,8 @@ STAGES = (
     ("root", r"^BSD root: md0,.*$"),
     ("userspace", r"^NEXUS PROBE 1$"),
 )
+# Printed by AAVMF/EDK2 before boot device selection; diagnostic only, not a stage.
+FIRMWARE = re.compile(r"^UEFI firmware \(version", re.MULTILINE)
 MAX_LOG = 16 * 1024 * 1024
 
 
@@ -60,6 +62,10 @@ def analyze(text: str, token: str | None) -> dict:
     passed = bool(result_match and heartbeats >= 2 and not rejected)
     if rejected:
         hint = "Guest panic or explicit probe failure; inspect serial.log and diagnostics.json."
+    elif not stages and FIRMWARE.search(text):
+        hint = ("Firmware started but never reached the loader. A single occurrence matches the known "
+                "intermittent UEFI stall (docs/status.md): keep this experiment and rerun ./nexus run "
+                "with the same build. If it repeats, check the firmware pair, ESP and boot device.")
     elif not stages:
         hint = "No loader: check firmware pair, ESP, QEMU stderr and the boot device."
     elif stages[-1] == "loader":
@@ -223,6 +229,7 @@ def run(target: dict, build: dict, record: Recorder, *, timeout: float = 90,
     status = "failed"
     details = analyze("", token)
     diagnostic = {}
+    stage_seconds = {}
     interruption = None
     try:
         with (out / "qemu.log").open("wb") as log:
@@ -237,6 +244,9 @@ def run(target: dict, build: dict, record: Recorder, *, timeout: float = 90,
                         details["diagnosis"] = "Serial output exceeded 16 MiB; stopped a runaway experiment."
                         break
                     details = analyze(serial.read_text(errors="replace"), token)
+                    for name in details["stages"]:
+                        # Polled every 0.1 s: when each stage was first seen, for stall analysis.
+                        stage_seconds.setdefault(name, round(elapsed, 1))
                 if details["rejection"]:
                     break
                 if process.poll() is not None:
@@ -280,6 +290,7 @@ def run(target: dict, build: dict, record: Recorder, *, timeout: float = 90,
         result = {"schema": 1, "status": status, "target": target["id"], "expected_token": token,
                   "implementation": implementation_identity(), "shutdown": shutdown,
                   "duration_seconds": round(time.monotonic() - started, 3),
+                  "stage_seconds": stage_seconds,
                   "qemu_returncode": process.returncode if process else None,
                   "evidence": details, "serial": file_record(serial) if serial.exists() else None,
                   "build_record": build, "scope": "open-xnu-userspace-probe"}

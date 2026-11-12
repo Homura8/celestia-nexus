@@ -67,6 +67,14 @@ class EvidenceTests(unittest.TestCase):
         log = "NEXUS HEARTBEAT\n" * 3 + complete_log().replace("NEXUS HEARTBEAT\n", "")
         self.assertFalse(analyze(log, TOKEN)["passed"])
 
+    def test_firmware_stall_is_diagnosed_but_never_passes(self):
+        log = "UEFI firmware (version 2024.02-2ubuntu0.10 built at 15:40:28)\r\n\x1b[2J\x1b[01;01H"
+        result = analyze(log, TOKEN)
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["stages"], [])
+        self.assertIn("never reached the loader", result["diagnosis"])
+        self.assertIn("No loader", analyze("unrelated output\n", TOKEN)["diagnosis"])
+
     def test_diagnostics_by_stage(self):
         for log, expected in (("", "No loader"), ("== XNULOADER v3 ==\n", "Loader reached"),
                               (complete_log().split("BSD root")[0], "Kernel reached")):

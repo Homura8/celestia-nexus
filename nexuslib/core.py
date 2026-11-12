@@ -75,6 +75,41 @@ def load_target(path: Path) -> dict:
     return target
 
 
+# Canonical public sources: any HTTPS Git host (GitHub, GitLab, ...), no
+# credentials, ports, queries or fragments. Integrity comes from the commit pin.
+HTTPS_URL = r"https://[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:/[\w.~-]+)+"
+
+
+def mirror_variable(source_id: str) -> str:
+    return "NEXUS_MIRROR_" + source_id.upper().replace("-", "_")
+
+
+def fetch_url(source: dict) -> str:
+    """The lock's canonical URL, or a user-chosen mirror of the same commit.
+
+    A mirror keeps experiments reproducible if an upstream disappears or the
+    host is offline. It cannot change what is built: fetch_source still
+    requires the locked commit, and artifacts keep their own SHA-256 pins.
+    """
+    override = os.environ.get(mirror_variable(source["id"]))
+    if not override:
+        return source["url"]
+    if re.fullmatch(HTTPS_URL, override):
+        return override
+    if override.startswith("file://"):
+        override = override[len("file://"):]
+    path = Path(override).expanduser()
+    if path.is_absolute() and path.is_dir():
+        return str(path.resolve())
+    raise NexusError(f"{mirror_variable(source['id'])} must be an HTTPS Git URL or an existing "
+                     f"absolute local repository path, not {override!r}.")
+
+
+def active_mirrors(sources: dict[str, dict]) -> dict[str, str]:
+    return {key: fetch_url(source) for key, source in sources.items()
+            if os.environ.get(mirror_variable(key))}
+
+
 def load_lock(path: Path) -> dict[str, dict]:
     data = read_toml(path)
     sources = {}
@@ -87,8 +122,8 @@ def load_lock(path: Path) -> dict[str, dict]:
                 raise NexusError(f"Duplicate upstream {name}.")
             if not re.fullmatch(r"[0-9a-f]{40}", source["commit"]):
                 raise NexusError(f"{name}: pin a full Git commit, not a branch/tag.")
-            if not re.fullmatch(r"https://github\.com/[\w.-]+/[\w.-]+\.git", source["url"]):
-                raise NexusError(f"{name}: expected a canonical HTTPS GitHub source URL.")
+            if not re.fullmatch(HTTPS_URL, source["url"]):
+                raise NexusError(f"{name}: expected a canonical HTTPS Git URL without credentials or query.")
             sources[name] = source
     except (KeyError, TypeError) as error:
         raise NexusError(f"Malformed upstream lock: {error}") from error
@@ -178,7 +213,7 @@ def fetch_source(work: Path, source: dict, record: Recorder) -> Path:
     # Publish only a verified checkout. An interrupted first fetch cannot poison
     # the reusable cache; its partial state stays in this attempt's evidence.
     record.command(["git", "init", str(staging)], cwd=work)
-    record.command(["git", "-C", str(staging), "remote", "add", "origin", source["url"]], cwd=work)
+    record.command(["git", "-C", str(staging), "remote", "add", "origin", fetch_url(source)], cwd=work)
     record.command(["git", "-c", "core.hooksPath=/dev/null", "-C", str(staging), "fetch",
                     "--depth=1", "origin", source["commit"]], cwd=work, timeout=300)
     record.command(["git", "-c", "core.hooksPath=/dev/null", "-C", str(staging), "checkout",

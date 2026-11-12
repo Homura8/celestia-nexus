@@ -19,10 +19,20 @@ def tool(env: str, names: tuple[str, ...]) -> str | None:
         found = shutil.which(name)
         if found:
             return found
-    for prefix in (Path("/opt/homebrew/opt/llvm/bin"), Path("/usr/local/opt/llvm/bin")):
-        if (prefix / names[0]).is_file():
-            return str(prefix / names[0])
+    # Homebrew keeps clang in the keg-only llvm formula; lld is a separate formula.
+    for prefix in ("/opt/homebrew/opt/llvm/bin", "/usr/local/opt/llvm/bin",
+                   "/opt/homebrew/opt/lld/bin", "/usr/local/opt/lld/bin"):
+        if (Path(prefix) / names[0]).is_file():
+            return str(Path(prefix) / names[0])
     return None
+
+
+def missing_hint(name: str, system: str) -> str:
+    if system == "Darwin" and name in ("ld64", "lld_link"):
+        return "missing; run `brew install lld` (Homebrew's llvm no longer includes LLD)"
+    if system == "Darwin" and name == "clang":
+        return "missing; run `brew install llvm` and put $(brew --prefix llvm)/bin first on PATH"
+    return "missing; see docs/development.md#host-setup"
 
 
 def tools() -> dict:
@@ -89,7 +99,7 @@ def doctor(code: str | None = None, variables: str | None = None,
     for name in needed:
         path = found[name]
         try:
-            detail = version(path) if path else "missing; see docs/development.md#host-setup"
+            detail = version(path) if path else missing_hint(name, platform.system())
             ok = bool(path)
         except NexusError as error:
             detail, ok = str(error), False

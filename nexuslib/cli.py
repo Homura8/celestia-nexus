@@ -11,7 +11,8 @@ import secrets
 import sys
 
 from . import __version__
-from .core import NexusError, Recorder, fetch_source, implementation_identity, load_lock, load_target, write_json
+from .core import (NexusError, Recorder, active_mirrors, fetch_source, implementation_identity, load_lock,
+                   load_target, write_json)
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -155,8 +156,9 @@ def main(argv: list[str] | None = None) -> int:
                 raise NexusError(f"Host is missing {missing}; run ./nexus doctor before fetching/building.")
         work.mkdir(parents=True, exist_ok=True)
         record = new_record(work, args.command, target["id"])
+        mirrors = active_mirrors(sources)
         write_json(record.directory / "operation.json", {"schema": 1, "operation": args.command,
-                   "target_path": str(target_path.resolve()), "target": target,
+                   "target_path": str(target_path.resolve()), "target": target, "mirrors": mirrors,
                    "nexus_version": __version__, "implementation": implementation_identity(),
                    "python": platform.python_version(), "status": "running"})
         source_dir = work / "sources" / source["id"]
@@ -187,6 +189,7 @@ def main(argv: list[str] | None = None) -> int:
             remember(work, target["id"], "run", record.directory / "result.json")
         write_json(record.directory / "operation.json", {"schema": 1, "status": result["status"],
                    "operation": args.command, "target": target, "target_path": str(target_path.resolve()),
+                   "mirrors": mirrors,
                    "nexus_version": __version__, "implementation": implementation_identity(),
                    "python": platform.python_version()})
         if args.json:

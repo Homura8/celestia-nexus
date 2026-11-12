@@ -1,16 +1,18 @@
 import argparse
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 from nexuslib.cli import positive_seconds, read_build, recipe_for, ROOT
-from nexuslib.core import (NexusError, Recorder, digest, load_lock, load_target,
-                           fetch_source, relative_path, verified_artifact, verify_source)
+from nexuslib.core import (NexusError, Recorder, active_mirrors, digest, fetch_url, load_lock, load_target,
+                           fetch_source, mirror_variable, relative_path, verified_artifact, verify_source)
 from nexuslib.hakios import copy_source
-from nexuslib.host import clock_support
+from nexuslib.host import clock_support, missing_hint
 
 
 class CoreTests(unittest.TestCase):
@@ -150,3 +152,78 @@ class CoreTests(unittest.TestCase):
         for value in ("nan", "inf", "-inf", "0", "-1", "86401"):
             with self.subTest(value=value), self.assertRaises(argparse.ArgumentTypeError):
                 positive_seconds(value)
+
+
+def make_repo(path: Path, content: str = "source") -> str:
+    path.mkdir()
+    def git(*args):
+        return subprocess.run(["git", "-C", str(path), *args], check=True, capture_output=True, text=True).stdout.strip()
+    git("init")
+    (path / "file").write_text(content)
+    git("add", "file")
+    git("-c", "user.name=Test", "-c", "user.email=test@example.invalid", "commit", "-m", "base")
+    return git("rev-parse", "HEAD")
+
+
+class SourceLocationTests(unittest.TestCase):
+    def lock(self, url: str) -> Path:
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        path = Path(tmp.name) / "lock.toml"
+        path.write_text(f'schema = 1\n[[upstream]]\nid = "example"\nurl = "{url}"\ncommit = "{"a" * 40}"\n')
+        return path
+
+    def test_lock_accepts_public_https_hosts_only(self):
+        for url in ("https://github.com/owner/repo.git", "https://gitlab.com/qemu-project/qemu.git",
+                    "https://codeberg.org/owner/repo"):
+            with self.subTest(url=url):
+                self.assertEqual(load_lock(self.lock(url))["example"]["url"], url)
+        for url in ("http://github.com/owner/repo.git", "git@github.com:owner/repo.git",
+                    "https://user:secret@github.com/owner/repo.git", "https://github.com/owner/repo.git?x=1",
+                    "https://github.com:8443/owner/repo.git", "https://github.com", "/local/repo",
+                    "ext::sh -c touch% /tmp/pwned"):
+            with self.subTest(url=url), self.assertRaises(NexusError):
+                load_lock(self.lock(url))
+
+    def test_mirror_variable_name(self):
+        self.assertEqual(mirror_variable("apple-xnu"), "NEXUS_MIRROR_APPLE_XNU")
+
+    def test_mirror_override_is_validated_and_reported(self):
+        source = {"id": "example", "url": "https://github.com/owner/repo.git", "commit": "a" * 40}
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.dict(os.environ, {}, clear=False):
+                os.environ.pop("NEXUS_MIRROR_EXAMPLE", None)
+                self.assertEqual(fetch_url(source), source["url"])
+                self.assertEqual(active_mirrors({"example": source}), {})
+            for value, expected in (("https://gitlab.com/mirror/repo.git", "https://gitlab.com/mirror/repo.git"),
+                                    (tmp, str(Path(tmp).resolve())), ("file://" + tmp, str(Path(tmp).resolve()))):
+                with self.subTest(value=value), mock.patch.dict(os.environ, {"NEXUS_MIRROR_EXAMPLE": value}):
+                    self.assertEqual(fetch_url(source), expected)
+                    self.assertEqual(active_mirrors({"example": source}), {"example": expected})
+            for value in ("relative/repo", "-uupload-pack=evil", "ext::sh -c id", tmp + "/missing",
+                          "ssh://host/repo.git", "https://user:pw@host.example/repo"):
+                with self.subTest(value=value), mock.patch.dict(os.environ, {"NEXUS_MIRROR_EXAMPLE": value}):
+                    with self.assertRaises(NexusError):
+                        fetch_url(source)
+
+    def test_mirror_must_supply_the_locked_commit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            commit = make_repo(root / "mirror")
+            source = {"id": "example", "commit": commit, "url": "https://github.com/owner/missing.git"}
+            with mock.patch.dict(os.environ, {"NEXUS_MIRROR_EXAMPLE": str(root / "mirror")}):
+                path = fetch_source(root / "work", source, Recorder(root / "first"))
+            verify_source(path, source)
+            self.assertEqual((path / "file").read_text(), "source")
+            make_repo(root / "other", "different")
+            wrong = {**source, "id": "wrong"}
+            with mock.patch.dict(os.environ, {"NEXUS_MIRROR_WRONG": str(root / "other")}):
+                with self.assertRaises(NexusError):
+                    fetch_source(root / "work", wrong, Recorder(root / "second"))
+            self.assertFalse((root / "work/sources/wrong").exists())
+
+    def test_macos_missing_tool_hints(self):
+        self.assertIn("brew install lld", missing_hint("ld64", "Darwin"))
+        self.assertIn("brew install lld", missing_hint("lld_link", "Darwin"))
+        self.assertIn("brew install llvm", missing_hint("clang", "Darwin"))
+        self.assertIn("docs/development.md", missing_hint("ld64", "Linux"))
