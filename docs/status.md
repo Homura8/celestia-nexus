@@ -8,11 +8,12 @@ below. Do not infer a later boot milestone from an earlier one.
 
 | Component | Status and evidence |
 | --- | --- |
-| CLI, immutable source cache, strict recipe inputs, command/error records | Implemented; 41 unit tests pass on Linux/Python 3.12.14 |
+| CLI, immutable source cache, strict recipe inputs, command/error records | Implemented; 42 unit tests pass on Linux/Python 3.12.14 |
 | HakiOS prebuilt XNU in stock QEMU/AArch64 | Locally booted; exact kernel SHA pinned, source correspondence unverified |
 | Placeholder UEFI loader | Built from pinned source with LLVM 19; boot-tested; separately hashed upstream prebuilt also boot-tested |
 | Original SDK-free Darwin userspace probe | Source-built; all ten checks pass, fresh token returned, two heartbeats observed, no panic |
-| Final instruction-clock baseline | Four fresh boots: two source loaders, two prebuilts; 4.663 / 3.354 / 3.679 / 2.720 seconds; clean QMP exit 0 |
+| Portable default baseline | Fresh ordinary-clock boots with QEMU 8.2 source/prebuilt loaders (9.455 / 9.573 s) and QEMU 10 source loader (9.533 s); clean QMP exit 0 |
+| Optional instruction-clock baseline | QEMU 10: four earlier fresh boots with both loaders, plus a final source-loader pass in 2.748 s; all ten checks and clean shutdown |
 | Repeated source build | Kernel, probe and source-loader hashes identical on the same host/toolchain; no cross-host bit-for-bit claim |
 | Failure/interrupt handling | Real 0.1-second run times out with CLI exit 1; real SIGINT returns 130; both stop QEMU cleanly and retain records |
 | Kernel source preparation | Exact Apple XNU/HFS + both patch series + QEMU driver configuration; diff check passes; 5,188 files hashed, 4 of 25 selectable drivers enabled |
@@ -20,7 +21,11 @@ below. Do not infer a later boot milestone from an earlier one.
 
 Reference environment: Debian 13 x86_64, Python 3.12.14, Clang/LLD 19.1.7,
 QEMU 10.0.13, AAVMF 2025.02. The local tools were extracted from signed Debian
-packages into a user-writable prefix. No proprietary Apple asset was used.
+packages into a user-writable prefix. The portable comparison also ran Ubuntu's
+QEMU 8.2.2/AAVMF 2024.02 binaries in that prefix, with downloaded package hashes
+checked against the official archive where applicable. That comparison is not
+an Ubuntu-host claim; remote CI covers the actual Ubuntu host. No proprietary
+Apple asset was used.
 
 Reproduce:
 
@@ -46,13 +51,13 @@ error reporting, memory mapping/readback, mprotect, munmap and guest timer delay
 - **Kernel not rebuilt here:** source assembly passed, but the full kernel
   SDK/toolchain dependency path is unverified. The pinned kernel banner says
   it came from a dirty source tree; its hash does not prove exact source identity.
-- **Host coverage:** local real boots are Linux x86_64/LLVM 19/QEMU 10. macOS
+- **Host coverage:** local real boots are Linux x86_64/LLVM 19/QEMU 8.2 and 10. macOS
   execution paths and other versions require their own results. HVF/KVM is not
   implemented by this recipe. Guest instruction-clock time is not host timing.
 - **One unexplained host-clock UEFI stall:** an optional prebuilt-loader trial
   timed out before loader entry. QMP/registers were saved. Six diagnostic cold
-  replays succeeded; changing disk boot order did not establish a fix. Default
-  icount has four passing acceptance boots, but is not proof that the underlying
+  replays succeeded; changing disk boot order did not establish a fix. Optional
+  icount has passing acceptance boots, but is not proof that the underlying
   host-clock issue is repaired. No retry hides failures.
 - **Licensing:** no upstream source/binary is redistributed. HakiOS records
   unresolved non-QEMU third-party provenance; source preparation does not clear
@@ -67,6 +72,7 @@ error reporting, memory mapping/readback, mprotect, munmap and guest timer delay
 | QMP UNIX socket | This sandbox refused socket creation before boot. Pipes solved the management transport without opening a port. |
 | Kernel source patch assembly | Exact XNU/HFS patches, overlays and QEMU configuration succeeded; use `prepare-kernel` instead of reconstructing the sequence. |
 | Host-clock firmware stall | Cause unresolved; retain the failing evidence and six follow-ups instead of declaring it fixed or repeating blind retries. |
+| QEMU 8.2 instruction-clock CI freeze | Reproduced with both firmware/media variants; ordinary clock boots the same inputs. Host clock is default; doctor rejects the optional fast clock below QEMU 10. |
 
 ## 4. Prioritised next work
 

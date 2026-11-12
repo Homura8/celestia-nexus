@@ -9,7 +9,7 @@ not a phone hardware abstraction or a complete Darwin distribution.
 | Loader | HakiOS UEFI source, placeholder identity, built with Clang + lld-link |
 | Userspace | Original `guest/probe.c`, static ARM64 Mach-O, no SDK/libraries |
 | Machine | Stock QEMU `virt`, GICv3, Cortex-A76, 1 CPU, single-thread TCG, 6 GiB RAM |
-| Clock | Instruction count, `shift=3,align=off,sleep=off`; guest time, not a performance model |
+| Clock | Ordinary host clock by default; optional instruction clock requires QEMU 10+ |
 | Boot | Matching 64 MiB pflash firmware/vars; read-only ESP; XNUP at `0xF0000000` |
 | Verified endpoint | PID 1 syscall suite, fresh token, two heartbeats, no panic |
 

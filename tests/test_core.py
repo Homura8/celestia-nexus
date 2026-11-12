@@ -10,9 +10,18 @@ from nexuslib.cli import positive_seconds, read_build, recipe_for, ROOT
 from nexuslib.core import (NexusError, Recorder, digest, load_lock, load_target,
                            fetch_source, relative_path, verified_artifact, verify_source)
 from nexuslib.hakios import copy_source
+from nexuslib.host import clock_support
 
 
 class CoreTests(unittest.TestCase):
+    def test_instruction_clock_rejects_known_hanging_qemu(self):
+        for major in (6, 8, 9):
+            version = f"QEMU emulator version {major}.2.2 (distribution)"
+            self.assertFalse(clock_support(version, "instruction")[0])
+            self.assertTrue(clock_support(version, "host")[0])
+        self.assertTrue(clock_support("QEMU emulator version 10.0.13", "instruction")[0])
+        self.assertFalse(clock_support("unrecognised version", "instruction")[0])
+
     def test_repository_configuration(self):
         sources = load_lock(ROOT / "upstreams.lock.toml")
         for path in (ROOT / "targets").glob("*/target.toml"):

@@ -1,0 +1,11 @@
+{
+  "human-monitor-command": {
+    "error": "QMP response deadline exceeded"
+  },
+  "query-cpus-fast": {
+    "error": "QMP response deadline exceeded"
+  },
+  "query-status": {
+    "error": "QMP response deadline exceeded"
+  }
+}

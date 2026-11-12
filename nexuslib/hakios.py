@@ -10,8 +10,13 @@ from .core import (NexusError, Recorder, digest, fetch_source, implementation_id
                    verify_source, verified_artifact, write_json)
 from .formats import macho_info, static_entry
 from .host import file_record, require_tools, version
-from .host import doctor
+from .host import doctor as host_doctor
 from .qemu import run
+
+
+def doctor(target: dict, code: str | None = None, variables: str | None = None,
+           loader: str = "source") -> dict:
+    return host_doctor(code, variables, loader, clock=target["qemu"]["clock"])
 
 
 def validate_target(target: dict) -> None:

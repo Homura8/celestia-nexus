@@ -63,12 +63,15 @@ length limits. ESP access is read-only, pflash variables are copied per run,
 networking is absent, and a GDB stub is opt-in and bound to loopback.
 Timeouts, interrupts and failed QEMU launches preserve diagnostics.
 
-The default single-CPU test uses fixed instruction-count time (`shift=3`,
-`sleep=off`) for a fast, repeatable guest timer schedule. Idle time advances to
-the next virtual timer; it is not a wall-clock or cycle-accurate performance
-test. A `host` clock variant remains available for comparison. One host-clock
-trial stalled in UEFI before loader entry and could not be reproduced in six
-follow-up cold starts; that cause remains open, not declared fixed by icount.
+The default uses the ordinary clock, verified on QEMU 8.2 and 10. Optional
+instruction-count time (`shift=3`, `sleep=off`) speeds the regression cycle on
+QEMU 10+, but is refused on older/unknown versions. A controlled reproduction
+found that QEMU 8.2 hangs before loader entry in that mode with either tested
+firmware; changing only the clock lets the same inputs boot. Real FAT versus
+vvfat media did not resolve it, so no FAT-image builder/dependency was added.
+With instruction time, sleeping advances to the next guest timer; that mode is
+not a wall-clock or cycle-accurate performance test. A separate earlier
+host-clock stall remains unexplained; no claimed fix or retry hides it.
 
 ## 5. An SDK-free test executable
 

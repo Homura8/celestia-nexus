@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 
@@ -69,11 +70,21 @@ def version(path: str) -> str:
         raise NexusError(f"Cannot execute {path}: {error}") from error
 
 
+def clock_support(qemu_version: str, clock: str) -> tuple[bool, str]:
+    if clock == "host":
+        return True, "ordinary host clock; validated on QEMU 8.2 and 10"
+    match = re.search(r"version (\d+)\.(\d+)", qemu_version)
+    supported = clock == "instruction" and match is not None and int(match[1]) >= 10
+    return supported, ("instruction clock; validated on QEMU 10" if supported else
+                       "instruction clock requires QEMU 10+; QEMU 8.2 can hang before loader entry. Use qemu.clock = 'host' or upgrade QEMU.")
+
+
 def doctor(code: str | None = None, variables: str | None = None,
-           loader: str = "source", runtime_only: bool = False) -> dict:
+           loader: str = "source", runtime_only: bool = False, clock: str = "host") -> dict:
     found = tools()
     c, v = firmware(code, variables)
     checks = []
+    qemu_version = ""
     needed = ("qemu",) if runtime_only else ("git", "qemu", "clang", "ld64") + (("lld_link",) if loader == "source" else ())
     for name in needed:
         path = found[name]
@@ -83,6 +94,10 @@ def doctor(code: str | None = None, variables: str | None = None,
         except NexusError as error:
             detail, ok = str(error), False
         checks.append({"name": name, "ok": ok, "path": path, "detail": detail})
+        if name == "qemu" and ok:
+            qemu_version = detail
+    clock_ok, clock_detail = clock_support(qemu_version, clock)
+    checks.append({"name": "clock", "ok": clock_ok, "path": None, "detail": clock_detail})
     for name, path in (("firmware", c), ("variables", v)):
         ok = bool(path and path.is_file() and path.stat().st_size == 64 * 1024 * 1024)
         checks.append({"name": name, "ok": ok, "path": str(path) if path else None,

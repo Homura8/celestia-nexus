@@ -19,4 +19,4 @@ cpu = "cortex-a76"
 cpus = 1
 memory_mib = 6144
 accel = "tcg"
-clock = "instruction"
+clock = "host"

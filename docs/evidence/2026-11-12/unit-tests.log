@@ -2,6 +2,7 @@ test_command_timeout_is_recorded (test_core.CoreTests.test_command_timeout_is_re
 test_dirty_or_wrong_source_is_not_overwritten (test_core.CoreTests.test_dirty_or_wrong_source_is_not_overwritten) ... ok
 test_failed_command_preserves_returncode_and_log (test_core.CoreTests.test_failed_command_preserves_returncode_and_log) ... ok
 test_hash_mismatch_and_symlink_escape (test_core.CoreTests.test_hash_mismatch_and_symlink_escape) ... ok
+test_instruction_clock_rejects_known_hanging_qemu (test_core.CoreTests.test_instruction_clock_rejects_known_hanging_qemu) ... ok
 test_malformed_build_records_are_actionable (test_core.CoreTests.test_malformed_build_records_are_actionable) ... ok
 test_metadata_reader_has_no_qemu_or_arm_requirement (test_core.CoreTests.test_metadata_reader_has_no_qemu_or_arm_requirement) ... ok
 test_nonfinite_timeout_rejected (test_core.CoreTests.test_nonfinite_timeout_rejected) ... ok
@@ -41,6 +42,6 @@ test_reported_qmp_error (test_qmp.QMPTests.test_reported_qmp_error) ... ok
 test_response_timeout (test_qmp.QMPTests.test_response_timeout) ... ok
 
 ----------------------------------------------------------------------
-Ran 41 tests in 0.353s
+Ran 42 tests in 0.357s
 
 OK

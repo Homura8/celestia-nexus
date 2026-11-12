@@ -174,7 +174,8 @@ def stop(process: subprocess.Popen, qmp: QMP | None) -> str:
 
 def run(target: dict, build: dict, record: Recorder, *, timeout: float = 90,
         code: str | None = None, variables: str | None = None, gdb_port: int | None = None) -> dict:
-    environment = doctor(code, variables, loader=build["loader_mode"], runtime_only=True)
+    environment = doctor(code, variables, loader=build["loader_mode"], runtime_only=True,
+                         clock=target["qemu"]["clock"])
     if not environment["ready"]:
         failures = "; ".join(item["name"] + ": " + item["detail"] for item in environment["checks"] if not item["ok"])
         raise NexusError("Host is not ready: " + failures)

@@ -66,13 +66,14 @@ executable hooks from TOML. The HakiOS recipe rejects unknown fields, CPUs and
 accelerators instead of quietly applying untested defaults. A changed target
 requires a new build. An existing build can run without compiler/Git tools.
 
-The default target uses single-thread TCG and instruction-count time
-(`-icount shift=3,align=off,sleep=off`). A sleeping CPU advances to the next
-guest timer deadline; the probe checks **guest** time. This is a fast regression
-environment, not a real-time/performance model. In an external target copy,
-`qemu.clock = "host"` selects the ordinary clock for comparison. One such trial
-stalled before loader entry; see the retained failure and follow-up evidence.
-There are no automatic retries that could hide a failed cold boot.
+The default target uses single-thread TCG and the ordinary host clock, validated
+on QEMU 8.2 and 10. In an external target copy, `qemu.clock = "instruction"`
+enables faster instruction-count time (`-icount shift=3,align=off,sleep=off`).
+Doctor refuses that mode on QEMU below 10 or an unknown version: QEMU 8.2 was
+reproduced hanging before loader entry with both firmware versions. With that
+optional mode, sleeping advances to the next guest timer and the probe checks
+**guest** time, not host performance. One separate host-clock stall remains
+unexplained; see the retained evidence. No automatic retry hides a failed boot.
 
 Every attempt lives in a new `.nexus/experiments/<timestamp>-<target>-<operation>-<random>`
 directory. Source caches are pristine exact-commit checkouts under `.nexus/sources`.

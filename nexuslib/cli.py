@@ -130,7 +130,7 @@ def main(argv: list[str] | None = None) -> int:
         target = load_target(target_path)
         recipe = recipe_for(target)
         if args.command == "doctor":
-            result = recipe.doctor(args.firmware, args.vars, args.loader)
+            result = recipe.doctor(target, args.firmware, args.vars, args.loader)
             if args.json:
                 print(json.dumps(result, indent=2))
             else:
@@ -149,7 +149,7 @@ def main(argv: list[str] | None = None) -> int:
             raise NexusError(f"Target references missing upstream {target['source']}.")
         source = sources[target["source"]]
         if args.command == "smoke":
-            result = recipe.doctor(args.firmware, args.vars, args.loader)
+            result = recipe.doctor(target, args.firmware, args.vars, args.loader)
             if not result["ready"]:
                 missing = ", ".join(item["name"] for item in result["checks"] if not item["ok"])
                 raise NexusError(f"Host is missing {missing}; run ./nexus doctor before fetching/building.")

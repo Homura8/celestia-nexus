@@ -216,13 +216,24 @@ eight seconds. Boot order did not establish a fix, and the cause remains open.
 The failing serial log/registers and the follow-up summary are retained.
 
 A separate experiment with fixed instruction-count time passed in about three
-seconds, including the guest timer test and two heartbeats. This became the
-default regression clock after live validation with both loaders. QEMU's
+seconds, including the guest timer test and two heartbeats. QEMU's
 [icount implementation](https://www.qemu.org/docs/master/devel/tcg-icount.html)
 explains its virtual-instruction clock and lack of cycle-accurate timing; the
 `sleep=off` timer-warp behaviour was also checked in the official v8.2.2 and
 v10.0.3 `accel/tcg/icount-common.c` source. This is a deliberate test-environment
 choice, not a claim that the unreproduced firmware stall's cause was repaired.
+
+Remote CI then exposed a version constraint missed by the initial local tests:
+Ubuntu's QEMU 8.2.2/AAVMF 2024.02 froze before loader entry, including QMP. The
+exact distribution binaries/firmware were brought into the local prefix for a
+controlled comparison. QEMU 8.2 failed in instruction mode with both AAVMF 2024
+and 2025, and with both a real FAT image and vvfat; QEMU 10 passed with the older
+firmware. On QEMU 8.2, removing only icount passed the same guest in 9.618 seconds.
+The default therefore remains the broadly compatible ordinary clock. The optional
+fast clock is explicitly gated to QEMU 10+; 9.x is unvalidated, not claimed broken.
+No extra filesystem builder/dependency or automatic retry was added. This
+version-specific icount failure is distinct from the earlier sporadic host-clock
+UEFI stall. See the portable-validation and CI evidence added alongside the fix.
 
 Future updates should change the lock, inspect changed implementation/licences,
 run the affected real experiments and update status with evidence. A newer

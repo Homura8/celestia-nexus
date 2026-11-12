@@ -41,8 +41,9 @@ export PATH="$(brew --prefix llvm)/bin:$PATH"
 The Linux reference environment has been tested. macOS execution is **implemented
 but not locally boot-tested**; the first target deliberately uses portable TCG
 emulation. Native HVF/KVM acceleration requires a separately validated boot path.
-The test clock advances by instruction count; guest timer checks measure guest
-time, and do not benchmark real hardware or host performance.
+The default ordinary clock supports QEMU 8.2 and 10. An optional faster
+instruction-count clock is gated to QEMU 10+; it measures guest time, not hardware
+performance. QEMU 8.2 hangs with that optional mode, so Nexus refuses it early.
 See [host setup](docs/development.md#host-setup) if doctor reports missing tools.
 
 `smoke` checks the host, fetches one exact upstream revision, verifies the kernel,
