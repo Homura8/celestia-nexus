@@ -165,3 +165,38 @@ def payload_unpack(data: bytes) -> dict[str, bytes]:
             raise NexusError("Nonzero XNUP padding.")
         cursor += size + (-size % 16)
     raise NexusError("Missing XNUP terminator.")
+
+
+def macho_symbols(data: bytes, names: set[str]) -> dict[str, int]:
+    """Values of selected external/defined symbols from a 64-bit Mach-O LC_SYMTAB."""
+    if len(data) < 32 or struct.unpack_from("<I", data)[0] != 0xFEEDFACF:
+        raise NexusError("Expected a 64-bit little-endian Mach-O.")
+    count, size = struct.unpack_from("<II", data, 16)
+    if size > len(data) - 32:
+        raise NexusError("Mach-O load commands exceed the file.")
+    cursor = 32
+    for _ in range(count):
+        if cursor + 8 > 32 + size:
+            raise NexusError("Truncated Mach-O load command.")
+        cmd, length = struct.unpack_from("<II", data, cursor)
+        if length < 8 or cursor + length > 32 + size:
+            raise NexusError("Invalid Mach-O load command length.")
+        if cmd == 0x2:  # LC_SYMTAB
+            symoff, nsyms, stroff, strsize = struct.unpack_from("<4I", data, cursor + 8)
+            if symoff + nsyms * 16 > len(data) or stroff + strsize > len(data):
+                raise NexusError("Mach-O symbol table exceeds the file.")
+            found = {}
+            for index in range(nsyms):
+                strx, kind, _, _, value = struct.unpack_from("<IBBHQ", data, symoff + index * 16)
+                if kind & 0xE0 or kind & 0x0E != 0x0E or strx >= strsize:
+                    continue  # debugging entries and undefined symbols
+                end = data.find(b"\0", stroff + strx, stroff + strsize)
+                name = data[stroff + strx:end].decode("ascii", errors="replace")
+                if name in names:
+                    found[name] = value
+            missing = names - set(found)
+            if missing:
+                raise NexusError(f"Kernel lacks symbols: {sorted(missing)}")
+            return found
+        cursor += length
+    raise NexusError("Mach-O has no symbol table.")

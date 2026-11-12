@@ -28,7 +28,7 @@ id = "ios-qemu"
 url = "https://github.com/lgrachov/ios-qemu.git"
 commit = "8d23f48c683250c728a5c820482b450646453c02"
 license = "MIT tools; APSL-2.0 XNU derivatives"
-role = "Researched iOS 16.7.16 GUI path; not yet integrated"
+role = "Implemented ios-qemu-iphonex recipe: tools, patch-series check and CI kernel provenance"
 
 [[upstream]]
 id = "unixnu"

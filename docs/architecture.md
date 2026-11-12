@@ -20,25 +20,34 @@ The only common target facts are identity, description, architecture, recipe and
 primary source. `core.py` handles lock files, safe paths, source checks and
 command/evidence records. It knows no QEMU memory map, phone vendor or OS ABI.
 
-The explicit `hakios-open` recipe validates its own configuration, prepares real
-sources and builds real outputs. `qemu.py` implements this first boot contract
-and QMP/lifecycle handling; `formats.py` implements the binary interfaces actually
-used. These are **not** claims of a universal boot protocol. When a second real
-boot path needs the runner, split out the shared process/QMP mechanics then.
+Two real recipes exist, and they share almost nothing below the CLI:
 
-Known first-recipe assumptions outside `hakios.py`, to move when the second
-recipe arrives (instead of adding `if recipe == ...` branches):
+| | `hakios-open` (`hakios.py`) | `ios-qemu` (`iosqemu.py`) |
+| --- | --- | --- |
+| Kernel | HakiOS prebuilt, SHA-pinned | ios-qemu CI artifact, SHA-pinned, patch-tree checked |
+| Loader | UEFI app + pflash firmware, XNUP payload | 6-instruction stub, SWEETXNU payload, generated ADT |
+| Userland | original static probe on a ramdisk | stock iOS 16.7.16 root on a writable UFS/HFS+ disk |
+| Accelerator | TCG, any host | HVF, Apple Silicon only |
+| Evidence | serial checks + token + heartbeats | kernel-log milestones + token + screen + touch → app |
 
-- `cli.py`: the `--loader`, `--kernel`, `--firmware`, `--vars` options and the
-  `prepare-kernel` command; `read_build` expects exactly the artifacts `kernel`,
-  `probe` and `loader.efi`. Let each recipe declare its options and validate its
-  own build record.
-- `qemu.py`: `run` hard-codes the XNUP payload at `0xF0000000`, the `cpus=1`
-  boot argument, the HakiOS loader banner in `STAGES` and the probe's `CHECKS`.
-  Keep QMP, process lifetime and log-size limits shared; pass the payload,
-  stages and acceptance checks in from the recipe.
-- Upstream pins come only from Nexus's own `upstreams.lock.toml`. An external
-  `--target` repository cannot yet pin additional sources of its own.
+The second recipe moved the first recipe's assumptions out of shared code, as
+planned in PR #1, without adding `if recipe == ...` branches:
+
+- `cli.py` finds `--target` first, then asks that recipe for its commands and
+  options. A recipe module provides `COMMANDS`, `add_arguments`,
+  `validate_target`, `doctor`, `build_command`, `read_build`, `run_command`,
+  `analyze_command`, and `EXTRA` for recipe-only commands (`prepare-kernel`,
+  `prepare-disk`). The CLI never validates another recipe's build record.
+- `qemu.py` keeps only shared mechanics: bounded QMP (pipes or a UNIX socket),
+  shutdown and log limits. The XNUP payload, loader banner stages and probe
+  checks now live in `hakios.py`.
+- Upstream pins still come only from Nexus's own `upstreams.lock.toml`. An
+  external `--target` repository cannot yet pin additional sources of its own.
+
+What the two recipes did *not* need to share is left unshared: ios-qemu runs
+upstream's own QEMU launcher (`tools/qemu-sweet.py`) rather than Nexus's
+pflash/QMP-pipe runner, because that launcher is the upstream boot boundary.
+A third recipe should add another module and one line in `recipe_for`.
 
 The CLI registers reviewed modules explicitly. TOML cannot select a Python
 import, shell script, executable hook or destructive action. There is no plugin
@@ -61,8 +70,11 @@ they do not become requirements for all future targets.
 
 UniXNU already offers device/SoC repositories, UEFI drivers, OS profiles and
 prelink/build machinery. Reimplementing these in Nexus before reproducing them
-would add maintenance with no evidence of benefit. A future UniXNU or ios-qemu
-recipe should retain its upstream's build boundary and translate inputs/results.
+would add maintenance with no evidence of benefit. The ios-qemu recipe
+retains its upstream's build boundary (CI kernel, `mkadt.py`, `mkpayload.py`,
+`mkiosroot-mac.sh`, `qemu-sweet.py`, `qemu-touch.py`, all copied unmodified
+from the pinned checkout and hashed) and translates inputs/results; a future
+UniXNU recipe should do the same.
 The [research comparison](research.md) explains the alternatives.
 
 Upstreams can disappear: a pin records *what* to fetch, not a guarantee that it
@@ -112,7 +124,18 @@ The alternative was fetching a proprietary SDK or maintaining another linker.
 The small, format-checked conversion has already booted and is regression-tested.
 If a supported linker gains native static output, prefer deleting this step.
 
-## 6. Deliberate limits
+## 6. Proprietary inputs stay the user's
+
+The ios-qemu recipe needs Apple's iPhone X IPSW. The user supplies it; Nexus
+verifies its manifest and SHA-256, extracts only what the upstream disk builder
+uses into `.nexus/`, and never downloads, decrypts, commits or uploads it.
+Root privileges are needed once, by upstream's disk builder, to keep file
+ownership on the new volume; sudo reads the password from the terminal.
+Runs boot an APFS clone, so the prepared disk is never modified. Committed
+evidence holds Nexus/kernel text, hashes and short log excerpts, not images
+of Apple software or the root filesystem.
+
+## 7. Deliberate limits
 
 No automatic OS download/decryption, kernel-security bypass toolkit, firmware
 flashing, physical partition writing, driver model, universal hardware discovery

@@ -1,91 +1,21 @@
-"""Bounded QEMU experiments, QMP diagnostics and conservative boot evidence."""
+"""Shared QEMU process mechanics: bounded QMP, shutdown and log limits.
+
+Boot contracts (payload layout, stages, acceptance checks) belong to recipes.
+"""
 from __future__ import annotations
 
+from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
-import re
-import secrets
-import shutil
-import signal
 import select
+import signal
 import subprocess
 import time
 
-from .core import NexusError, Recorder, digest, implementation_identity, write_json
-from .formats import payload_pack
-from .host import doctor, file_record
+from .core import NexusError
 
-
-CHECKS = ("console", "pid1", "uid0", "sysctl", "boot-token", "errno", "mmap-rw", "mprotect", "munmap", "timer")
-ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]|\x1b[()][A-Za-z0-9]|\x1b=[0-9]*[a-z]?")
-PANIC = re.compile(r"panic\(cpu |^panic:|Kernel panic|^NEXUS (?:CHECK \S+|RESULT) FAIL", re.MULTILINE)
-STAGES = (
-    ("loader", r"^== XNULOADER v3 ==$"),
-    ("kernel", r"^Darwin Kernel Version [0-9].*$"),
-    ("root", r"^BSD root: md0,.*$"),
-    ("userspace", r"^NEXUS PROBE 1$"),
-)
-# Printed by AAVMF/EDK2 before boot device selection; diagnostic only, not a stage.
-FIRMWARE = re.compile(r"^UEFI firmware \(version", re.MULTILINE)
 MAX_LOG = 16 * 1024 * 1024
-
-
-def analyze(text: str, token: str | None) -> dict:
-    """A complete pass needs ordered boot stages, checks, nonce and liveness.
-
-    This is regression evidence from a cooperative research guest, not attestation
-    against a malicious guest. A panic anywhere invalidates all earlier success.
-    """
-    text = ANSI.sub("", text).replace("\r", "")
-    rejected = PANIC.search(text)
-    stages = []
-    cursor = 0
-    for name, pattern in STAGES:
-        match = re.compile(pattern, re.MULTILINE).search(text, cursor)
-        if not match:
-            break
-        stages.append(name)
-        cursor = match.end()
-    checks = []
-    if len(stages) == len(STAGES):
-        for name in CHECKS:
-            match = re.compile(r"^NEXUS CHECK " + re.escape(name) + r" PASS$", re.MULTILINE).search(text, cursor)
-            if not match:
-                break
-            checks.append(name)
-            cursor = match.end()
-    result_match = None
-    if token and re.fullmatch(r"[0-9a-f]{32}", token) and len(checks) == len(CHECKS):
-        result_match = re.compile(r"^NEXUS RESULT PASS token=" + token + r"$", re.MULTILINE).search(text, cursor)
-    heartbeats = len(re.findall(r"^NEXUS HEARTBEAT$", text[result_match.end():], re.MULTILINE)) if result_match else 0
-    passed = bool(result_match and heartbeats >= 2 and not rejected)
-    if rejected:
-        hint = "Guest panic or explicit probe failure; inspect serial.log and diagnostics.json."
-    elif not stages and FIRMWARE.search(text):
-        hint = ("Firmware started but never reached the loader. A single occurrence matches the known "
-                "intermittent UEFI stall (docs/status.md): keep this experiment and rerun ./nexus run "
-                "with the same build. If it repeats, check the firmware pair, ESP and boot device.")
-    elif not stages:
-        hint = "No loader: check firmware pair, ESP, QEMU stderr and the boot device."
-    elif stages[-1] == "loader":
-        hint = "Loader reached; inspect Mach-O loading, memory layout and the kernel handoff."
-    elif stages[-1] == "kernel":
-        hint = "Kernel reached; inspect interrupts, ramdisk and root mount."
-    elif stages[-1] == "root":
-        hint = "Root mounted; inspect static Mach-O entry, signing policy and PID 1 launch."
-    elif not token:
-        hint = "Supply the run's expected token to validate its result; text alone is not a certified run."
-    elif len(checks) != len(CHECKS):
-        hint = "Userspace reached; first incomplete check: " + CHECKS[len(checks)]
-    elif not result_match:
-        hint = "Checks seen, but no result with this run's token."
-    elif heartbeats < 2:
-        hint = "Result seen; waiting for two subsequent heartbeats and no panic."
-    else:
-        hint = "Open XNU userspace probe passed; this does not establish an iOS/userland/GUI boot."
-    return {"passed": passed, "stages": stages, "checks": checks, "heartbeat_count": heartbeats,
-            "rejection": rejected.group(0) if rejected else None, "diagnosis": hint}
 
 
 class QMP:
@@ -178,123 +108,84 @@ def stop(process: subprocess.Popen, qmp: QMP | None) -> str:
         return "killed"
 
 
-def run(target: dict, build: dict, record: Recorder, *, timeout: float = 90,
-        code: str | None = None, variables: str | None = None, gdb_port: int | None = None) -> dict:
-    environment = doctor(code, variables, loader=build["loader_mode"], runtime_only=True,
-                         clock=target["qemu"]["clock"])
-    if not environment["ready"]:
-        failures = "; ".join(item["name"] + ": " + item["detail"] for item in environment["checks"] if not item["ok"])
-        raise NexusError("Host is not ready: " + failures)
-    out = record.directory
-    token = secrets.token_hex(16)
-    for name, item in build["artifacts"].items():
-        path = Path(item["path"])
-        if not path.is_file() or digest(path) != item["sha256"]:
-            raise NexusError(f"Built artifact changed/missing: {name}; rebuild before running.")
-    esp = out / "esp/EFI/BOOT"
-    esp.mkdir(parents=True)
-    shutil.copyfile(build["artifacts"]["loader.efi"]["path"], esp / "BOOTAA64.EFI")
-    # Fresh variable storage every run: the host firmware/template is never writable.
-    shutil.copyfile(environment["variables"], out / "vars.fd")
-    bootargs = "cpus=1 nexus_token=" + token
-    (out / "payload.bin").write_bytes(payload_pack({
-        "kernel": Path(build["artifacts"]["kernel"]["path"]).read_bytes(),
-        "ramdisk": Path(build["artifacts"]["probe"]["path"]).read_bytes(),
-        "cmdline": bootargs.encode() + b"\0",
-    }))
-    write_json(out / "inputs.json", {
-        "schema": 1, "target": target, "build": build, "expected_token": token,
-        "implementation": implementation_identity(),
-        "host": environment, "firmware": file_record(Path(environment["firmware"])),
-        "variables_template": file_record(Path(environment["variables"])),
-        "payload": file_record(out / "payload.bin"),
-    })
-    q = target["qemu"]
-    argv = [environment["tools"]["qemu"], "-M", q["machine"], "-cpu", q["cpu"],
-            "-smp", str(q["cpus"]), "-m", str(q["memory_mib"]), "-accel", "tcg,thread=single,tb-size=384",
-            "-drive", "if=pflash,format=raw,readonly=on,file=" + qemu_path(Path(environment["firmware"])),
-            "-drive", "if=pflash,format=raw,file=vars.fd",
-            "-drive", "file=fat:ro:esp,format=raw,if=virtio,readonly=on",
-            "-device", "loader,file=payload.bin,addr=0xF0000000,force-raw=on",
-            "-display", "none", "-serial", "file:serial.log", "-monitor", "none", "-no-reboot",
-            "-nic", "none", "-qmp", "stdio"]
-    if q["clock"] == "instruction":
-        argv += ["-icount", "shift=3,align=off,sleep=off"]
-    if gdb_port:
-        argv += ["-gdb", f"tcp:127.0.0.1:{gdb_port}"]
-    write_json(out / "command.json", {"argv": argv, "cwd": str(out)})
-    started = time.monotonic()
-    qmp = None
-    process = None
-    status = "failed"
-    details = analyze("", token)
-    diagnostic = {}
-    stage_seconds = {}
-    interruption = None
-    try:
-        with (out / "qemu.log").open("wb") as log:
-            process = subprocess.Popen(argv, cwd=out, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                       stderr=log, start_new_session=True, bufsize=0)
-            qmp = QMP(process.stdout, process.stdin)
-            while True:
-                elapsed = time.monotonic() - started
-                serial = out / "serial.log"
-                if serial.exists():
-                    if serial.stat().st_size > MAX_LOG:
-                        details["diagnosis"] = "Serial output exceeded 16 MiB; stopped a runaway experiment."
-                        break
-                    details = analyze(serial.read_text(errors="replace"), token)
-                    for name in details["stages"]:
-                        # Polled every 0.1 s: when each stage was first seen, for stall analysis.
-                        stage_seconds.setdefault(name, round(elapsed, 1))
-                if details["rejection"]:
-                    break
-                if process.poll() is not None:
-                    details["diagnosis"] = f"QEMU exited unexpectedly ({process.returncode}). " + details["diagnosis"]
-                    break
-                if details["passed"]:
-                    status = "passed"
-                    break
-                if elapsed >= timeout:
-                    status = "timed-out"
-                    break
-                time.sleep(0.1)
-    except KeyboardInterrupt:
-        status = "interrupted"
-        interruption = True
-    except (OSError, NexusError, TimeoutError) as error:
-        details["diagnosis"] = f"Cannot start/operate QEMU: {error}"
-    finally:
-        if qmp:
-            for name, arguments in (("query-status", None), ("query-cpus-fast", None),
-                                    ("human-monitor-command", {"command-line": "info registers"})):
-                try:
-                    diagnostic[name] = qmp.command(name, arguments)
-                except (OSError, NexusError, TimeoutError) as error:
-                    diagnostic[name] = {"error": str(error)}
-        shutdown = stop(process, qmp) if process else "not-started"
-        if status == "passed" and (shutdown != "qmp-quit" or process.returncode != 0):
-            status = "failed"
-            details["diagnosis"] = "Guest checks passed, but QEMU did not stop cleanly through QMP."
-        if qmp:
-            qmp.close()
-        # Re-read after shutdown: a late panic must invalidate an earlier pass.
-        serial = out / "serial.log"
-        if serial.exists() and serial.stat().st_size <= MAX_LOG:
-            final = analyze(serial.read_text(errors="replace"), token)
-            if final["rejection"] or (status == "passed" and not final["passed"]):
-                status = "failed"
-            if status == "passed" or final["rejection"]:
-                details = final
-        write_json(out / "diagnostics.json", diagnostic)
-        result = {"schema": 1, "status": status, "target": target["id"], "expected_token": token,
-                  "implementation": implementation_identity(), "shutdown": shutdown,
-                  "duration_seconds": round(time.monotonic() - started, 3),
-                  "stage_seconds": stage_seconds,
-                  "qemu_returncode": process.returncode if process else None,
-                  "evidence": details, "serial": file_record(serial) if serial.exists() else None,
-                  "build_record": build, "scope": "open-xnu-userspace-probe"}
-        write_json(out / "result.json", result)
-    if interruption:
+# --- process lifecycle shared by recipes ---------------------------------------
+
+STOP_SIGNALS = (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)
+
+
+@contextmanager
+def signals_as_interrupt():
+    """Treat SIGTERM/SIGHUP like Ctrl-C so `finally` blocks stop QEMU.
+
+    Guests run in their own session (a terminal's Ctrl-C must not reach QEMU
+    before Nexus has saved evidence), so without this a `kill` of Nexus or a
+    closed terminal would orphan a running guest.
+    """
+    def interrupt(signum, frame):
         raise KeyboardInterrupt
-    return result
+    previous = {}
+    for number in (signal.SIGTERM, signal.SIGHUP):
+        try:
+            previous[number] = signal.signal(number, interrupt)
+        except ValueError:  # not the main thread (tests)
+            pass
+    try:
+        yield
+    finally:
+        for number, handler in previous.items():
+            signal.signal(number, handler)
+
+
+@contextmanager
+def deferred_signals():
+    """Run a *bounded* cleanup without a second Ctrl-C aborting it half-way.
+
+    Yields a list that records any stop signals received meanwhile; the caller
+    decides whether to report an interruption afterwards.
+    """
+    received: list[int] = []
+    previous = {}
+    for number in STOP_SIGNALS:
+        try:
+            previous[number] = signal.signal(number, lambda signum, frame: received.append(signum))
+        except ValueError:
+            pass
+    try:
+        yield received
+    finally:
+        for number, handler in previous.items():
+            signal.signal(number, handler)
+
+
+def alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
+def wait_gone(pid: int, timeout: float) -> bool:
+    deadline = time.monotonic() + timeout
+    while alive(pid):
+        if time.monotonic() >= deadline:
+            return False
+        time.sleep(0.1)
+    return True
+
+
+def processes() -> list[tuple[int, int, str]]:
+    """(pid, parent pid, command line) of this user's processes; empty if ps fails."""
+    try:
+        listing = subprocess.run(["ps", "-x", "-o", "pid=,ppid=,command="], capture_output=True,
+                                 text=True, timeout=10).stdout
+    except (OSError, subprocess.TimeoutExpired):
+        return []
+    rows = []
+    for line in listing.splitlines():
+        fields = line.split(None, 2)
+        if len(fields) == 3 and fields[0].isdigit() and fields[1].isdigit():
+            rows.append((int(fields[0]), int(fields[1]), fields[2]))
+    return rows

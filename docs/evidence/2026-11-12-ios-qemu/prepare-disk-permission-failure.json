@@ -1,0 +1,5 @@
+{
+  "error": "[Errno 13] Permission denied: '~/celestia-nexus/.nexus/experiments/20261112T092351-ios-qemu-iphonex-prepare-disk-94e18d/disk/root.hfs'",
+  "operation": "prepare-disk",
+  "status": "failed"
+}

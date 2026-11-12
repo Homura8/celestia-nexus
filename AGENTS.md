@@ -13,7 +13,8 @@ provider, IDE, or orchestration tool is assumed.
 | Task | Read |
 | --- | --- |
 | Reproduce/debug QEMU | `docs/development.md`, `targets/qemu-virt-xnu/README.md` |
-| Change boundaries or add a recipe | `docs/architecture.md`, `nexuslib/hakios.py` |
+| Stock iOS userland (ios-qemu, Apple Silicon + user IPSW) | `docs/ios-qemu.md`, `targets/ios-qemu-iphonex/README.md` |
+| Change boundaries or add a recipe | `docs/architecture.md` §2, `nexuslib/hakios.py`, `nexuslib/iosqemu.py` |
 | New upstream/research | `docs/research.md`, `upstreams.lock.toml` |
 | New device or OS version | `docs/porting.md`: search existing upstream ports first |
 
@@ -22,8 +23,8 @@ provider, IDE, or orchestration tool is assumed.
 - Preserve unrelated work. Use a branch and a reviewable PR; never auto-merge.
 - Shared orchestration belongs in `core.py`; HakiOS/QEMU/OS assumptions belong
   in concrete recipes. Add a shared abstraction only after real targets need it.
-  `cli.py` and `qemu.py` still hold first-recipe assumptions; the second recipe
-  moves them (list in `docs/architecture.md` §2), rather than adding branches.
+  Each recipe module declares its own commands, options and build records
+  (`docs/architecture.md` §2); add a module, not `if recipe == ...` branches.
 - Python 3.11+ standard library, original C where necessary. No new dependency
   or provider-specific instruction tree without a demonstrated need.
 - Use `./nexus fetch`, not a moving upstream branch. Do not edit cached sources;
@@ -46,6 +47,7 @@ provider, IDE, or orchestration tool is assumed.
 python3 -m unittest discover -s tests -v
 ./nexus doctor
 ./nexus smoke                     # when QEMU or guest behaviour changes
+./nexus --target ios-qemu-iphonex run   # ios-qemu changes; needs a prepared disk
 ./nexus prepare-kernel            # when source preparation or upstream pins change
 git diff --check
 ```

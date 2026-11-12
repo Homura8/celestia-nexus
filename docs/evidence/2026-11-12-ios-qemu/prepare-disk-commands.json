@@ -1,0 +1,20 @@
+[
+  {
+    "argv": [
+      "sudo",
+      "/bin/bash",
+      "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/upstream/tools/mkiosroot-mac.sh",
+      "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/inputs/087-86698-044.dmg",
+      "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/inputs/087-86593-047.dmg",
+      "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/inputs/087-86715-047.dmg",
+      "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99/disk",
+      "16g"
+    ],
+    "cwd": "~/celestia-nexus/.nexus/experiments/20261112T093310-ios-qemu-iphonex-prepare-disk-879b99",
+    "duration_seconds": 197.136,
+    "interactive": true,
+    "log": "step-01.log",
+    "returncode": 0,
+    "started_unix": 1794476005.2684228
+  }
+]
