@@ -3,7 +3,7 @@
 **Source of truth:** [Homura8/g54-xnu](https://github.com/Homura8/g54-xnu),
 especially [PR #7](https://github.com/Homura8/g54-xnu/pull/7) and its
 `codex/ios-root-macos` branch. This review freezes commit
-[`a1a9cba87ba5f03585a8f08386092254a8bd214b`](https://github.com/Homura8/g54-xnu/tree/a1a9cba87ba5f03585a8f08386092254a8bd214b).
+[`00ace7410d698336a3b8ddc94b62c98f4ef8a94b`](https://github.com/Homura8/g54-xnu/tree/00ace7410d698336a3b8ddc94b62c98f4ef8a94b).
 **PR #7 is open and may advance**. Do not promote this snapshot's claims to
 later hardware results automatically. Evidence is the source repo's
 public run cards, generally owner observations; **Nexus has not booted or
@@ -15,13 +15,13 @@ touched the physical G54**. The compact machine-readable version is
 
 | Stage | Source evidence at pinned commit | Outcome / boundary |
 | --- | --- | --- |
-| E0–E2: bootloader | [E0](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-12-e0-fastboot-boot.md), [E1](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-12-e1-g1-probe.md), E2 | `fastboot boot` acknowledged but did not run; stock-layout image flashed to `boot_a` displayed markers; reboot-mode + PSCI reset returned to Fastboot |
-| E3–E5: handoff/XNU | [E4/E5](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-12-e5-xnu-first-boot.md) | Visible OVL0 L1 was *not* the address in `atag,videolfb`; EL1 entry, measured RAM, GIC, VM, XNU/IOKit and framebuffer output |
-| E6–E14: UFS | [E6–E14](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-12-e6-e8-ufs.md) | LK left device in reset; MediaTek-ordered recovery gave link startup, device init and read-only LUN access |
-| E15–E18: root/userland | [E15](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-12-e15-ios-root.md), E16/E18 | Host-validated HFS+ root + real launchd, six A55s verified; later iOS IOSurface display frames. Logs naming SpringBoard alone were not called a GUI |
-| E20–E21: interface | [E20](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-13-e20-ufs-hs.md), [E21](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-13-e21-home-screen.md) | HS-G3 restoration and muted console coincided with much faster lock screen; synthetic swipe reached a home screen |
-| E22–E26: touch | [E22](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-13-e22-touch-scan.md), [E26](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-13-e26-ios-touch.md) | Identified active Novatek controller, proved SPI3, downloaded local firmware, decoded big-endian multi-touch reports, confirmed physical iOS gestures |
-| E27: keys | [E27](https://github.com/Homura8/g54-xnu/blob/a1a9cba87ba5f03585a8f08386092254a8bd214b/docs/experiments/2026-11-13-e27-keys.md) | Read three keys in a probe. Later resets correlated with pressing them; mechanism and iOS key integration remained unverified |
+| E0–E2: bootloader | [E0](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-12-e0-fastboot-boot.md), [E1](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-12-e1-g1-probe.md), E2 | `fastboot boot` acknowledged but did not run; stock-layout image flashed to `boot_a` displayed markers; reboot-mode + PSCI reset returned to Fastboot |
+| E3–E5: handoff/XNU | [E4/E5](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-12-e5-xnu-first-boot.md) | Visible OVL0 L1 was *not* the address in `atag,videolfb`; EL1 entry, measured RAM, GIC, VM, XNU/IOKit and framebuffer output |
+| E6–E14: UFS | [E6–E14](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-12-e6-e8-ufs.md) | LK left device in reset; MediaTek-ordered recovery gave link startup, device init and read-only LUN access |
+| E15–E18: root/userland | [E15](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-12-e15-ios-root.md), E16/E18 | Host-validated HFS+ root + real launchd, six A55s verified; later iOS IOSurface display frames. Logs naming SpringBoard alone were not called a GUI |
+| E20–E21: interface | [E20](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-13-e20-ufs-hs.md), [E21](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-13-e21-home-screen.md) | HS-G3 restoration and muted console coincided with much faster lock screen; synthetic swipe reached a home screen |
+| E22–E26: touch | [E22](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-13-e22-touch-scan.md), [E26](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-13-e26-ios-touch.md) | Identified active Novatek controller, proved SPI3, downloaded local firmware, decoded big-endian multi-touch reports, confirmed physical iOS gestures |
+| E27: keys | [E27](https://github.com/Homura8/g54-xnu/blob/00ace7410d698336a3b8ddc94b62c98f4ef8a94b/docs/experiments/2026-11-13-e27-keys.md) | Read three keys in a probe. Later resets correlated with pressing them; mechanism and iOS key integration remained unverified |
 
 The current G54 fixes and kernel patch files live **there**, not here.
 G54-specific addresses, Novatek firmware protocol, PMIC registers, vendor

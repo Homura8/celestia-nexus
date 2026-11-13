@@ -145,7 +145,7 @@ account credentials, firmware keys or OS files through a public issue/PR.
 
 A source-pinned [G54 iOS 16 case](port-cases/g54-2026-11-13.json), reviewed
 against independent [g54-xnu PR #7](https://github.com/Homura8/g54-xnu/pull/7)
-at `a1a9cba87ba5f03585a8f08386092254a8bd214b`, now records distinct
+at `00ace7410d698336a3b8ddc94b62c98f4ef8a94b`, now records distinct
 reported milestones through **owner-observed physical touch in iOS**, including
 failures and uncertainties. See the [research synthesis](g54-lessons.md)
 and [physical-device workflow](physical-bringup.md). The stdlib-only

@@ -3,7 +3,7 @@
   "id": "moto-g54-ios16-20261113",
   "source": {
     "repository": "Homura8/g54-xnu",
-    "commit": "a1a9cba87ba5f03585a8f08386092254a8bd214b",
+    "commit": "00ace7410d698336a3b8ddc94b62c98f4ef8a94b",
     "review": "https://github.com/Homura8/g54-xnu/pull/7",
     "as_of_utc": "2026-11-13"
   },

@@ -384,7 +384,7 @@ sweet-lineage kernels.
 The independent [g54-xnu PR #7](https://github.com/Homura8/g54-xnu/pull/7)
 reports physical touch interaction with iOS 16.7.16 on MT6855, beyond its
 default branch. This review pins
-[`a1a9cba`](https://github.com/Homura8/g54-xnu/tree/a1a9cba87ba5f03585a8f08386092254a8bd214b);
+[`00ace741`](https://github.com/Homura8/g54-xnu/tree/00ace7410d698336a3b8ddc94b62c98f4ef8a94b);
 E27 also documents key reads and a still-unknown button/reset relationship.
 These are **source-reported/owner-observed**, not Nexus-run phone tests.
 Read [the technical synthesis](g54-lessons.md) for original experiment
