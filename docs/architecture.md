@@ -142,3 +142,18 @@ flashing, physical partition writing, driver model, universal hardware discovery
 or promise that arbitrary OS/device pairs are compatible. No accelerator switch
 that silently changes timer/CPU/boot assumptions. Those require a real target,
 explicit inputs and executable evidence before they belong in the framework.
+
+## 8. Evidence-only physical port cases
+
+The [physical port-case directory](port-cases/README.md) and
+`nexuslib/portcases.py` are a deliberately small bridge from independent
+hardware projects into Nexus. The Python 3 standard-library validator reads
+local JSON only and checks traceability and shape; it cannot fetch or execute
+device project code. Each entry pins a Git commit, states observation confidence,
+and links to source-owned experiments. Cross-device lessons can be indexed
+without importing firmware, device repositories, kernel patches or drivers.
+
+This does **not** extend the runtime recipe abstraction or add a flash path.
+A second real consumer is required before promoting an implementation to a
+shared host/driver facility. An existing project's hardware loop remains its
+authority, with permission and recovery checks scoped to each owner/device.

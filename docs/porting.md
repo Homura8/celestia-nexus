@@ -86,3 +86,20 @@ authorisation. Nexus currently has no physical-device execution interface. Until
 it does, use the upstream's own RAM-only workflow (HakiOS `xl`, UniXNU's staged
 `fastboot boot`), confirm the owner has a way back to stock firmware, and keep
 the exact commands, versions and logs as evidence.
+
+## 6. Reuse evidence from previous physical ports
+
+Before another hardware experiment, run `python3 -m nexuslib.portcases check`
+and `python3 -m nexuslib.portcases show --id moto-g54-ios16-20261113`.
+The pinned case and [G54 synthesis](g54-lessons.md) contain failures and
+validated techniques from an independent MT6855 iOS 16 port, including
+bootloader acknowledgements that do not boot, visible framebuffer discovery,
+UFS link recovery and staged touchscreen integration. Use
+[physical bring-up](physical-bringup.md) for the hardware diagnostic ladder and
+future driver-investigation checkpoints.
+
+**Cases are evidence, not target recipes.** No G54 port has been added to
+`./nexus list`, no device control has been introduced, and physical evidence
+belongs to its own author. New ports add a source-pinned, sanitised case only
+after reviewing the active branches and run cards; do not promote any reported
+result to a Nexus reproduction.

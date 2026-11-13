@@ -17,7 +17,7 @@ A small, agent-independent framework for reproducible Apple OS porting experimen
 Both kernels are **hash-pinned upstream builds**, not kernels rebuilt by Nexus.
 Nexus also prepares and validates a real patched XNU/HFS source tree. iOS here
 is a research environment (no GPU, Secure Enclave or code-signing security), not
-a usable device. Physical-device ports are future work.
+a usable device. A separate real-device port now reports iOS with physical touch on the Moto G54; Nexus records its transferable lessons but has no phone execution or flashing recipe.
 [Measured results and limitations](docs/status.md) · [Research](docs/research.md)
 
 ## 1. First run
@@ -89,6 +89,8 @@ hashes and diagnostic logs in `.nexus/experiments/`. `result.json` explains whic
 boot stages and checks were observed. The serial log, not a screenshot or an
 early kernel banner, determines the result. A timeout or panic is a failure.
 
+[Physical-device bring-up](docs/physical-bringup.md), [G54 engineering lessons](docs/g54-lessons.md) and the [source-pinned port-case index](docs/port-cases/README.md) guide new hardware ports without importing device-specific code.
+
 [Development and debugging](docs/development.md) explains custom kernels,
 firmware overrides, saved-log analysis and the GDB stub.
 
@@ -116,6 +118,7 @@ identifies what to establish before implementation.
 | `guest/probe.c` | Original, SDK-free Darwin syscall regression program |
 | `upstreams.lock.toml` | Exact upstream revisions and provenance |
 | `docs/status.md` | Verified capabilities, blockers and prioritised next work |
+| `docs/port-cases/`, `nexuslib/portcases.py` | Pinned, evidence-labelled reports from external device ports; offline validator, not a phone runner |
 
 There is no agent-provider dependency, package installer, plugin system, or
 vendored operating-system tree. [Architecture decisions](docs/architecture.md)

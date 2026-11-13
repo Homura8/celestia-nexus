@@ -1,0 +1,260 @@
+{
+  "schema": 1,
+  "id": "moto-g54-ios16-20261113",
+  "source": {
+    "repository": "Homura8/g54-xnu",
+    "commit": "00ace7410d698336a3b8ddc94b62c98f4ef8a94b",
+    "review": "https://github.com/Homura8/g54-xnu/pull/7",
+    "as_of_utc": "2026-11-13"
+  },
+  "target": {
+    "device": "Motorola Moto G54 5G (XT2343-2 / cancunf)",
+    "soc": "MediaTek MT6855",
+    "architecture": "arm64",
+    "os": "iOS 16.7.16 (20H392), XNU 8796 lineage"
+  },
+  "milestones": [
+    {
+      "id": "lk-execution",
+      "status": "owner-observed",
+      "claim": "Stock-layout modified boot image executes an on-panel probe; RAM fastboot boot is not implemented.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e0-fastboot-boot.md",
+        "docs/experiments/2026-11-12-e1-g1-probe.md"
+      ]
+    },
+    {
+      "id": "xnu",
+      "status": "owner-observed",
+      "claim": "XNU reaches VM, GIC, IOKit and framebuffer output on physical hardware.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e5-xnu-first-boot.md"
+      ]
+    },
+    {
+      "id": "ufs",
+      "status": "owner-observed",
+      "claim": "UFS link recovery and read-only block device enumeration from XNU.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e6-e8-ufs.md"
+      ]
+    },
+    {
+      "id": "launchd",
+      "status": "owner-observed",
+      "claim": "Real iOS HFS+ root mounts read-write and Apple launchd executes.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e15-ios-root.md"
+      ]
+    },
+    {
+      "id": "springboard",
+      "status": "owner-observed",
+      "claim": "SpringBoard home screen is visible after synthetic unlock.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e21-home-screen.md"
+      ]
+    },
+    {
+      "id": "touch",
+      "status": "owner-observed",
+      "claim": "Physical touch unlocks iOS and operates Settings, Control Center and app navigation.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e26-ios-touch.md"
+      ]
+    },
+    {
+      "id": "keys-read",
+      "status": "owner-observed",
+      "claim": "Probe reads power and both volume keys; no iOS key integration verified at this revision.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e27-keys.md"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "fastboot-ack",
+      "title": "Transport success is not code execution",
+      "scope": "general",
+      "status": "owner-observed",
+      "finding": "fastboot boot replied OKAY after reporting its command was not implemented.",
+      "application": "Require independent execution evidence (screen marker, kernel log or readback) before claiming RAM boot support.",
+      "caveat": "Fastboot command sets and behaviour depend on bootloader and firmware.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e0-fastboot-boot.md"
+      ]
+    },
+    {
+      "id": "restore-matches",
+      "title": "Firmware-matched restore and live preflight",
+      "scope": "general",
+      "status": "host-verified",
+      "finding": "OTA changed bootloader and slot state; matching stock images and AVB chain were verified before writes.",
+      "application": "Record firmware fingerprint, current slot, pending snapshot merge, stock restore hash and rollback before any writable experiment.",
+      "caveat": "The G54's boot_a write and Virtual A/B gates do not generalise to all phones; Nexus does not authorise writes.",
+      "evidence": [
+        "docs/device-facts.md",
+        "docs/experiments/2026-11-12-e15-ios-root.md"
+      ]
+    },
+    {
+      "id": "scanout-measure",
+      "title": "Measure visible scanout, not advertised framebuffer",
+      "scope": "conditional",
+      "status": "owner-observed",
+      "finding": "LK's DT handoff framebuffer and visible overlay had different bases/strides; only scanout-register inspection exposed the visible buffer.",
+      "application": "Instrument panel markers; read active overlay/RDMA or equivalent; verify width, pixel order, stride, cache visibility and reservation before setting XNU framebuffer.",
+      "caveat": "Addresses, register layout and overlays are MT6855/LK-specific.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e3-e4-handoff-screen.md"
+      ]
+    },
+    {
+      "id": "handoff-abi",
+      "title": "Verify exception level and kernel handoff explicitly",
+      "scope": "general",
+      "status": "owner-observed",
+      "finding": "LK entered at EL1, not the EL2 seen on related hardware; MMU granule, memory window, GIC and timer were measured.",
+      "application": "Build tiny visible probes, inspect firmware DTB/boot args/PSCI and reserved RAM, then test one CPU before SMP and IOKit.",
+      "caveat": "Do not copy a sibling SoC's memory map or CPU affinities.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e2-psci-reset.md",
+        "docs/experiments/2026-11-12-e5-xnu-first-boot.md"
+      ]
+    },
+    {
+      "id": "ufs-power",
+      "title": "Diagnose UFS link state before filesystem",
+      "scope": "conditional",
+      "status": "owner-observed",
+      "finding": "G54 LK left the UFS device held in reset; transport returned OCS failure before reinitialisation; a vendor-order reset/HCE/UIC/link/device-init sequence restored usable block reads.",
+      "application": "Separate link failure, UIC errors, SCSI sense, LUN discovery, partition and root mount into checkpoints; inspect OEM teardown and platform Linux driver before changing XNU.",
+      "caveat": "The exact SiP calls, UIC attributes and controller registers are not portable.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e6-e8-ufs.md"
+      ]
+    },
+    {
+      "id": "ufs-speed",
+      "title": "Storage link mode can dominate boot latency",
+      "scope": "conditional",
+      "status": "owner-observed",
+      "finding": "Link in PWM slow-auto took tens of minutes to reach the lock screen; changing to HS-G3 was followed by a reported 2-3 minute lock screen.",
+      "application": "Record negotiated gear/lanes and errors; compare identical payload/root states where possible; tune link power mode only after basic read path works.",
+      "caveat": "E20 combined console mute and HS mode, and writable root retained warm state; observed improvement is not a controlled causal estimate.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e20-ufs-hs.md"
+      ]
+    },
+    {
+      "id": "ios-root",
+      "title": "Validate host-created iOS root before mounting",
+      "scope": "conditional",
+      "status": "host-verified",
+      "finding": "macOS builder required ownership-preserving mounts, HFS+ fsck and a sparse-image round trip before a successful userdata flash.",
+      "application": "Check OS build/architecture, ownership, symlinks, shared-cache hardlinks, filesystem integrity and device capacity; hash raw/sparse reconstruction.",
+      "caveat": "HFS+ and Android sparse are specific to this iOS 16 source-XNU route; writable roots invalidate old-image sparse-diff assumptions.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e15-ios-root.md"
+      ]
+    },
+    {
+      "id": "pid1-not-gui",
+      "title": "Milestones require distinct observables",
+      "scope": "general",
+      "status": "owner-observed",
+      "finding": "An XNU screen and later launchd/SpringBoard exec preceded real framebuffer UI and touch by distinct experiments.",
+      "application": "Track kernel, storage, root, PID 1, framebuffer frames, home screen and physical input separately; never infer higher milestones from logs naming a process.",
+      "caveat": "The source reports are owner observations; Nexus did not reproduce G54 hardware milestones.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e15-ios-root.md",
+        "docs/experiments/2026-11-13-e18-dyld-dof.md",
+        "docs/experiments/2026-11-13-e26-ios-touch.md"
+      ]
+    },
+    {
+      "id": "touch-ladder",
+      "title": "Separate bus, flashless firmware, report format and HID",
+      "scope": "conditional",
+      "status": "owner-observed",
+      "finding": "Live DT overlay selected Novatek SPI3; chip ID, proprietary firmware boot, 4x big-endian reports/checksum, and XNU HID event delivery were each tested in succession.",
+      "application": "Identify active panel and bus; prove chip reads; keep firmware local; decode reports against stock driver/docs and verify checksum/range; then map contacts to OS HID.",
+      "caveat": "The Novatek protocol and G54 SPI3 pinmux must not become shared driver code; E26 used polled input, not IRQ.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e22-touch-scan.md",
+        "docs/experiments/2026-11-13-e23-touch-spi.md",
+        "docs/experiments/2026-11-13-e24-touch-fw.md",
+        "docs/experiments/2026-11-13-e25-touch-raw.md",
+        "docs/experiments/2026-11-13-e26-ios-touch.md"
+      ]
+    },
+    {
+      "id": "kernel-gates",
+      "title": "Verify patch application and binary identity",
+      "scope": "general",
+      "status": "host-verified",
+      "finding": "Pinned CI builds have explicit patchset and exec-data checks; build driver can silently skip failed patches.",
+      "application": "Gate expected patch count/reverse-apply and executable-data signatures, retain exact compiler/runner/source pins; never promote build success to device boot.",
+      "caveat": "Segment equality is not complete binary identity; boot verification remains separate.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e5-xnu-first-boot.md",
+        "docs/experiments/2026-11-13-e26-ios-touch.md"
+      ]
+    },
+    {
+      "id": "avoid-userland-guess",
+      "title": "Sample affected processes before changing patches",
+      "scope": "general",
+      "status": "owner-observed",
+      "finding": "SpringBoard dyld/ObjC and service waits progressed across repeated samples; unrelated workaround patches were not assumed needed.",
+      "application": "Symbolicate against the exact shared cache; distinguish process restarts, page faults, stalls and daemon resource limits; change one causal variable per run where feasible.",
+      "caveat": "dtrace_dof_mode=0 coincided with progress but no isolated causal performance proof exists.",
+      "evidence": [
+        "docs/experiments/2026-11-12-e16-six-a55.md",
+        "docs/experiments/2026-11-13-e18-dyld-dof.md"
+      ]
+    },
+    {
+      "id": "key-interrupts",
+      "title": "PMIC key reads are not an iOS key driver",
+      "scope": "conditional",
+      "status": "owner-observed",
+      "finding": "All three keys were observed in the probe; repeated full resets correlated with button presses, not with key polling alone.",
+      "application": "Use stock DT and PMIC/SPMI drivers for ownership/IRQ/long-press policy; test key handling with reset diagnostics before enabling in iOS.",
+      "caveat": "Restart cause is unresolved and 0203 had no physical iOS validation at this source pin.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e27-keys.md"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "restarts",
+      "status": "hypothesis",
+      "question": "Are physical-key resets caused by PMIC long-press configuration or an unserviced key interrupt?",
+      "next_test": "Observe one bounded key press and capture reset reason using the G54 project's approved recovery loop; test the 0203 driver separately.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e27-keys.md"
+      ]
+    },
+    {
+      "id": "composition",
+      "status": "hypothesis",
+      "question": "Do white docks/blur, blank widgets and tearing share a CPU framebuffer composition or synchronisation bug?",
+      "next_test": "Compare per-layer surface formats and alpha at fixed frames, then measure presentation and vsync before designing GPU work.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e26-ios-touch.md"
+      ]
+    },
+    {
+      "id": "peripherals",
+      "status": "not-tested",
+      "question": "Can this platform support reliable physical USB diagnostics, audio, networking and hardware graphics?",
+      "next_test": "Investigate one device subsystem at a time from stock DT/driver probes, then isolate transport/driver/userspace before claiming support.",
+      "evidence": [
+        "docs/experiments/2026-11-13-e26-ios-touch.md"
+      ]
+    }
+  ]
+}

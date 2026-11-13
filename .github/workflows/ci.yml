@@ -30,6 +30,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: python3 -m unittest discover -s tests -v
+      - run: python3 -m nexuslib.portcases check
       - run: ./nexus list
       - run: git diff --check
 

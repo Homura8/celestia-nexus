@@ -140,3 +140,21 @@ to the interaction milestone above. Next, in order:
 Owner review: the PR proposes MIT for original Nexus code. No extra credentials
 or physical-device action is required for the open baseline. Do not supply Apple
 account credentials, firmware keys or OS files through a public issue/PR.
+
+## 5. Physical-port knowledge imported (13 November 2026; evidence only)
+
+A source-pinned [G54 iOS 16 case](port-cases/g54-2026-11-13.json), reviewed
+against independent [g54-xnu PR #7](https://github.com/Homura8/g54-xnu/pull/7)
+at `00ace7410d698336a3b8ddc94b62c98f4ef8a94b`, now records distinct
+reported milestones through **owner-observed physical touch in iOS**, including
+failures and uncertainties. See the [research synthesis](g54-lessons.md)
+and [physical-device workflow](physical-bringup.md). The stdlib-only
+`python3 -m nexuslib.portcases check` validates case metadata locally;
+unit tests cover missing evidence, unsafe paths, duplicate IDs and misleading
+hypothesis milestones. CI checks the cases alongside existing tests.
+
+**Important:** no G54 tests were executed by Nexus, no physical runner or
+peripheral driver was added, and none of this upgrades Nexus's own supported
+targets. G54's live status may change after the pinned PR snapshot. Future
+device ports should add a new reviewed, source-pinned case and preserve their
+own hardware authority.

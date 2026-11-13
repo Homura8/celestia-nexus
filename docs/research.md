@@ -378,3 +378,25 @@ the rebuilt kernel's code and data segments equal ruby's CI kernel (exec-data
 `6b22fc25…`). Only `__TEXT` strings, `__CTF` and `__LINKEDIT` differ. A cold
 build took 10 minutes. No Apple KDK or third-party mirror is needed for
 sweet-lineage kernels.
+
+## 9. New physical evidence: Moto G54 iOS 16 (13 November 2026)
+
+The independent [g54-xnu PR #7](https://github.com/Homura8/g54-xnu/pull/7)
+reports physical touch interaction with iOS 16.7.16 on MT6855, beyond its
+default branch. This review pins
+[`00ace741`](https://github.com/Homura8/g54-xnu/tree/00ace7410d698336a3b8ddc94b62c98f4ef8a94b);
+E27 also documents key reads and a still-unknown button/reset relationship.
+These are **source-reported/owner-observed**, not Nexus-run phone tests.
+Read [the technical synthesis](g54-lessons.md) for original experiment
+permalinks and a cross-comparison with ruby-ios-bringup, ios-spes, ios-qemu
+and UniXNU. The [structured case](port-cases/g54-2026-11-13.json) is
+validated offline in CI.
+
+The experience validates a portable *workflow* more strongly than any single
+shared driver: observe boot acceptance; measure kernel handoff and active
+scanout; debug UFS by link, SCSI and filesystem stage; validate distinct
+launchd/UI/touch milestones; decode OEM input protocols against active DT
+and stock firmware. It does **not** validate copying MT6855 addresses,
+Motorola boot-image construction, vendor UIC/SMC sequences or Novatek
+firmware. Proposed GPU, networking, USB, audio and PMIC work remains
+unimplemented by Nexus. No upstream/Apple/Motorola code was copied.
