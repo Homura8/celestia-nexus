@@ -400,3 +400,34 @@ and stock firmware. It does **not** validate copying MT6855 addresses,
 Motorola boot-image construction, vendor UIC/SMC sequences or Novatek
 firmware. Proposed GPU, networking, USB, audio and PMIC work remains
 unimplemented by Nexus. No upstream/Apple/Motorola code was copied.
+
+## 10. November 2026 community port reconnaissance (13 November 2026)
+
+The [dated, source-pinned community research brief](research/2026-11-13-community-port-watch.md)
+reviews recent HakiOS/MTK Bluetooth and Wi-Fi work, Galaxy S7/S9/S20,
+Scion's native iOS 27 on Exynos S9, Pixel 5's narrowly demonstrated
+LTE-data/SMS connection, Pixel Fold, Xiaomi demos, OneiOS on S24 Ultra
+and Android-hosted virtual-machine approaches. It distinguishes **native
+XNU boots** from **XNU hosted by Android/Linux** and **VM demonstrations**,
+and distinguishes on-phone results from mock/offline tests and social claims.
+
+Highest-value G54 inferences:
+
+- The MT6768/MT6631 HakiOS Bluetooth skeleton provides a reusable *API and
+  test sequence*, **not** an MT6855 radio driver. Identify the G54 chip,
+  transport, firmware, power/clock sequence and board DT first.
+- **MT6855 has an IMG BXM-8-256 GPU**, not Mali. Open-source Panfrost
+  improvements on MT6768/Exynos do not directly accelerate the G54.
+  Mesa's published PowerVR table does **not** currently include BXM-8-256;
+  verify its exact BVNC and support before proposing GPU integration.
+- Pixel 5 cellular and S20 camera posts reveal useful **milestone
+  boundaries**, but neither establishes a stable cross-device driver.
+- Scion's iOS 27 on an Exynos S9 has source-backed native-boot instructions;
+  HakiOS `redwood` iOS 27 social screenshots have weaker version provenance;
+  OneiOS S24 runs *on top of* a live One UI Linux kernel. These are separate
+  targets and methods, never interchangeable success reports.
+
+This is a **research-only** update. The pinned HakiOS runtime dependency in
+`upstreams.lock.toml` remains unchanged; no claimed third-party device boot
+was executed or reproduced by Nexus and no new portability abstraction or
+physical device driver was added.

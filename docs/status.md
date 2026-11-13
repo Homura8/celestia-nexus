@@ -158,3 +158,20 @@ peripheral driver was added, and none of this upgrades Nexus's own supported
 targets. G54's live status may change after the pinned PR snapshot. Future
 device ports should add a new reviewed, source-pinned case and preserve their
 own hardware authority.
+
+## 6. November community research watch (13 November 2026; research only)
+
+Added a [dated ecosystem watch](research/2026-11-13-community-port-watch.md)
+and [research synthesis](research.md#10-november-2026-community-port-reconnaissance-13-november-2026)
+covering source-pinned HakiOS MediaTek Bluetooth/Wi-Fi, independent
+Exynos/Pixel GPU and connectivity work, experimental native iOS 27,
+S20/Xiaomi demonstrations and hosted OneiOS. The watch grades each claim
+by evidence and supplies specific upstream revisions and a G54 research
+queue. **No hardware test, upstream update, Apple asset download, flash,
+new recipe or support-status change was performed.**
+
+Most actionable follow-up: **read-only** inventory of the G54's exact radio
+transport, then an **offline** IMG BXM-8-256/PowerVR GPU feasibility check.
+The latter is critical because published Mali/Panfrost demos are not
+drivers for the G54's Imagination GPU. Keep such experiments in `g54-xnu`;
+promote common methods to Nexus only after independently documented reuse.

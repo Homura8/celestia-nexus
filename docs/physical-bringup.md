@@ -71,6 +71,13 @@ live project status.
 
 ## 3. Driver investigation without prematurely sharing drivers
 
+For the rapidly changing November 2026 public driver ecosystem, consult the
+[source-ranked community watch](research/2026-11-13-community-port-watch.md)
+before treating another phone's claimed Metal, radio, camera or modem result
+as applicable to this device. It distinguishes native and Android-hosted
+boot paths, identifies the G54's PowerVR/Panfrost mismatch and records
+reusable test boundaries without importing device-specific register writes.
+
 For **graphics/GPU**, first collect frame timings, pixel format and colour
 channel ordering, alpha/premultiplication, cache flushes, scanout plane order,
 vsync/tearing and IOSurface presentation. Compare known-good QEMU CPU paths
