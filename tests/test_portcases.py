@@ -52,6 +52,17 @@ class PortCaseTests(unittest.TestCase):
     def test_unknown_scope_rejected(self):
         self.bad(lambda c: c["lessons"][0].update(scope="universal"), ".scope")
 
+    def test_nonstring_status_returns_error(self):
+        self.bad(lambda c: c["milestones"][0].update(status=[]), ".status")
+
+    def test_nonstring_scope_returns_error(self):
+        self.bad(lambda c: c["lessons"][0].update(scope=[]), ".scope")
+
+    def test_wrong_review_repo_rejected(self):
+        self.bad(lambda c: c["source"].update(
+            review="https://github.com/another/project/pull/7"),
+            "must refer to source.repository")
+
     def test_case_loader_does_not_fetch_or_execute(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "case.json"

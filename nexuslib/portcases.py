@@ -46,6 +46,9 @@ def validate(case: object) -> list[str]:
         r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/pull/\d+", review
     ):
         problems.append("source.review must be a GitHub PR URL")
+    elif isinstance(repository, str) and REPO.fullmatch(repository):
+        if not review.startswith(f"https://github.com/{repository}/pull/"):
+            problems.append("source.review must refer to source.repository")
     try:
         date.fromisoformat(source["as_of_utc"])
     except (KeyError, TypeError, ValueError):
@@ -87,11 +90,12 @@ def validate(case: object) -> list[str]:
                 if not isinstance(value, str) or not value.strip():
                     problems.append(f"{prefix}.{field} must be a nonempty string")
             status = item.get("status")
-            if status not in STATUSES:
+            if not isinstance(status, str) or status not in STATUSES:
                 problems.append(f"{prefix}.status must be one of {sorted(STATUSES)}")
             if section == "milestones" and status in {"hypothesis", "not-tested"}:
                 problems.append(f"{prefix}: proposed/unverified work is not a milestone")
-            if section == "lessons" and item.get("scope") not in SCOPES:
+            if section == "lessons" and (not isinstance(item.get("scope"), str)
+                                         or item["scope"] not in SCOPES):
                 problems.append(f"{prefix}.scope must be one of {sorted(SCOPES)}")
             evidence = item.get("evidence")
             if not isinstance(evidence, list) or not evidence:
