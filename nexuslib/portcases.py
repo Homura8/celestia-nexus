@@ -92,7 +92,7 @@ def validate(case: object) -> list[str]:
             status = item.get("status")
             if not isinstance(status, str) or status not in STATUSES:
                 problems.append(f"{prefix}.status must be one of {sorted(STATUSES)}")
-            if section == "milestones" and status in {"hypothesis", "not-tested"}:
+            if section == "milestones" and isinstance(status, str) and status in {"hypothesis", "not-tested"}:
                 problems.append(f"{prefix}: proposed/unverified work is not a milestone")
             if section == "lessons" and (not isinstance(item.get("scope"), str)
                                          or item["scope"] not in SCOPES):
