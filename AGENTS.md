@@ -16,7 +16,8 @@ provider, IDE, or orchestration tool is assumed.
 | Stock iOS userland (ios-qemu, Apple Silicon + user IPSW) | `docs/ios-qemu.md`, `targets/ios-qemu-iphonex/README.md` |
 | Change boundaries or add a recipe | `docs/architecture.md` §2, `nexuslib/hakios.py`, `nexuslib/iosqemu.py` |
 | New upstream/research | `docs/research.md`, `upstreams.lock.toml` |
-| New device or OS version | `docs/porting.md`: search existing upstream ports first |
+| New device or OS version | `docs/porting.md`, `docs/physical-bringup.md`: inspect pinned port cases before researching hardware |
+| Reuse lessons from a physical port | `docs/port-cases/README.md`, `docs/g54-lessons.md`; `python3 -m nexuslib.portcases show --id moto-g54-ios16-20261113` |
 
 ## Working rules
 
@@ -45,6 +46,7 @@ provider, IDE, or orchestration tool is assumed.
 
 ```sh
 python3 -m unittest discover -s tests -v
+python3 -m nexuslib.portcases check  # offline provenance/schema check
 ./nexus doctor
 ./nexus smoke                     # when QEMU or guest behaviour changes
 ./nexus --target ios-qemu-iphonex run   # ios-qemu changes; needs a prepared disk
